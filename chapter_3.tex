@@ -1,0 +1,82 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Filename    : chapter_3.tex 
+%
+%   Description : This file will contain your Theoretical Framework.
+%                 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Theoretical Framework}
+\label{sec:theoframework}
+
+This chapter presents the theoretical foundations that inform the development of a multimodal personality recognition framework for Filipino Instagram users. The discussion is organized around key technical pillars, including text and image processing, feature fusion techniques, machine learning theory, and the underlying personality psychology model.
+
+\section{Text Processing Theory}
+
+Textual data from Instagram captions provides valuable linguistic cues for personality inference. This study employs the \textit{Vector Space Model} (Salton, Wong, \& Yang, 1975), where text is represented as weighted feature vectors using the Term Frequency Inverse Document Frequency (TF-IDF) scheme. TF-IDF reflects the importance of words within individual captions while down weighting common terms across the corpus, enhancing the model's ability to capture personality relevant language patterns.
+
+Beyond sparse TF-IDF vectors, word embeddings such as Word2Vec or contextual models like BERT offer dense semantic representations that capture nuanced word relationships. These embeddings complement TF-IDF by providing richer contextual information, essential for modeling bilingual and informal language prevalent among Filipino social media users.
+
+\section{Image Processing Theory}
+
+Instagram's visual content necessitates effective image processing techniques to extract personality related features. Standard preprocessing steps include resizing and normalization to ensure uniformity across image inputs. Feature extraction leverages deep Convolutional Neural Networks (CNNs), specifically the VGG-19 architecture (Simonyan \& Zisserman, 2015), which has demonstrated strong performance in visual representation learning.
+
+Extracted image features encompass both low level characteristics (e.g., color, brightness) and high level semantic content (e.g., objects, scenes) known to correlate with personality traits, as supported by prior research.
+
+\section{Fusion Techniques}
+
+Multimodal learning integrates heterogeneous features from text and images to improve personality prediction accuracy. Two primary fusion strategies are considered:
+
+\begin{itemize}
+	\item \textbf{Early Fusion:} Feature level integration, where extracted features from each modality are concatenated into a unified vector prior to model training.
+	\item \textbf{Late Fusion:} Decision level integration, where separate models are trained per modality, and their outputs are combined for final prediction.
+\end{itemize}
+
+Following Liu et al. (2022) and Kampman et al. (2018), this research adopts an intermediate, attention based fusion mechanism that dynamically adjusts the contribution of each modality based on the target personality trait, recognizing that certain traits (e.g., Openness) may be more visually encoded, while others (e.g., Neuroticism) are better captured through language.
+
+\section{Machine Learning Theory}
+
+To model the relationship between extracted multimodal features and personality traits, this study employs established supervised learning algorithms:
+
+\subsection{Logistic Regression}
+\textbf{Logistic Regression (LR)} is a linear model used for binary classification. It calculates the probability of an instance belonging to a class using the sigmoid function, which maps a linear combination of features to a value between 0 and 1. The probability is given by:
+$$P(y=1 | \mathbf{x}) = \frac{1}{1 + e^{-(\mathbf{w} \cdot \mathbf{x} + b)}}$$
+where $P(y=1|\mathbf{x})$ is the probability of the positive class given the input feature vector $\mathbf{x}$, $\mathbf{w}$ represents the feature weights, and $b$ is the bias term.
+
+\subsection{Support Vector Machines}
+\textbf{Support Vector Machines (SVMs)} are well-suited for high-dimensional feature spaces. For classification, an SVM seeks to find the optimal hyperplane that best separates the data points of different classes by maximizing the margin between them. The optimization problem for a soft-margin SVM is formulated as:
+$$\min_{\mathbf{w}, b, \xi} \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \xi_i$$
+subject to the constraints $y_i(\mathbf{w} \cdot \mathbf{x}_i - b) \geq 1 - \xi_i$ and $\xi_i \geq 0$. Here, $C$ is a regularization parameter that controls the trade-off between maximizing the margin and minimizing classification errors, represented by the slack variables $\xi_i$. SVMs can capture non-linear relationships using the kernel trick, where the dot product is replaced by a kernel function, $K(\mathbf{x}_i, \mathbf{x}_j)$.
+
+\subsection{Extreme Gradient Boosting (XGBoost)}
+\textbf{Extreme Gradient Boosting (XGBoost)} is a powerful tree-based ensemble method. It builds a series of decision trees sequentially, where each new tree corrects the errors of the previous ones. The final prediction is an aggregate of the predictions from all trees. The objective function that XGBoost minimizes combines a loss function and a regularization term:
+$$\text{Obj} = \sum_{i=1}^{n} l(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)$$
+where $l(y_i, \hat{y}_i)$ is the loss function that measures the error between the true label $y_i$ and the prediction $\hat{y}_i$, and $\Omega(f_k)$ is the regularization term that penalizes the complexity of the $k$-th tree to prevent overfitting.
+
+\section{Model Interpretability Theory}
+\label{sec:interpretability_theory}
+To ensure the transparency and trustworthiness of the predictive models, this study will employ a state-of-the-art model explanation framework.
+
+\subsection{SHAP (SHapley Additive exPlanations)}
+SHAP is a game-theoretic approach used to explain the output of any machine learning model. It computes the contribution of each feature to a specific prediction. The core of SHAP is the additive feature attribution model, which represents an explanation as a linear function of binary variables:
+$$g(z') = \phi_0 + \sum_{j=1}^{M} \phi_j z'_j$$
+In this model, $g(z')$ is the explanation model that approximates the original model's output, $z' \in \{0, 1\}^M$ indicates the presence or absence of a feature, $M$ is the number of features, $\phi_0$ is the base value (the average prediction over the dataset), and $\phi_j$ is the \textbf{SHAP value} for feature $j$. This value represents the feature's contribution to pushing the model's output away from the base value.
+
+\section{Personality Theory}
+
+This research operationalizes personality using the \textit{Big Five Personality Traits} model \citep{costa1999five}, also known as the Five Factor Model (FFM). The Big Five personality model was formed over time through research from the idea that personality is rooted in our natural language. A lexical approach was used to extract thousands of relevant words from the English dictionary, which were then narrowed down by exploratory factor analysis, resulting in the final five traits \citep{feher2021looking}. The term “Big Five” was coined by Goldberg in 1981, referring to the model’s comprehensive coverage of personality. The Big Five model comprises the following personality traits:
+
+\begin{enumerate}
+	\item \textbf{Extraversion:} \\
+	This trait describes an interest in other people and the external world. High-scoring individuals are more outgoing and energetic, while low scorers are described as more solitary and introspective. 
+	\item \textbf{Agreeableness:} \\
+ 	This trait describes a person’s willingness to cooperate and compromise with others, or the ease with which they co-exist with other people. High-scoring individuals are seen as more accommodating, empathetic, and passive, while low scorers may appear argumentative and confrontational. 
+	\item \textbf{Conscientiousness:} \\
+	This trait describes the care and meticulousness put into one’s activities, relating to traits such as self-discipline and attention to detail.. High-scoring individuals tend to be organized and efficient, while low scorers may appear disorderly but more easygoing and spontaneous.
+	\item \textbf{Neuroticism:} \\
+	This trait describes a person’s tendency towards negative emotions and their emotional vulnerability to unfavorable scenarios. High-scoring individuals tend to be reactive and nervous, with their mental state being more easily influenced, while low scorers are emotionally stable, confident, and secure.
+	\item \textbf{Openness to Experience:} \\
+	This trait describes a person’s willingness to subject themselves to new, unfamiliar experiences and situations, and is also related to creativity. High-scoring individuals are curious, open-minded, and more open to trying new things, while low scorers are more cautious, preferring consistency and familiarity. 
+\end{enumerate}
+
+These five factors are considered statistically independent, meaning that a high or low score in one trait does not predict scores in the others \citep{babcock2020big}. There are numerous existing questionnaires that are used to assess these traits, such as the Big Five Inventory (BFI), the various versions of the NEO Personality Inventory, and the Big-Five Factor Markers. Research has also shown that these traits generally remain stable and consistent throughout adulthood \citep{babcock2020big}. However, there is an acknowledgement that while these five traits encompass a large area of personality, it does not claim to capture all aspects \citep{babcock2020big}. For instance, an alternative personality model, the HEXACO model, was developed based on the Big Five. It names a sixth dimension: Honesty-Humility, which was obtained by applying the lexical approach to multiple languages around the world. It also defines the base five traits slightly differently than the Big Five does \citep{feher2021looking}. Furthermore, it should be noted that the Big Five model was developed in a Western context, meaning that personality nuances of non-Western cultures may not be adequately captured with this model \citep{feher2021looking}.

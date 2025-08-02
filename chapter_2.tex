@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Filename    : chapter_2.tex 
+%
+%   Description : This file will contain your review of related works.
+%                 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Related Works}
+\label{sec:Related Works}
+
+
+\section{Personality in Social Media Data}
+\label{sec:Personality}
+Research on automatic personality recognition (APR) has established robust links between digital footprints and personality traits, primarily leveraging text-based data from platforms like Twitter and Facebook. Foundational work by \citet{mairesse_using_2007} demonstrated that linguistic features (e.g., word choice, sentiment, syntactic complexity) correlate strongly with the Big Five traits, providing a framework for computational modeling. This was expanded by \citet{schwartz_personality_2013} whose open-vocabulary analysis of Facebook posts revealed nuanced patterns—such as extraverts using social activity language—highlighting social media's value as a behavioral lens. Subsequent studies confirmed cross-cultural applicability; for instance, \citet{adi_optimization_2018} and \citet{jeremy_automatic_2021} achieved high accuracy in Indonesian Twitter data using neural networks.
+
+The advent of deep learning has refined text-based APR. \citet{majumder_deep_2017} utilized document-level neural networks to capture contextual cues, while \citet{han_knowledge_2020} developed interpretable models linking specific word categories to traits (e.g., weak correlations between neuroticism and supervision words). However, short-text platforms like Instagram pose challenges for traditional topic modeling \citep{albalawi_using_2020}. Crucially, studies in the Filipino context remain sparse. \citet{tighe_modeling_2018} pioneered this space, identifying code switching in Filipino Twitter users' language (e.g., TF–IDF unigrams most strongly predicted Conscientiousness). This work laid the groundwork for the PagkataoKo dataset \citep{tighe_acorda_2022}, a curated collection of Filipino social media data annotated with Big Five traits. While invaluable, PagkataoKo's Twitter-centric design limits insights into multimodal or platform-specific expressions on visually-oriented platforms.
+
+Visual content offers untapped potential for personality inference. \citet{azucar_predicting_2018}'s meta-analysis synthesized evidence linking certain attributes to traits: activity statistics predict Extraversion, while demographic statistics predict Openness. Instagram-specific studies corroborate these findings; \citet{ferwerda_predicting_2018} demonstrated that HSV values and content(object recognition) modestly indicate personality although combining the two features does not result in an improvement. On the other hand \citet{branz_red_2020} found Openness correlated with warm hues (red/orange) and Conscientiousness with cooler tones (blue). These visual-semantic relationships remain underexplored in Filipino contexts, despite Instagram's dominance in Philippine social media landscapes \citep{gallardo_understanding_2024}.
+
+Multimodal approaches significantly enhance APR accuracy by fusing complementary signals. \citet{batrinca_multimodal_2016} demonstrated that the combination of acoustic and visual non-verbal features enables statistically significant recognition of certain Big Five personality traits—such as Extraversion and Emotional Stability—particularly in goal-oriented collaborative tasks involving human-machine interactions. Similarly, \citet{lima_sequential_2022}'s LSTM-based fusion model outperformed unimodal baselines (text/audio) by 3.5\%  with LSTMs underperforming against GRU. Secuya (2021) while seemingly using multimodal data on their research, only uses TF-IDF Text Features and Twitter Account Features on their study. Furthermore, it overlooks Instagram's richer visual ecosystem where curated aesthetics \citep{harris_do_2019} yield stronger trait signals and depicted content, specifically human faces and skin \citep{machajdik_affective_2010} do yield stronger emotion signals.
+
+
+\section{Text and Image Feature Extraction for Automatic Personality Recognition}
+
+Automatic Personality Recognition (APR) from multimodal data, including text and images, has garnered significant attention in recent years due to its promising applications in understanding human behavior through online content. As the use of social media platforms like Instagram has grown, the extraction of personality-related features from users' posts has become an essential area of research. Recent studies have demonstrated that both text and image features, when combined, can enhance the performance of APR systems.
+
+\subsection{Text Feature Extraction}
+
+Text-based feature extraction in APR typically focuses on identifying linguistic cues that are indicative of personality traits. \citet{Mairesse2007} explored the use of various linguistic features, such as word categories, syntax, and semantic content, to predict the Big Five personality traits. Their study revealed that specific traits, such as Extraversion and Neuroticism, were strongly correlated with the use of certain types of words, such as positive or negative emotion terms. This aligns with findings from \citet{Pennebaker1999}, who identified linguistic markers such as first-person pronouns and emotional words as key indicators of personality.
+
+With the advent of deep learning models, \citet{Christian2021} introduced a novel approach that utilizes pre-trained language models like BERT, RoBERTa, and XLNet for feature extraction, significantly improving the accuracy of text-based APR systems. These models capture the semantic meaning of words in context, which is crucial for understanding the nuances of social media posts. Furthermore, \citet{Albalawi2020} applied topic modeling techniques, specifically Latent Dirichlet Allocation (LDA), to extract latent topics from short-text data, showing that topics related to specific interests could be tied to personality traits.
+
+\subsection{Image Feature Extraction}
+
+Visual content, including images, offers valuable insights into users' personality traits. Instagram, as a platform primarily focused on image-sharing, presents an excellent opportunity to explore how visual features can be linked to personality. \citet{Ferwerda2018} demonstrated that image features such as color (e.g., hue, saturation, brightness) and the presence of specific content (e.g., nature scenes, selfies) can be indicative of personality traits. For instance, users who score high in Extraversion tend to post brighter and more vibrant images, while those with higher Neuroticism scores tend to post darker and more subdued images.
+
+Moreover, \citet{Branz2020} expanded on this by showing that the use of Instagram filters also correlates with personality traits, where extroverts are more likely to use filters that enhance brightness and contrast. Additionally, \citet{Reece2017} explored how computationally extracted features from Instagram images, including color analysis and face detection, could be used to predict depression, highlighting the potential for image-based predictions in mental health and personality analysis.
+
+\subsection{Multimodal Feature Extraction}
+
+Combining both text and image features has been shown to improve the accuracy of personality predictions. \citet{Batrinca2016} proposed a multimodal approach for personality recognition, integrating text and visual cues from social interactions. Their findings suggest that multimodal fusion techniques can capture more comprehensive personality profiles than using either modality alone. Similarly, \citet{Skowron2016} fused linguistic features from captions and hashtags with visual features extracted from images to predict personality traits. Their study confirmed that multimodal models outperform unisource models in personality prediction tasks.
+
+Furthermore, \citet{Lima2022b} demonstrated the effectiveness of sequential models that dynamically weigh the importance of each modality (text and image) based on context, significantly improving the recognition of personality traits across various social media datasets.
+
+\subsection{Feature Extraction in the Context of Instagram}
+
+Studies on Instagram, like that of \citet{Ferwerda2016}, have shown that image features such as color, saturation, and brightness are strongly tied to personality traits. However, these studies focus solely on image features and do not combine text and image modalities. This highlights the importance of distinguishing between unimodal image-based approaches and true multimodal integration, where both text and image features are used together for more robust predictions.
+
+In contrast, \citet{Xianyu2016} applied their own multimodal learning technique (Hetero
+geneity Entropy Neural Network (HENN)) to integrate both textual and visual features which outperforms the baseline systems significantly (CCA-based and Corr-AE method).
+
+\section{Multimodal Approaches to APR}
+\label{sec: MMApproaches}
+Studies focusing on APR use multimodal data, meaning the input data are in different types, such as text, images, emoticons, audio, video, etc. They exhibit more accurate personality trait results than those of studies that only use one type of data, due to more features to learn. Multimodal studies use fusion techniques according to the order in the machine learning process: feature-level fusion and decision-level fusion.
+
+Feature-level fusion combine features of different modalities into a single feature set, which poses a disadvantage due to the higher dimensionality of the resulting feature set. 
+
+On the other hand, the decision-level fusion chooses features from a stream of input multimodal data by a set criteria. However, it has an assumption that the data of different multimodalities are mutually exclusive.
+
+In \citet{Sidorov2014}'s study that involved classification from "emotionally colored" conversation, they utilized feature-level fusion, despite that they recognized decision-level to be better. Due to the nature of the decision-level fusion where the data for each modalities are independent or mutually exclusive, feature-level fusion was used.
+
+\citet{Salam2022}'s personalized personality prediction model used decision-level fusion to combine video and audio features, along with Neural Architecture Search (NAS) to optimize Deep Neural Networks (DNNs) for different user demographics.
+
+Another example of a feature-level fusion was \citet{Abozaid2024}'s study where they developed a model to recognize faces with face masks. Two fusions were used, which are the feature-level fusion and the score fusion to learn between the original face and the masked face.
+
+Each study demonstrated the different strengths of the feature-level fusion and the decision-level fusion.
+
+\section{Filipino APR}
+\label{sec: FilipinoAPR}
+Filipino APR remains an underexplored domain. Existing APR research is mostly focused on English-speaking populations although there is a rise of studies that have developed specific models for different languages, namely Bahasa Indonesian, Chinese, and Egyptian \citep{Siddique2019, Salem2019, Adi2018}. What makes Filipino APR distinct from these other languages is the presence of multiple languages, some of which include an array of unique regional languages \citep{Tighe_Acorda_Agno_Gano_Go_Santiago_Sedillo_2022,tighe_modeling_2018}. Moreover, code-switching is prominent in multilingual people which adds another layer of complexity.
+
+The first venture to Filipino APR was conducted by \citet{tighe_modeling_2018} wherein they analyzed linguistic data from 250 Filipino Twitter users. Due to there being a lack of Filipino APR datasets, \citet{Tighe_Acorda_Agno_Gano_Go_Santiago_Sedillo_2022} constructed the PagkataoKo dataset which contains data from 3,128 Filipino Twitter/Instagram users and now consists of both text and image data. Since then, several studies have been conducted using the PagkataoKo dataset but none of which so far have integrated image data.
+
+This paper seeks to contribute to Filipino APR by exploring the effects of fusing image data as a feature. Fusion and information extraction techniques from previous multimodal studies would serve as a guide for this research’s methodology.
+
+
+%Previous draft
+%\citet{Pennebaker1999} explored on their study how language use can reflect the personality style of someone. Using a computerized word-based text analysis program, the structure, validity, and reliability of the written language was examined. From there it was found that one's linguistic style is a consequential way to explore personality.
+
+%This was further explored in a study by \citet{Mairesse2007} in which the recognition of the Big Five Personality traits (Openness, Conscientiousness, Extroversion, Agreeableness, and Neuroticism) on both text and conversation was first experimented using both self rating and observer ratings of personality. From the experimentation done with the various models: classification, ranking, and regression; the ranking models performed best overall.
+
+%The PagkataoKo dataset analyzed in this paper has been used in the studies of undergraduates, graduates, and professionals at DLSU. These various studies primarily involved modeling Filipino users’ personality traits or Automatic Personality Recognition (APR) through their usage of the Instagram and X (formerly Twitter) social media sites, as was the purpose of the creation of the dataset. 
+
+%The dataset contains data on Filipino social media users’ social media activity on Instagram and Twitter. This includes features like post images and captions,  profile pictures, follower and following counts, and post count. It also includes the user’s BFI scores.
+
+%Among the undergraduate and graduate studies that pursued the analysis of this dataset, the majority of them utilized only the X data, focusing on natural language processing. Techniques such as word embedding models, topic modeling, feature extraction, and other models were used to predict the BFI personality traits of users. One used both X and Instagram, but only the text data was used. There also exists another study that analyzed the visual features of Instagram image data and used this to predict personality traits. Lastly, a published study also used text processing on the X data for the same purpose.
+
+%X was a more popular choice for analysis as the platform's main focus is that it is more text-based and the captions hold the most importance whereas on Instagram, it is more secondary. This leaves the Instagram portion of the dataset relatively unexplored compared to the X data, so there is little information about image processing in this dataset. However, this leaves open the potential for exploring images and their relation to personality, specifically the BFI scores, adding to the one research that was done on this topic. 
+
+%Filipinos use social media in many ways. They use it for connecting with other people, sharing information, speaking out, and optimizing productivity \citep{10.1007/978-3-031-61543-6_24}. However, even though they are aware of the presence of social media, \citet{Cruz_Jamias_2013} found that Filipino researchers rarely use social media to their advantage. This demonstrates that each demographic in the Philippines has a different level of social media use.
+
+%Social media has many effects in the Philippines. For instance, it plays a role in youth political participation. \citet{Ibardeloza2022-pz} found that social media helps the youth to be more exposed to radical involvement. It also has a positive effect on “peer interpersonal relationships” yet slightly negative on familial relationships \citep{Bristol2016TheDM}.
+
+%Recent studies have explored the potential of Instagram image data to infer users' personality traits. \citet{ferwerda2016} analyzed features such as hue, brightness, and saturation in users' photos, finding significant correlations between these visual elements and the Big Five personality traits. Their findings suggest that individuals' choices in photo appearance can reflect underlying personality characteristics. 
+
+%Further research by \citet{Reece2017-qw} utilized machine learning to examine Instagram photos for markers of depression. By analyzing color properties, metadata, and the presence of faces, their model successfully identified depressive indicators, highlighting the platform's potential for mental health screening. 
+
+%Additionally, a study by \citet{Harris2019-gq} investigated the accuracy of personality portrayal on Instagram by comparing observers' perceptions of account holders' personalities with the account holders' self-reported traits. The results indicated discrepancies, suggesting that while certain visual cues can convey personality aspects, they may also lead to misinterpretations. 
+
+%Collectively, these studies underscore the viability of leveraging Instagram image data to assess users' personality traits and mental health status, though they also caution against overreliance on visual cues due to potential misrepresentations.
+
+
+%%This chapter provides a synthesis of past research, existing algorithms, and or state-of-the-art software that are related/similar to the thesis. It should not present detailed summaries of each related work, but rather present a cohesive comparison of different aspects of their work. At the end of each section and this chapter, it should be clear what research challenges and opportunities will be focused on for the proposal.
+
+%%The sections can be about approaches, application areas, and categories of solutions that give readers an deep understanding of the current state of the field. 
+
+%%Observe a consistent format when presenting each of the reviewed works. This must be selected in consultation with the prospective adviser.
+
+%%\textcolor{red}{DO NOT FORGET to cite your references.} Related works can be discussed multiple times in different sections of this chapter, depending on what is being discussed or compared.
+
+
+\begin{comment}
+%
+% IPR acknowledgement: the contents within this comment are from Ethel Ong's slides on RRL.
+%
+Guide on Writing your Related Works chapter
+ 
+1. Identify the keywords with respect to your research
+      One keyword = One document section
+                Examples: 2.1 Story Generation Systems
+			 2.2 Knowledge Representation
+
+2.  Find references using these keywords
+
+3.  For each of the references that you find,
+        Check: Is it relevant to your research?
+        Use their references to find more relevant works.
+
+4. Identify a set of criteria for comparison.
+       It will serve as a guide to help you focus on what to look for
+
+5. Write a summary focusing on -
+       What: A short description of the work
+       How: A summary of the approach it utilized
+       Findings: If applicable, provide the results
+        Why: Relevance to your work
+
+6. At the end of each section,  show a Table of Comparison of the related works 
+   and your proposed project/system
+
+\end{comment}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Filename   : preamble.tex
+%
+%  Description: Preamble file to :
+%               a. specify related packages
+%               b. set margins, commands, etc.
+%
+%  Note       : Edit the margin settings for your own printer
+%                  You may add your own commands, environments (it is assumed that you know what you're doing.)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,titlepage,onepage,letterpaper]{report}
+
+%-- specify related packages
+\usepackage{mdframed}
+\usepackage{xcolor}
+
+\mdfdefinestyle{highlight}{
+	backgroundcolor=yellow,
+	linewidth=0pt
+}
+
+\usepackage{enumitem} % For customizing enumerate environments
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\usepackage{booktabs} % For professional tables
+\usepackage{pdfpages}
+
+\usepackage{natbib}            %-- Use natbib for citation management
+\setcitestyle{authoryear, maxcitenames=1} % Show only first author in citations
+
+\usepackage{amsmath}           %-- American Math Society packages
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}          %-- graphicx package needed for including figures in JPG or PNG format
+\usepackage{verbatim}          %-- allows multi-line comments
+\usepackage{color}             %-- allows use of color with text
+\usepackage{url}               %-- allows use of URLs
+\usepackage{float}             %-- improved float handling
+
+%-- set margins, you may need to edit this for your own printer
+\topmargin 0.0in
+\oddsidemargin 0.0in
+\evensidemargin 0.0in
+\voffset 0.0in
+\hoffset 0.5625in
+\textwidth 5.75in
+\textheight 8.5in
+\parskip 1em
+\parindent 0.25in
+
+\bibliographystyle{apalike}    %-- APA-like bibliography style
+
+\hyphenation{ana-lysis know-ledge} %-- Custom hyphenation
+
+\newcommand{\degree}{^{\circ}}
+\newcommand{\etal}{et al.}
+\newcommand{\figref}[1]{Figure \ref{#1}}
+\newcommand{\appref}[1]{Appendix \ref{#1}}
+\newcommand{\thestitle}[1]{{\Large \textsc{#1}}}
