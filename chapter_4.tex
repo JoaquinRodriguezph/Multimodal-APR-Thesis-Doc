@@ -28,7 +28,9 @@ The entire data collection protocol, including the consent process and data hand
 \subsection{Personality Score Transformation to Labels}
 In its raw form, the PagkataoKo dataset provides personality scores as continuous numerical values ranging from 1.0 to 5.0 for each of the Big Five traits. Since this study frames personality recognition as a classification task, these continuous scores must be transformed into discrete labels.
 
-To achieve this, a \textbf{median split} will be performed for each of the five personality traits independently. For a given trait (e.g., Openness), users with a score above the median value for that trait will be assigned the 'High' label (e.g., 'High-Openness'). Users with scores at or below the median will be assigned the 'Low' label (e.g., 'Low-Openness'). This process will result in five separate binary labeling schemes, one for each personality dimension, which will serve as the target variables for the classification models.
+To achieve this, a \textbf{median split} will be performed for each of the five personality traits independently. This choice is informed by the findings of Aviles et al. (2023), who explored eight different discretization methods on Filipino social media data. Their study found that while methods that remove a large number of participants (such as LHNASD, which removed 70\% of the data) can achieve the highest performance, the LH Median method provided the best balance between performance and data retention. Specifically, the LH Median method achieved the second-highest average Kappa score while only removing a small fraction of participants (approximately 6\%) whose scores fell exactly on the median \citep{aviles2023}. Given this trade-off, the median split is selected as a robust and practical approach that preserves the vast majority of the dataset while still creating distinct high and low classes for the models.
+
+For a given trait (e.g., Openness), users with a score above the median value for that trait will be assigned the 'High' label (e.g., 'High-Openness'). Users with scores at or below the median will be assigned the 'Low' label (e.g., 'Low-Openness'). This process will result in five separate binary labeling schemes, one for each personality dimension, which will serve as the target variables for the classification models.
 
 \subsection{Data Splitting}
 For model training and evaluation, the dataset will be divided using a user-level stratified split for model training and evaluation: \textbf{70\%} for training, \textbf{15\%}for validation, and \textbf{15\%} for testing. To ensure that the proportion of 'High' and 'Low' labels for each personality trait is consistent across these sets, the split will be stratified based on the generated personality labels. This helps prevent model bias and ensures that the models are trained and evaluated on representative distributions of each personality class.
@@ -124,10 +126,12 @@ This pipeline processes all textual captions from a user's posts to extract ling
 \subsubsection{Contextual Embeddings from Multilingual BERT}
 To capture deep contextual meaning, a pre-trained \textbf{multilingual BERT} model (e.g., \texttt{bert-base-multilingual-cased}) will be used to generate embeddings for the text. For each user's aggregated captions, the model will produce a dense, 768-dimension vector that represents the contextualized meaning of their language.
 
-While traditional methods like TF-IDF capture lexical importance, they fail to understand context, semantics, or word order. BERT (Bidirectional Encoder Representations from Transformers) models do well in natural language understanding and have been shown to significantly outperform TF-IDF in personality classification tasks. BERT's key advantage is its ability to generate contextual embeddings; the representation of a word changes based on the words surrounding it. Given the dataset's mix of English, Tagalog, and code-switching, a multilingual BERT model is particularly suitable, as it has been pre-trained on a corpus of over 100 languages and can effectively handle the linguistic complexity of the data \citep{devlin2018bert, cruz2022roberta}.
+While traditional methods like TF-IDF capture lexical importance, they fail to understand context, semantics, or word order. BERT (Bidirectional Encoder Representations from Transformers) models do well in natural language understanding and have been shown to significantly outperform TF-IDF in personality classification tasks. For example, a study by Zhang (2023) directly comparing the two approaches for MBTI personality prediction found that a fine-tuned BERT model paired with a Logistic Regression classifier achieved an average accuracy of 87.7\%, a notable improvement over the 84.3\% accuracy achieved by the same classifier using a traditional TF-IDF vectorizer \citep{zhang2023}. BERT's key advantage is its ability to generate contextual embeddings; the representation of a word changes based on the words surrounding it. Given the dataset's mix of English, Tagalog, and code-switching, a multilingual BERT model is particularly suitable, as it has been pre-trained on a corpus of over 100 languages and can effectively handle the linguistic complexity of the data \citep{devlin2018bert, cruz2022roberta}.
 
 \subsubsection{Word Embedding Representation}
-As a complementary feature, pre-trained \textbf{FastText} word embeddings will also be used to capture semantic meaning. For each user, the embeddings for all words in their captions will be combined by computing the mean of the vectors (average pooling). This results in a single, dense vector for each user that represents the non-contextual, aggregate meaning of their posts.
+As a complementary feature to the contextual embeddings from BERT, pre-trained \textbf{FastText} word embeddings will also be used to capture a static, non-contextual representation of semantic meaning \citep{grave2018}. For each user, the embeddings for all words in their captions will be combined by computing the mean of the vectors (average pooling). This results in a single, dense vector for each user that represents the aggregate meaning of their posts.
+
+FastText provides a different, non-contextual semantic perspective that complements BERT's contextual understanding. More importantly, FastText's primary advantage over other static embedding models like Word2Vec or GloVe is its use of \textbf{subword information}. It learns vectors for character n-grams, allowing it to construct a reasonable vector for out-of-vocabulary (OOV) words. This is critically important for this study, as the dataset contains informal language, slang, typos, and morphologically rich Tagalog words that would likely be unknown to other models. This robustness is further supported by the authors of the PagkataoKo dataset, who noted that these specific pre-trained FastText vectors provide good coverage for the dataset's English and Tagalog words \citep{tighe_acorda_2022}.
 
 \subsection{Metadata Modality Pipeline}
 Behavioral signals are extracted from user account metadata. As noted in the PagkataoKo dataset paper, the Instagram subset provides two key account-level metrics: the total number of posts a user has made (\texttt{PostCount}) and the number of other accounts they follow (\texttt{FollowingCount}) \citep{tighe_acorda_2022}.
@@ -141,6 +145,10 @@ This preprocessing step is for ensuring that the metadata features contribute fa
 
 \subsection{Feature Pipelines}
 These diagrams illustrate the flow of data from its raw form through the parallel feature engineering pipelines to the final aggregated user vector. 
+
+The final value of $k$ for each feature set will be determined empirically during implementation. The table below represents an estimate for each the image feature pipeline and text feature pipeline.
+
+
 \begin{figure}[H]
 	\centering
 	% Placeholder for the actual diagram image
@@ -169,7 +177,7 @@ Features are extracted from each image via four parallel processes (ResNet50, Im
 	\label{fig:fusion_diagram}
 \end{figure}
 
-he outputs from the individual modality pipelines—the Image Vector (Est. Dim: 400), Text Vector (Est. Dim: 400), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector with a total estimated dimensionality of around 800, which serves as the input for the machine learning models.
+The outputs from the individual modality pipelines—the Image Vector (Est. Dim: 400), Text Vector (Est. Dim: 400), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector with a total estimated dimensionality of around 800, which serves as the input for the machine learning models.
 
 \section{Feature Selection}
 Following feature extraction, a feature selection step will be implemented to identify relevant predictors. The approach will vary based on the feature type.
