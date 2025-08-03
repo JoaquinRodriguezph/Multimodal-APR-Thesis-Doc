@@ -70,7 +70,29 @@ Each study demonstrated the different strengths of the feature-level fusion and 
 \label{sec: FilipinoAPR}
 Filipino APR remains an underexplored domain. Existing APR research is mostly focused on English-speaking populations although there is a rise of studies that have developed specific models for different languages, namely Bahasa Indonesian, Chinese, and Egyptian \citep{Siddique2019, Salem2019, Adi2018}. What makes Filipino APR distinct from these other languages is the presence of multiple languages, some of which include an array of unique regional languages \citep{tighe_modeling_2018}. Moreover, code-switching is prominent in multilingual people which adds another layer of complexity.
 
-The first venture to Filipino APR was conducted by \citet{tighe_modeling_2018} wherein they analyzed linguistic data from 250 Filipino Twitter users. Due to there being a lack of Filipino APR datasets, \citet{tighe_acorda_2022} constructed the PagkataoKo dataset which contains data from 3,128 Filipino Twitter/Instagram users and now consists of both text and image data. Since then, several studies have been conducted using the PagkataoKo dataset but none of which so far have integrated image data.
+The first venture to Filipino APR was conducted by \citet{tighe_modeling_2018} wherein they analyzed linguistic data from 250 Filipino Twitter users. Due to there being a lack of Filipino APR datasets, \citet{tighe_acorda_2022} constructed the PagkataoKo dataset, which contains data from 3,128 Filipino Twitter/Instagram users and now consists of both text and image data. Since then, several studies have been conducted using the PagkataoKo dataset, but only one of which has so far integrated image data. Table~\ref{tab:filipino_apr_summary} presents an overview of works conducted in the field of Filipino APR. It can be seen that there is a heavy focus on text data, particularly those sourced from X (formerly Twitter), as well having a general tendency toward unimodal approaches. The RMSE and $R^2$ metrics refer to the best model produced.
+
+\begin{table}[ht]
+\scriptsize
+\centering
+\caption{Summary of Filipino APR Studies}
+\label{tab:filipino_apr_summary}
+\begin{tabularx}{\textwidth}{@{}l l l l l l@{}}
+\toprule
+\textbf{Study} & \textbf{Authors} & \textbf{Platform} & \textbf{Modality} & \textbf{RMSE} & \textbf{R\textsuperscript{2}} \\
+\midrule
+Filipino Twitter Users & Tighe and Cheng (2018) & Twitter & Text & 0.1523 & 0.1523 \\
+Neural network approach & Tighe et al. (2020) & Twitter & Text & 0.3344 & 0.2799 \\
+Content analysis & Acorda et al. (2019) & Instagram & Image & 0.500 &  \\
+Multimodal & Secuya (2021) & Twitter & Text, metadata & 0.4403 & 0.2021 \\
+Word Embeddings & Chua Chiaco et al. (2022) & Twitter & Text & 0.6087 & -0.0061 \\
+Topic Modelling & Algenio et al. (2023) & Twitter & Text &  & 0.0982 \\
+User Embedding w/ Transformers & Burguilos et al. (2023) & Twitter & Text & 0.4751 & 0.0652 \\
+Structuring Social Media Posts & Alvarez et al. (2024) & Twitter & Text &  & 0.11 \\
+Predict Questionnaire Responses & Gomez et al. (2024) & Twitter & Text & 0.6270 & 0.1240 \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 This paper seeks to contribute to Filipino APR by exploring the effects of fusing image data as a feature. Fusion and information extraction techniques from previous multimodal studies would serve as a guide for this research’s methodology.
 
