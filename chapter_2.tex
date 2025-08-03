@@ -58,7 +58,11 @@ Feature-level fusion combine features of different modalities into a single feat
 
 On the other hand, the decision-level fusion chooses features from a stream of input multimodal data by a set criteria. However, it has an assumption that the data of different multimodalities are mutually exclusive.
 
+Outside APR, an example of a feature-level fusion is a study of \citet{Cai_Qu_Li_Zhang_Hu_Hu_2020} that focused on building a model that distinguish a person with depression using the electroencephalogram (EEG) data. It uses feature-level fusion to linearly combine the features of all the modalities. Another example is the one in person activity recognition by \citet{Ehatisham-Ul-Haq_Javed_Azam_Malik_Irtaza_Lee_Mahmood_2019}. They used feature-level fusion as it excels at features with the same dimensions.
+
 In \citet{Sidorov2014}'s study that involved classification from "emotionally colored" conversation, they utilized feature-level fusion, despite that they recognized decision-level to be better. Due to the nature of the decision-level fusion where the data for each modalities are independent or mutually exclusive, feature-level fusion was used.
+
+\citet{}'s study on human authentication is an example of a decision-level fusion due to its use of clustering methods that divide data into groups known as clusters.
 
 \citet{Salam2022}'s personalized personality prediction model used decision-level fusion to combine video and audio features, along with Neural Architecture Search (NAS) to optimize Deep Neural Networks (DNNs) for different user demographics.
 
