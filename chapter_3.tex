@@ -23,6 +23,22 @@ Instagram's visual content necessitates effective image processing techniques to
 
 Extracted image features encompass both low level characteristics (e.g., color, brightness) and high level semantic content (e.g., objects, scenes) known to correlate with personality traits, as supported by prior research.
 
+\section{Statistical Evaluation Theory}
+To assess the significance and strength of observed relationships in the data, this study employs statistical tests suited for categorical variables.
+
+\subsection{Chi-squared Test of Independence}
+The \textbf{Chi-squared ($\chi^2$) test of independence} is a test that is used to calculate significant differences between groups. The formula is as follows:
+$$\sum\chi^2_{i-j} = \frac{(O - E)^2}{E}$$
+When calculating Chi-squared, data is thought of as being in table format. The \textit{i-j} notation indicates that the $\chi^2$ value must be calculated for each cell, with $i$ being the very first cell and $j$ being the last. For each cell, $O$ is the observed value and $E$ is the expected value, which is calculated with this formula:
+$$E = \frac{ \text{M}_R  \times  \text{M}_C }{\text{n}}$$
+$\text{M}_R$ refers to the \textit{row marginal} of the cell, which means the sum of all values in that row. Likewise, $\text{M}_C$ refers to the \textit{column marginal} of the cell, which is the sum of all values in the column. $n$ refers to the total sample size. At this point, some interpretations can be made. Cell $\chi^2$ values below 1.0 mean that the expected value is roughly equal to the observed value. Higher values mean that the observed values are more or less than expected.
+
+Once all $\chi^2$ value are obtained, they will be summed to get the final $\chi^2$ value for the whole table. In order to determine the significance of this statistic, the \textit{degrees of freedom} is calculated using this formula:
+$$df = (Number of rows - 1)(Number of columns - 1)$$
+With both the $\chi^2$ value and \textit{degrees of freedom}, the \textit{Chi-square table of significances} is referred to in order to obtain the \textit{significance level} of the value. If $P < 0.05$, it can be concluded that the groups are significantly different. For further interpretation, the most common test used to assess the strength of this significance and correlation is the \textit{Cramer’s V test}, calculated with this formula:
+$$V = \sqrt{ \frac{ \chi^2 }{ n(k - 1) } }$$
+In this, $k$ refers to the smaller value between $(Number of rows - 1)$ and $(Number of columns - 1)$. It is a standard association metric ranging from $0-1$ where values closer to $0$ indicate weaker correlations and values closer to $1$ indicate stronger correlations.
+
 \section{Fusion Techniques}
 
 Multimodal learning integrates heterogeneous features from text and images to improve personality prediction accuracy. Two primary fusion strategies are considered:
@@ -61,6 +77,8 @@ To ensure the transparency and trustworthiness of the predictive models, this st
 SHAP is a game-theoretic approach used to explain the output of any machine learning model. It computes the contribution of each feature to a specific prediction. The core of SHAP is the additive feature attribution model, which represents an explanation as a linear function of binary variables:
 $$g(z') = \phi_0 + \sum_{j=1}^{M} \phi_j z'_j$$
 In this model, $g(z')$ is the explanation model that approximates the original model's output, $z' \in \{0, 1\}^M$ indicates the presence or absence of a feature, $M$ is the number of features, $\phi_0$ is the base value (the average prediction over the dataset), and $\phi_j$ is the \textbf{SHAP value} for feature $j$. This value represents the feature's contribution to pushing the model's output away from the base value.
+
+A positive SHAP value for a feature indicates that the feature contributed to increasing the model's prediction, while a negative value indicates that it contributed to decreasing the prediction. The magnitude of the SHAP value indicates the strength of the feature’s impact.
 
 \section{Personality Theory}
 
