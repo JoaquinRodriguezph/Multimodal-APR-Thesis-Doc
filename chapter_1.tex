@@ -248,7 +248,9 @@ Specific Objective:
 	
 	Model training operationalizes the proposed multimodal framework and enables empirical evaluation of its ability to predict personality traits based on extracted features.
 
-	The models are limited to classification based approaches to assign users to discrete personality categories. Support Vector Machines (SVM) and XGBoost will be utilized due to their strong performance and suitability for medium scale datasets. Deep learning models, though powerful, are excluded to ensure interpretability and mitigate overfitting risks, considering dataset size.
+	The models are limited to classification-based approaches to assign users to discrete personality categories. While previous studies in Filipino APR utilized regression models, their accuracy was low. Several studies identified by the researchers as relevant use classification models, which is an approach underrepresented in the Filipino context. Additionally, when it comes to real-world applications, service or product providers only care about whether scores are high or low, with the specifics not being important \citep{wei2017beyond}. Therefore, we chose to simplify the task by approaching it with a classification methodology since the nuance is not necessary.
+
+	Support Vector Machines (SVM) and XGBoost will be utilized due to their strong performance and suitability for medium-scale datasets. Deep learning models, though powerful, are excluded to ensure interpretability and mitigate overfitting risks, considering the dataset size.
 	
 	\subsection{Evaluate the predictive performance of the proposed multimodal framework}
 	
