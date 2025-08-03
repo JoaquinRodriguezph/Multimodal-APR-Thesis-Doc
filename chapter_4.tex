@@ -1,7 +1,7 @@
 \chapter{Methodology}
 \label{sec:methodology}
 
-This chapter outlines the seven-stage research method designed to create and assess a multimodal Automatic Personality Recognition (APR) framework for Filipino Instagram users. This framework will tackle the specific language and cultural challenges found in the dataset, including code switching and unique patterns of visual self-expression. The process starts with exploratory data analysis, followed by preprocessing and feature extraction from text, images, and metadata. It also includes an early combination of these features. Finally, we will train machine learning models and thoroughly evaluate them to see how well they perform in predicting outcomes.
+This chapter outlines the research method designed to create and assess a multimodal Automatic Personality Recognition (APR) framework for Filipino Instagram users. This framework will tackle the specific language and cultural challenges found in the dataset, including code switching and unique patterns of visual self-expression. The process starts with  preprocessing, followed by exploratory data analysis and feature extraction from text, images, and metadata. It also includes an early combination of these features. Finally, we will train machine learning models and thoroughly evaluate them to see how well they perform in predicting users' personality traits.
 
 \begin{figure}[H]
 	\centering
@@ -15,10 +15,10 @@ This chapter outlines the seven-stage research method designed to create and ass
 This research is grounded in the Instagram subset of the PagkataoKo dataset, a comprehensive resource specifically curated for Filipino APR studies \citep{tighe_acorda_2022}. The dataset's inclusion of user-generated content (posts and images), demographic information, and self-reported Big Five personality scores makes it an ideal foundation for this supervised machine learning investigation. The original Instagram subset contains data from 1,380 participants who provided access to their accounts, totaling 195,757 posts.
 
 \subsection{Data Collection Methodology}
-The data was gathered between the first week of June 2019 and the second week of February 2020 through a purpose-built web application \citep{tighe_acorda_2022}. This tool streamlined the collection process by first presenting participants with a consent form and study directions. Upon granting consent, participants authorized the application to access their social media data via the official Instagram Legacy API. The application then collected post data (captions and image links) and account metadata. Following this automated collection, participants completed a demographic questionnaire and the 44-item Big Five Inventory (BFI-44) to assess their personality traits \citep{tighe_acorda_2022}.
+The data was gathered between the first week of June 2019 and the second week of February 2020 through a purpose-built web application. This tool streamlined the collection process by first presenting participants with a consent form and study directions. Upon granting consent, participants authorized the application to access their social media data via the official Instagram Legacy API. The application then collected post data (captions and image links) and account metadata. Following this automated collection, participants completed a demographic questionnaire and the 44-item Big Five Inventory (BFI-44) to assess their personality traits \citep{tighe_acorda_2022}.
 
 \subsection{Participant Sampling and Filtering}
-A mixed sampling strategy was employed to recruit participants. The initial phase utilized convenience and snowball sampling, where information about the study was disseminated within the researchers' immediate networks. To reach a broader Filipino audience, this was followed by a series of targeted online advertisement campaigns on Facebook, Instagram, and Twitter \citep{tighe_acorda_2022}.
+A mixed sampling strategy was employed to recruit participants. The initial phase utilized convenience and snowball sampling, where information about the study was disseminated within the researchers' immediate networks. To reach a broader Filipino audience, this was followed by a series of targeted online advertisement campaigns on Facebook, Instagram, and Twitter.
 
 From an initial pool of 3,186 participants, a filtering process was applied to ensure relevance to the Filipino context. Only individuals who identified their nationality as either "Filipino" or "mixed-Filipino" were retained, resulting in a final cohort of 3,128 individuals whose data comprises the full PagkataoKo dataset \citep{tighe_acorda_2022}.
 
@@ -34,7 +34,7 @@ To achieve this, a \textbf{median split} will be performed for each of the five 
 For model training and evaluation, the dataset will be divided using a user-level stratified split for model training and evaluation: \textbf{70\%} for training, \textbf{15\%}for validation, and \textbf{15\%} for testing. To ensure that the proportion of 'High' and 'Low' labels for each personality trait is consistent across these sets, the split will be stratified based on the generated personality labels. This helps prevent model bias and ensures that the models are trained and evaluated on representative distributions of each personality class.
 
 \section{Preprocessing}
-This stage cleans and organizes the raw data to make it suitable for feature extraction. It is important to normalize multilingual text, manage platform-specific noise, and combine data into a usable format. The main task is \textbf{user-level aggregation}. Here, all posts, images, and metadata for a single user are collected into a single behavioral profile. This method lets the models learn from a user's digital footprint.
+This stage cleans and organizes the raw data to make it suitable for feature extraction. The main task is \textbf{user-level aggregation}. Here, all posts, images, and metadata for a single user are collected into a single behavioral profile. 
 
 \subsection{Image Preprocessing}
 All images will go through preprocessing to get them ready for the \textbf{ResNet50} model. Each image will be resized to 224x224 pixels to fit the model’s required input size. We will also check for corrupted image files. Any posts with unreadable images will be flagged and excluded from the image-based feature extraction process.
@@ -75,7 +75,7 @@ The demographic distribution of the final 1,300-user subset, as derived from the
 
 \section{Feature Engineering}
 \label{subsec:features}
-This stage converts the raw, multimodal data associated with each Instagram user—comprising images, textual captions, and account metadata—into a single, quantitative feature vector. This vector is designed to be processed by supervised machine learning algorithms (logistic regression, support vector machines, and XGBoost) for the task of personality trait prediction. The process is divided into three parallel pipelines, one for each data modality, to ensure a clear and reproducible workflow.
+This stage converts the raw, multimodal data associated with each Instagram user—comprising images, textual captions, and account metadata—into a single, quantitative feature vector. This vector is designed to be processed by supervised machine learning algorithms (logistic regression, support vector machines, and XGBoost) for the task of personality trait prediction. The process is divided into three parallel pipelines, one for each data modality.
 
 \subsection{Image Modality Pipeline}
 This pipeline processes all valid images from a user's profile to extract a comprehensive set of visual features. For each image, the following features are extracted in parallel before being aggregated to the user level.
@@ -110,6 +110,7 @@ Our study specifically utilizes the \texttt{/tags} endpoint of the Imagga API. F
 	\label{fig:imagga_json}
 \end{figure}
 
+Furthermore, the use of Imagga is also for feasibility due to the Imagga JSON tags already being a part of the PagkataoKo Dataset.
 \subsubsection{Low-Level Photo Characteristics Analysis}
 To capture the aesthetic qualities of images, a set of low-level features is extracted.
 
@@ -123,13 +124,52 @@ This pipeline processes all textual captions from a user's posts to extract ling
 \subsubsection{Contextual Embeddings from Multilingual BERT}
 To capture deep contextual meaning, a pre-trained \textbf{multilingual BERT} model (e.g., \texttt{bert-base-multilingual-cased}) will be used to generate embeddings for the text. For each user's aggregated captions, the model will produce a dense, 768-dimension vector that represents the contextualized meaning of their language.
 
-While traditional methods like TF-IDF capture lexical importance, they fail to understand context, semantics, or word order. BERT (Bidirectional Encoder Representations from Transformers) models are the state-of-the-art in natural language understanding and have been shown to significantly outperform TF-IDF in personality classification tasks. BERT's key advantage is its ability to generate contextual embeddings; the representation of a word changes based on the words surrounding it. Given the dataset's mix of English, Tagalog, and code-switching, a multilingual BERT model is particularly suitable, as it has been pre-trained on a corpus of over 100 languages and can effectively handle the linguistic complexity of the data \citep{devlin2018bert, cruz2022roberta}.
+While traditional methods like TF-IDF capture lexical importance, they fail to understand context, semantics, or word order. BERT (Bidirectional Encoder Representations from Transformers) models do well in natural language understanding and have been shown to significantly outperform TF-IDF in personality classification tasks. BERT's key advantage is its ability to generate contextual embeddings; the representation of a word changes based on the words surrounding it. Given the dataset's mix of English, Tagalog, and code-switching, a multilingual BERT model is particularly suitable, as it has been pre-trained on a corpus of over 100 languages and can effectively handle the linguistic complexity of the data \citep{devlin2018bert, cruz2022roberta}.
 
 \subsubsection{Word Embedding Representation}
 As a complementary feature, pre-trained \textbf{FastText} word embeddings will also be used to capture semantic meaning. For each user, the embeddings for all words in their captions will be combined by computing the mean of the vectors (average pooling). This results in a single, dense vector for each user that represents the non-contextual, aggregate meaning of their posts.
 
 \subsection{Metadata Modality Pipeline}
-Behavioral signals will be extracted from user account metadata. Features like post count and following count will be used. Additional derived metrics, such as post frequency (total posts divided by account age), will be calculated where applicable. All numerical metadata features will be scaled to a fixed range (0 to 1) using min-max normalization to ensure they are on a comparable scale with other features.
+Behavioral signals are extracted from user account metadata. As noted in the PagkataoKo dataset paper, the Instagram subset provides two key account-level metrics: the total number of posts a user has made (\texttt{PostCount}) and the number of other accounts they follow (\texttt{FollowingCount}) \citep{tighe_acorda_2022}.
+
+This pipeline involves two key steps:
+\begin{enumerate}
+	\item \textbf{Feature Extraction:} The raw numerical values for \texttt{PostCount} and \texttt{FollowingCount} are extracted for each user.
+	\item \textbf{Normalization:} These features exist on vastly different scales; for example, a user might have 100 posts but follow 1,000 accounts. To prevent algorithms that are sensitive to feature magnitude (such as Support Vector Machines) from giving undue weight to features with larger numerical ranges, all metadata features are scaled to a fixed range of  using min-max normalization.
+\end{enumerate}
+This preprocessing step is for ensuring that the metadata features contribute fairly to the final model alongside the features from the image and text modalities. The final output of this pipeline is a 2-dimensional, normalized metadata feature vector for each user.
+
+\subsection{Feature Pipelines}
+These diagrams illustrate the flow of data from its raw form through the parallel feature engineering pipelines to the final aggregated user vector. 
+\begin{figure}[H]
+	\centering
+	% Placeholder for the actual diagram image
+	\includegraphics[width=\textwidth]{"figures/Image-Pipeline-Diagram.pdf"}
+	\caption{The Image Feature Engineering Pipeline. }
+	\label{fig:image_pipeline_diagram}
+\end{figure}
+
+Features are extracted from each image via four parallel processes (ResNet50, Imagga API, Aesthetic Analysis, K-Means Clustering). These post-level features are then aggregated to the user level (e.g., via average pooling), and PCA is applied to the high-dimensional ResNet50 component to produce a final, fixed-size vector with an estimated dimensionality of approximately 400.
+
+\begin{figure}[H]
+	\centering
+	% Placeholder for the actual diagram image
+	\includegraphics[width=\textwidth]{"figures/Text-Pipeline-Diagram.pdf"}
+	\caption{The Text Feature Engineering Pipeline. }
+	\label{fig:text_pipeline_diagram}
+\end{figure}
+
+ A user's entire caption corpus is processed through two parallel paths to extract contextual embeddings (Multilingual BERT) and static embeddings (FastText). These are aggregated to the user level via average pooling, and PCA is applied to the BERT component to reduce its dimensionality. The final output is a user-level text vector with an estimated dimensionality of approximately 400.
+
+\begin{figure}[H]
+	\centering
+	% Placeholder for the actual diagram image
+	\includegraphics[width=\textwidth]{"figures/Fusion-Diagram.pdf"}
+	\caption{User-Level Aggregation and Feature Fusion.}
+	\label{fig:fusion_diagram}
+\end{figure}
+
+he outputs from the individual modality pipelines—the Image Vector (Est. Dim: 400), Text Vector (Est. Dim: 400), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector with a total estimated dimensionality of around 800, which serves as the input for the machine learning models.
 
 \section{Feature Selection}
 Following feature extraction, a feature selection step will be implemented to identify relevant predictors. The approach will vary based on the feature type.
@@ -193,4 +233,23 @@ A detailed review will be done to assess how well the trained models perform. Th
 
 We will use \texttt{SHAP (SHapley Additive exPlanations)} to understand how the models make decisions. SHAP helps us measure how much each feature contributes to the model's predictions. This will create plots showing global feature importance, giving a clear ranking of the most impactful visual, textual, and metadata clues for each personality trait.
 
-Lastly, we will perform \texttt{ablation studies} to systematically compare the performance of the complete multimodal models with unimodal models, such as text-only and image-only. This will help us identify the effect of each modality on performance and see if combining image and text features significantly improves personality prediction accuracy.
+Lastly, a series of model analyses will be conducted. This involves training and evaluating separate models on distinct subsets of the full feature set. The same set of classifiers (Logistic Regression, SVM, XGBoost), will be applied to each experimental condition to ensure a fair. The experimental conditions are explicitly defined in Table \ref{tab:ablation_conditions}.
+
+\begin{table}[H]
+	\centering
+	\caption{Experimental Conditions for Modality Ablation Studies}
+	\label{tab:ablation_conditions}
+	% Use tabularx to make the table fit the text width.
+	% The X column type will automatically expand and wrap text.
+	\begin{tabularx}{\textwidth}{l c c c X} 
+		\hline
+		\textbf{Model Name} & \textbf{Image} & \textbf{Text} & \textbf{Meta} & \textbf{Description} \\ \hline
+		Text-Only & & \checkmark & & Unimodal baseline (BERT, FastText) \\
+		Image-Only & \checkmark & & & Unimodal baseline (ResNet50, etc.) \\
+		Metadata-Only & & & \checkmark & Unimodal baseline (Post/Following Count) \\
+		Text + Image & \checkmark & \checkmark & & Bimodal synergy of visual and linguistic cues \\
+		Text + Metadata & & \checkmark & \checkmark & Bimodal value of metadata with text \\
+		Image + Metadata & \checkmark & & \checkmark & Bimodal value of metadata with images \\
+		\textbf{Full Multimodal} & \checkmark & \checkmark & \checkmark & The complete proposed model \\ \hline
+	\end{tabularx}
+\end{table}
