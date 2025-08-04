@@ -13,13 +13,13 @@ This chapter presents the theoretical foundations that inform the development of
 
 \section{Text Processing Theory}
 
-Textual data from Instagram captions provides valuable linguistic cues for personality inference. This study employs the \textit{Vector Space Model} (Salton, Wong, \& Yang, 1975), where text is represented as weighted feature vectors using the Term Frequency Inverse Document Frequency (TF-IDF) scheme. TF-IDF reflects the importance of words within individual captions while down weighting common terms across the corpus, enhancing the model's ability to capture personality relevant language patterns.
+Textual data from Instagram captions provides valuable linguistic cues for personality inference. This study employs the \textit{Vector Space Model} \citep{salton1975}, where text is represented as weighted feature vectors using the Term Frequency Inverse Document Frequency (TF-IDF) scheme. TF-IDF reflects the importance of words within individual captions while down weighting common terms across the corpus, enhancing the model's ability to capture personality relevant language patterns.
 
 Beyond sparse TF-IDF vectors, word embeddings such as Word2Vec or contextual models like BERT offer dense semantic representations that capture nuanced word relationships. These embeddings complement TF-IDF by providing richer contextual information, essential for modeling bilingual and informal language prevalent among Filipino social media users.
 
 \section{Image Processing Theory}
 
-Instagram's visual content necessitates effective image processing techniques to extract personality related features. Standard preprocessing steps include resizing and normalization to ensure uniformity across image inputs. Feature extraction leverages deep Convolutional Neural Networks (CNNs), specifically the VGG-19 architecture (Simonyan \& Zisserman, 2015), which has demonstrated strong performance in visual representation learning.
+Instagram's visual content necessitates effective image processing techniques to extract personality related features. Standard preprocessing steps include resizing and normalization to ensure uniformity across image inputs. Feature extraction leverages deep Convolutional Neural Networks (CNNs), specifically the VGG-19 architecture \citep{simonyan2015}, which has demonstrated strong performance in visual representation learning.
 
 Extracted image features encompass both low level characteristics (e.g., color, brightness) and high level semantic content (e.g., objects, scenes) known to correlate with personality traits, as supported by prior research.
 
@@ -48,7 +48,7 @@ Multimodal learning integrates heterogeneous features from text and images to im
 	\item \textbf{Late Fusion:} Decision level integration, where separate models are trained per modality, and their outputs are combined for final prediction.
 \end{itemize}
 
-Following Liu et al. (2022) and Kampman et al. (2018), this research adopts an intermediate, attention based fusion mechanism that dynamically adjusts the contribution of each modality based on the target personality trait, recognizing that certain traits (e.g., Openness) may be more visually encoded, while others (e.g., Neuroticism) are better captured through language.
+Following \citet{liu2022} and \citet{kampman2018}, this research adopts an intermediate, attention based fusion mechanism that dynamically adjusts the contribution of each modality based on the target personality trait, recognizing that certain traits (e.g., Openness) may be more visually encoded, while others (e.g., Neuroticism) are better captured through language.
 
 \section{Machine Learning Theory}
 
