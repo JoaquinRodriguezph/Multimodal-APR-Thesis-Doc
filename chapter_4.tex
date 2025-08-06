@@ -30,6 +30,15 @@ To achieve this, a \textbf{median split} will be performed for each of the five 
 
 For a given trait (e.g., Openness), users with a score above the median value for that trait will be assigned the 'High' label (e.g., 'High-Openness'). Users with scores at or below the median will be assigned the 'Low' label (e.g., 'Low-Openness'). This process will result in five separate binary labeling schemes, one for each personality dimension, which will serve as the target variables for the classification models.
 
+\begin{figure}[H]
+	\centering
+	% Placeholder for the actual diagram image
+	\includegraphics[width=1\textwidth]{"figures/Scores.png"}
+	\caption{Category to Label via Median Split}
+	\label{fig:median_split_diagram}
+\end{figure}
+
+
 \subsection{Data Splitting}
 For model training and evaluation, the dataset will be divided using a user-level stratified split for model training and evaluation: \textbf{70\%} for training, \textbf{15\%}for validation, and \textbf{15\%} for testing. To ensure that the proportion of 'High' and 'Low' labels for each personality trait is consistent across these sets, the split will be stratified based on the generated personality labels. This helps prevent model bias and ensures that the models are trained and evaluated on representative distributions of each personality class.
 
@@ -243,7 +252,7 @@ Lastly, a series of model analyses will be conducted. This involves training and
 
 \begin{table}[H]
 	\centering
-	\caption{Experimental Conditions for Modality Ablation Studies}
+	\caption{Experimental Conditions for Modality Analyses Studies}
 	\label{tab:ablation_conditions}
 	% Use tabularx to make the table fit the text width.
 	% The X column type will automatically expand and wrap text.
