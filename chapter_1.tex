@@ -227,7 +227,7 @@ Specific Objective:
 	
 	EDA is essential to understand the dataset’s structure, distribution, and quality. It helps uncover patterns, inconsistencies, and potential biases within Instagram images and captions, informing subsequent feature extraction and modeling processes.
 	
-	The study focuses exclusively on Instagram posts that contain both images and captions to ensure suitability for multimodal analysis. Posts lacking either modality are excluded. Social interaction metrics such as likes, comments, and follower counts are beyond the scope, as the study emphasizes content based personality signals, not engagement behaviors.
+	The study focuses exclusively on Instagram posts that contain both images and captions to ensure suitability for multimodal analysis. Posts lacking either modality are excluded. Metadata will be included, namely the only ones that are included in the dataset which are the post count and following count.
 	
 	\subsection{Structure and extract features from the image and text data}
 	
@@ -256,7 +256,7 @@ Specific Objective:
 	
 	Evaluation determines whether integrating image and text data improves personality prediction compared to unimodal models.
 	
-	Evaluation is confined to within dataset testing using metrics such as Macro-F1 score and AUC-ROC. The study specifically targets Filipino Instagram users, limiting the generalizability of results to other populations, cultures, or platforms.
+	Evaluation is confined to within dataset testing using metrics such as Macro-F1 score, AUC-ROC, and utilization of the SHAP library for feature importance. The study specifically targets Filipino Instagram users, limiting the generalizability of results to other populations, cultures, or platforms.
 	
 
 % This section discusses the boundaries, with respect to the objectives, of the research and the constraints within which the research will be developed. Describe what is and is not included in the scope of your research, supported by your main research question and findings of previous studies. Do not use weak excuses such as the lack of time and/or knowledge to perform the research.

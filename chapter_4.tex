@@ -84,7 +84,10 @@ The demographic distribution of the final 1,300-user subset, as derived from the
 
 \section{Feature Engineering}
 \label{subsec:features}
-This stage converts the raw, multimodal data associated with each Instagram user—comprising images, textual captions, and account metadata—into a single, quantitative feature vector. This vector is designed to be processed by supervised machine learning algorithms (logistic regression, support vector machines, and XGBoost) for the task of personality trait prediction. The process is divided into three parallel pipelines, one for each data modality.
+This stage converts the raw, multimodal data associated with each Instagram user—comprising images, textual captions, and account metadata—into a single, quantitative feature vector. This vector is designed to be processed by supervised machine learning algorithms (logistic regression, support vector machines, and XGBoost) for the task of personality trait prediction. Our study primarily employs \textbf{average pooling}, which involves computing the mean of all feature vectors for a given user. This aggregation strategy is deliberately chosen to align with the theoretical view of personality as a stable, long-term construct \citep{babcock2020big}. By averaging a user's content features over many posts, the resulting vector represents their typical behavior and expressive style, effectively smoothing out outlier content that may not be representative of their core personality \citep{azucar_predicting_2018}. This approach aims to capture the consistent 'trait' aspect of a user, rather than a transient emotional 'state' that might be reflected in a single post.
+
+
+The process is divided into three parallel pipelines, one for each data modality.
 
 \subsection{Image Modality Pipeline}
 This pipeline processes all valid images from a user's profile to extract a comprehensive set of visual features. For each image, the following features are extracted in parallel before being aggregated to the user level.
