@@ -101,6 +101,8 @@ To quantify the semantic content and social context of the images, this study le
 
 Imagga is a cloud-based service that provides a suite of powerful image analysis tools through a simple API. Its core functions include automated image tagging, categorization, color extraction, and content moderation, all powered by pre-trained deep learning models capable of recognizing thousands of objects, scenes, and concepts \citep{imagga_website, imagga_solutions}. The Imagga API was selected for its robust, recognition capabilities, which provide a reliable method for extracting semantic features without the significant overhead of training a custom object detection model. Its structured JSON output is easily parsed and integrated into the feature engineering pipeline, making it a pragmatic and efficient choice for this research \citep{imagga_docs}.
 
+While the Imagga API's general model is capable of recognizing over 3,000 distinct objects and concepts \citep{imagga_solutions}, creating a feature vector of this size for each user would be computationally inefficient and result in a highly sparse feature space. To create a more dense and manageable feature set, a fixed-size vocabulary of the most relevant tags will be established. This is a standard approach analogous to a bag-of-words model in text processing \citep{salton1975}. A vocabulary of the top N=200 most frequent tags across the entire dataset will be identified. Subsequently, for each user, a \textbf{200-dimension feature vector} will be constructed, where each dimension represents the frequency of one of these top tags appearing in that user's posts.
+
 Our study specifically utilizes the \texttt{/tags} endpoint of the Imagga API. For each image submitted, the API returns a JSON object containing a list of detected tags (e.g., "person," "selfie," "food," "beach") and a corresponding confidence score (from 0 to 100) for each tag \citep{imagga_docs}. These tags are used to construct features such as the frequency of posts containing people, selfies, or specific objects, which have been linked in prior literature to traits like Extraversion.
 
 \begin{figure}[H]
@@ -175,7 +177,7 @@ The final value of $k$ for each feature set will be determined empirically durin
 	\label{fig:image_pipeline_diagram}
 \end{figure}
 
-Features are extracted from each image via four parallel processes (ResNet50, Imagga API, Aesthetic Analysis, K-Means Clustering). These post-level features are then aggregated to the user level (e.g., via average pooling), and PCA is applied to the high-dimensional ResNet50 component to produce a final, fixed-size vector with an estimated dimensionality of approximately 400.
+Features are extracted from each image via three parallel processes: High-Level Semantics (ResNet50), Object Content (Imagga API), and Low-Level Aesthetics. These post-level features are then aggregated to the user level and concatenated. The final user-level image vector is a combination of these three feature sets, with an estimated total dimensionality of approximately 2,269 (2,048 from ResNet50 + \textasciitilde200 from top Imagga tags + 21 from aesthetic features).
 
 \begin{figure}[H]
 	\centering
@@ -185,7 +187,8 @@ Features are extracted from each image via four parallel processes (ResNet50, Im
 	\label{fig:text_pipeline_diagram}
 \end{figure}
 
- A user's entire caption corpus is processed through two parallel paths to extract contextual embeddings (Multilingual BERT) and static embeddings (FastText). These are aggregated to the user level via average pooling, and PCA is applied to the BERT component to reduce its dimensionality. The final output is a user-level text vector with an estimated dimensionality of approximately 400.
+A user's entire caption corpus is processed through two parallel paths to extract lexical features (TF-IDF) and semantic embeddings (Word2Vec). These are aggregated to the user level and concatenated. The final output is a user-level text vector with an estimated dimensionality of approximately 5,300 (\textasciitilde5,000 from TF-IDF + 300 from Word2Vec).
+
 
 \begin{figure}[H]
 	\centering
@@ -195,7 +198,7 @@ Features are extracted from each image via four parallel processes (ResNet50, Im
 	\label{fig:fusion_diagram}
 \end{figure}
 
-The outputs from the individual modality pipelines—the Image Vector (Est. Dim: 400), Text Vector (Est. Dim: 400), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector with a total estimated dimensionality of around 800, which serves as the input for the machine learning models.
+The outputs from the individual modality pipelines—the Image Vector (Est. Dim: \textasciitilde2,269), Text Vector (Est. Dim: \textasciitilde5,300), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector with a total estimated dimensionality of around 7,571, which serves as the input for the machine learning models.
 
 \section{Feature Selection}
 Following feature extraction, a feature selection step will be implemented to identify relevant predictors. The approach will vary based on the feature type.
@@ -206,9 +209,7 @@ For the high-dimensional, dense features generated by ResNet50 and BERT, the Chi
 
 \section{Early Feature Fusion}
 \label{subsec:fusion}
-This stage employs \textbf{early fusion} (also known as feature-level fusion) to combine features from the image, text, and metadata pipelines into one unified representation for each user.
-
-The fusion process begins with aggregating features to the user level and then applying dimensionality reduction where necessary. To lower the high dimensionality of the aggregated \texttt{ResNet50} image features and the \texttt{BERT} text features while retaining the most important information, we will apply \textbf{Principal Component Analysis (PCA)}. After dimensionality reduction and standardization, the feature vectors from all modalities will be concatenated to create a single, final feature vector for each user.
+This stage employs \textbf{early fusion} (also known as feature-level fusion) to combine the processed features from the image, text, and metadata pipelines into a single, unified representation for each user. The final user-level vectors from each of the three modality pipelines are concatenated to create a single, high-dimensional feature vector. This unified vector serves as the final input for the machine learning models.
 
 \section{Model Training}
 \label{subsec:models}
