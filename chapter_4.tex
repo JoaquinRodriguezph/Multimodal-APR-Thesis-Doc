@@ -156,6 +156,11 @@ This pipeline involves two key steps:
 \end{enumerate}
 This preprocessing step is for ensuring that the metadata features contribute fairly to the final model alongside the features from the image and text modalities. The final output of this pipeline is a 2-dimensional, normalized metadata feature vector for each user.
 
+\subsection{Dimensionality Reduction as an Optional Step}
+The primary methodological approach of this study is to utilize the full, high-dimensional feature vectors generated from the ResNet50 (2,048 dimensions) and TwHIN-BERT (768 dimensions) models. This decision is motivated by a core research objective: to maintain the highest possible level of interpretability. Applying dimensionality reduction techniques like PCA transforms the original features into a new set of components, which can make it difficult to trace a prediction back to the specific, original visual or textual cues (e.g., a particular object in an image or a specific word in a caption).
+
+However, should initial modeling experiments with the full feature set yield poor performance, show significant signs of overfitting, or prove to be computationally prohibitive, \textbf{Principal Component Analysis (PCA)} will be explored as an optional, secondary step. In this contingency, PCA would be applied to the aggregated ResNet50 and TwHIN-BERT feature sets to create a more compact and less noisy representation before feature fusion. This two-stage approach allows the study to first prioritize interpretability while retaining a robust method for managing dimensionality if it proves necessary.
+
 \subsection{Feature Pipelines}
 These diagrams illustrate the flow of data from its raw form through the parallel feature engineering pipelines to the final aggregated user vector. 
 
