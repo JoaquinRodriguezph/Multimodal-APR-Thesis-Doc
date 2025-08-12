@@ -139,7 +139,7 @@ All of these post-level aesthetic features are then aggregated to the user level
 This pipeline processes all textual captions from a user's posts to extract linguistic and semantic features.
 
 \subsubsection{Contextual Embeddings from TF-IDF}
-To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model will be used to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the model will produce a dense vector that represents the contextualized meaning of their language, estimated to be roughly 5000 dimensions, but may change depending on the number of unique words that appear.
+To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model will be used to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the TF-IDF model will produce a sparse feature vector. The dimensionality of this vector will be equal to the vocabulary size of the training corpus. Based on the full PagkataoKo Instagram subset, which contains 92,030 unique tokens, the final dimension will be a substantial subset of this size.
 
 
 TF-IDF is a feature selection model that "measures how often a word was used by a given personality type as compared to all the personality type" It is best used in "informal text data" as it takes into account the whole body of text when measuring the frequency of the word given the personality type \citep{Pradhan_Bhansali_Chandnani_Pangaonkar_2020}.
@@ -195,7 +195,7 @@ Features are extracted from each image via three parallel processes: High-Level 
 	\label{fig:text_pipeline_diagram}
 \end{figure}
 
-A user's entire caption corpus is processed through two parallel paths to extract lexical features (TF-IDF) and semantic embeddings (Word2Vec). These are aggregated to the user level and concatenated. The final output is a user-level text vector with an estimated dimensionality of approximately 5,300 (\textasciitilde5,000 from TF-IDF + 300 from Word2Vec).
+A user's entire caption corpus is processed through two parallel paths to extract lexical features (TF-IDF) and semantic embeddings (Word2Vec). These are aggregated to the user level and concatenated. TThe final output is a user-level text vector. Its dimensionality will be the sum of the Word2Vec dimension (300) and the training set's vocabulary size (V) from TF-IDF, 
 
 
 \begin{figure}[H]
@@ -206,7 +206,7 @@ A user's entire caption corpus is processed through two parallel paths to extrac
 	\label{fig:fusion_diagram}
 \end{figure}
 
-The outputs from the individual modality pipelines—the Image Vector (Est. Dim: \textasciitilde2,269), Text Vector (Est. Dim: \textasciitilde5,300), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector with a total estimated dimensionality of around 7,571, which serves as the input for the machine learning models.
+The outputs from the individual modality pipelines—the Image Vector (Est. Dim: \textasciitilde2,269), Text Vector (Est. Dim: \textasciitilde5,300), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector which serves as the input for the machine learning models.
 
 \section{Feature Selection}
 Following feature extraction, a feature selection step will be implemented to identify relevant predictors. The approach will vary based on the feature type.
