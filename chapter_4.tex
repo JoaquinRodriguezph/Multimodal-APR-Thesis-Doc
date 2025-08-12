@@ -139,7 +139,7 @@ All of these post-level aesthetic features are then aggregated to the user level
 This pipeline processes all textual captions from a user's posts to extract linguistic and semantic features.
 
 \subsubsection{Contextual Embeddings from TF-IDF}
-To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model will be used to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the model will produce an estimate of dense, 768-dimension vector that represents the contextualized meaning of their language.
+To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model will be used to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the model will produce a vector with around 5000 dimensions, representing the contextualized meaning of their language.
 
 TF-IDF is a feature selection model that "measures how often a word was used by a given personality type as compared to all the personality type" It is best used in "informal text data" as it takes into account the whole body of text when measuring the frequency of the word given the personality type \citep{Pradhan_Bhansali_Chandnani_Pangaonkar_2020}.
 
