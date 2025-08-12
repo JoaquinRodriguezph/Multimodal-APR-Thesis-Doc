@@ -139,7 +139,8 @@ All of these post-level aesthetic features are then aggregated to the user level
 This pipeline processes all textual captions from a user's posts to extract linguistic and semantic features.
 
 \subsubsection{Contextual Embeddings from TF-IDF}
-To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model will be used to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the model will produce an estimate of dense, 768-dimension vector that represents the contextualized meaning of their language.
+To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model will be used to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the model will produce a dense vector that represents the contextualized meaning of their language, estimated to be roughly 5000 dimensions, but may change depending on the number of unique words that appear.
+
 
 TF-IDF is a feature selection model that "measures how often a word was used by a given personality type as compared to all the personality type" It is best used in "informal text data" as it takes into account the whole body of text when measuring the frequency of the word given the personality type \citep{Pradhan_Bhansali_Chandnani_Pangaonkar_2020}.
 
@@ -148,9 +149,12 @@ While traditional methods like TF-IDF capture lexical importance, they fail to u
 \end{comment}
 
 \subsubsection{Word Embedding Representation}
-As a complementary feature to the contextual embeddings from TF-IDF, pre-trained \textbf{Word2Vec} word embeddings will also be used to capture a static, non-contextual representation of semantic meaning \citep{grave2018}. For each user, the embeddings for all words in their captions will be combined by computing the mean of the vectors (average pooling). This results in a single, dense vector for each user that represents the aggregate meaning of their posts.
+As a complementary feature to the contextual embeddings from TF-IDF, pre-trained \textbf{Word2Vec} word embeddings will also be used to capture a static, non-contextual representation of semantic meaning \citep{Mikolov_Sutskever_Chen_Corrado_Dean_2013}. For each user, the embeddings for all words in their captions will be combined by computing the mean of the vectors (average pooling). This results in a single, dense vector for each user that represents the aggregate meaning of their posts.
 
-FastText provides a different, non-contextual semantic perspective that complements BERT's contextual understanding. More importantly, FastText's primary advantage over other static embedding models like Word2Vec or GloVe is its use of \textbf{subword information}. It learns vectors for character n-grams, allowing it to construct a reasonable vector for out-of-vocabulary (OOV) words. This is critically important for this study, as the dataset contains informal language, slang, typos, and morphologically rich Tagalog words that would likely be unknown to other models. This robustness is further supported by the authors of the PagkataoKo dataset, who noted that these specific pre-trained FastText vectors provide good coverage for the dataset's English and Tagalog words \citep{tighe_acorda_2022}.
+Word2Vec learns dense vector representations of words, capturing semantic and syntactic meanings based on training on large text corpora. It provides accurate representations at lower computational costs with simpler architecture, which is ideal for larger datasets such as the one we plan to work with.  \citep{Ma_Zhang_2015}. It can model “linguistic regularities and patterns” \citep{Mikolov_Sutskever_Chen_Corrado_Dean_2013}, which is useful for the study as the dataset to be used contains informal language, slang, typos, and morphologically rich Tagalog words. 
+
+The pre-trained model to be used is from \citet{velasco2021filwembs} that contains “texts from Tagalog Wikipedia, news articles, and tweets.” Its data source comes from \citet{Cruz_Cheng_2019}’s \textit{WikiText-TL-39}, \citet{Cruz_Resabal_Lin_Velasco_Cheng_2021}’s \textit{NewsPH-NLI}, and an unpublished Twitter dataset. Preprocessing techniques, such as “removing quotes and its contents” \citet{velasco2021filwembs}, are done before proceeding to perform word embedding.
+
 
 \subsection{Metadata Modality Pipeline}
 Behavioral signals are extracted from user account metadata. As noted in the PagkataoKo dataset paper, the Instagram subset provides two key account-level metrics: the total number of posts a user has made (\texttt{PostCount}) and the number of other accounts they follow (\texttt{FollowingCount}) \citep{tighe_acorda_2022}.
