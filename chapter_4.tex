@@ -175,7 +175,7 @@ All of these post-level aesthetic features are then aggregated to the user level
 This pipeline processes all textual captions from a user's posts to extract linguistic and semantic features.
 
 \subsubsection{Contextual Embeddings from TF-IDF}
-To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model will be used to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the TF-IDF model will produce a sparse feature vector. The dimensionality of this vector will be equal to the vocabulary size of the training corpus. Based on the full PagkataoKo Instagram subset, which contains 92,030 unique tokens, the final dimension will be a substantial subset of this size.
+To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the TF-IDF model will produce a sparse feature vector. The dimensionality of this vector will be equal to the vocabulary size of the training corpus. Based on the full PagkataoKo Instagram subset, which contains 92,030 unique tokens, the final dimension will be a substantial subset of this size.
 
 
 
@@ -241,7 +241,7 @@ A user's entire caption corpus is processed through two parallel paths to extrac
 	\label{fig:fusion_diagram}
 \end{figure}
 
-The outputs from the individual modality pipelines—the Image Vector (Est. Dim: \textasciitilde2,269), Text Vector (Est. Dim: \textasciitilde5,300), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector which serves as the input for the machine learning models.
+The outputs from the individual modality pipelines—the Image Vector (Est. Dim: \textasciitilde2,269), Text Vector (Est. Dim: \textasciitilde V (Vocabulary Size)), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector which serves as the input for the machine learning models.
 
 \section{Feature Selection}
 Following feature extraction, a feature selection step will be implemented to identify relevant predictors. The approach will vary based on the feature type.
