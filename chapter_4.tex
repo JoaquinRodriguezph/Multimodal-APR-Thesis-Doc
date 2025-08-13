@@ -15,12 +15,49 @@ This chapter outlines the research method designed to create and assess a multim
 This research is grounded in the Instagram subset of the PagkataoKo dataset, a comprehensive resource specifically curated for Filipino APR studies \citep{tighe_acorda_2022}. The dataset's inclusion of user-generated content (posts and images), demographic information, and self-reported Big Five personality scores makes it an ideal foundation for this supervised machine learning investigation. The original Instagram subset contains data from 1,380 participants who provided access to their accounts, totaling 195,757 posts.
 
 \subsection{Data Collection Methodology}
-The data was gathered between the first week of June 2019 and the second week of February 2020 through a purpose-built web application. This tool streamlined the collection process by first presenting participants with a consent form and study directions. Upon granting consent, participants authorized the application to access their social media data via the official Instagram Legacy API. The application then collected post data (captions and image links) and account metadata. Following this automated collection, participants completed a demographic questionnaire and the 44-item Big Five Inventory (BFI-44) to assess their personality traits \citep{tighe_acorda_2022}.
+The data was gathered between the first week of June 2019 and the second week of February 2020 through a purpose-built web application. This tool streamlined the collection process by first presenting participants with a consent form and study directions. Upon granting consent, participants chose whether to authorize the application to access their social media data from Instagram only, Twitter only, or both. Following this automated collection, participants completed a demographic questionnaire and the 44-item Big Five Inventory (BFI-44) to assess their personality traits.
+
+The application used the official Instagram Legacy API and Twitter API v1. For Instagram, the application collected post data (captions and image links) of as many posts as the API would return, a link to the profile picture, and account metadata. Only links to images were collected to reduce strain on the application. If a post contained multiple photos, only the link to the first photo was collected. Posts that contained videos were discarded. Due to the observed behavior of image URLs changing over time, the images of collected links were downloaded at the end of each day of collection to avoid losing access \citep{tighe_acorda_2022}. 
 
 \subsection{Participant Sampling and Filtering}
 A mixed sampling strategy was employed to recruit participants. The initial phase utilized convenience and snowball sampling, where information about the study was disseminated within the researchers' immediate networks. To reach a broader Filipino audience, this was followed by a series of targeted online advertisement campaigns on Facebook, Instagram, and Twitter.
 
 From an initial pool of 3,186 participants, a filtering process was applied to ensure relevance to the Filipino context. Only individuals who identified their nationality as either "Filipino" or "mixed-Filipino" were retained, resulting in a final cohort of 3,128 individuals whose data comprises the full PagkataoKo dataset \citep{tighe_acorda_2022}.
+
+
+\subsection{Data Characteristics}
+This study is only concerned with the Instagram portion of the dataset, which comprises 44.1\% of the data or 1,380 respondents who authorized access to their accounts. The posts collected were made over a 10-year period prior to the data collection (2010-2020) \citep{tighe_acorda_2022}. Detailed numerical characteristics of this subset can be seen in Table~\ref{tab:pagkataoko_data_characteristics}. Further details such as participant demographics and language use are discussed in Section~\ref{subsec:eda}.
+
+\begin{table}[h!]
+\centering
+\caption{Data characteristics of user-generated and account-related data across the Instagram subset of the PagkataoKo dataset}
+\label{tab:pagkataoko_data_characteristics}
+\begin{tabular}{@{}llr@{}}
+\toprule
+\textbf{Data} & \textbf{Statistics} & \textbf{Count} \\ 
+\midrule
+    {Collected Posts} & Total & 195,757 \\
+    & Average & 141.85 \\
+    & SD & 224.00 \\
+    & Min / Max & 0 / 1,902 \\
+    & \# w/ Caption & 178,650 \\
+    & \# w/ Image & 162,500 \\
+\midrule
+    {Acct. Recorded Posts} & Average & 146.60 \\
+    & SD & 267.99 \\
+    & Min / Max & 0 / 5,680 \\
+\midrule
+    {Following Count} & Average & 470.39 \\
+    & SD & 442.85 \\
+    & Min / Max & 0 / 6,338 \\
+\midrule
+Profile Pictures & Total & 1,030 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{\linewidth}
+\small\textit{Note.} Adapted from \textit{Data characteristics of user-generated and account-related data across three participant subsets (Table 3)} \citep{tighe_acorda_2022}.
+\end{minipage}
+\end{table}
 
 
 \subsection{Personality Score Transformation to Labels}
@@ -59,7 +96,7 @@ Before feature extraction, we will conduct exploratory data analysis (EDA) to un
 
 The demographic distribution of the final 1,300-user subset, as derived from the PagkataoKo dataset paper, is summarized in Table 4.1. The data shows a user base that is predominantly young (49.3\% aged 18-20) and female (78.0\%).
 
-As detailed by \citet{tighe_acorda_2022}, the language of each post was determined using a majority vote between two language identifiers (Polyglot and FastText).Posts where the identifiers agreed were labeled as either 'English' (75.6\%) or 'Tagalog' (4.3\%). Posts where the identifiers did not agree were assigned a 'Conflict' label (19.4\%), a category understood to primarily represent posts containing code-switching or other forms of mixed-language use.For the purposes of this study, these labels are referred to as English-dominant, Tagalog-dominant, and code-switched, respectively.
+As detailed by \citet{tighe_acorda_2022}, the language of each post was determined using a majority vote between two language identifiers (Polyglot and FastText).Posts where the identifiers agreed were labeled as either 'English' (75.6\%) or 'Tagalog' (4.3\%). Posts where the identifiers did not agree were assigned a 'Conflict' label (19.4\%), a category understood to primarily represent posts containing code-switching or other forms of mixed-language use.
 
 \begin{table}[h]
 	\centering
@@ -75,8 +112,8 @@ As detailed by \citet{tighe_acorda_2022}, the language of each post was determin
 		\textbf{Sex} & Female & 78.0\% \\
 		& Male & 20.0\% \\
 		& Intersex/ Declined & 2.0\% \\ \hline
-		\textbf{Language} & English-dominant & 75.6\% \\
-		& Tagalog-dominant & 4.3\% \\
+		\textbf{Language} & English & 75.6\% \\
+		& Tagalog & 4.3\% \\
 		& Code-switched & 19.4\% \\ \hline
 	\end{tabular}
 \end{table}
@@ -127,8 +164,7 @@ Furthermore, the use of Imagga is also for feasibility due to the Imagga JSON ta
 \subsubsection{Low-Level Photo Characteristics Analysis}
 To capture the aesthetic qualities of images, a set of low-level features is extracted.
 
-
-For each image, color features are derived using the HSV (Hue, Saturation, Value) color space. 
+For each image, color features are derived using the HSV (Hue, Saturation, Value) color space. The inclusion of these features is based on the works of \citet{ferwerda2016} and \citet{Ferwerda2018}, whose studies are very similar to ours in that they conducted APR using Instagram photos and were able to find some correlations between some of these features and Big Five personality traits. These features are also found in the work of \citet{Branz2020}, who also tackled Instagram photo-based APR. 
 
 \begin{itemize} \item \textbf{Hue-related Features:} The range of the Hue (H) parameter is divided into six intervals corresponding to the primary hues: red, orange, yellow, green, blue, and violet. For each hue, the share of the image surface it covers is calculated by dividing the number of pixels in that hue's interval by the total number of pixels. Furthermore, these are merged into composite features representing the share of \textit{warm colors} (red, orange, yellow) and \textit{cold colors} (green, blue, violet). \item \textbf{Saturation-related Features:} For each image, the mean saturation and saturation variance are calculated. The saturation axis is also divided into three equally spaced intervals (low, mid, high), and the share of pixels falling into each interval is computed. These features quantify whether an image's colors are bleak and colorless (low saturation), vivid (high saturation), or a mix of both (high variance). \item \textbf{Value-related Features:} The mean and variance of the Value (V) parameter are calculated across all pixels to represent how light or dark an image is and its level of contrast, respectively. Similar to saturation, the value axis is divided into three intervals (low, mid, high), and the share of pixels in each is calculated to quantify the presence of dark and light areas. \item \textbf{Pleasure-Arousal-Dominance (PAD) Features:} To model the emotional expression conveyed by an image's color properties, the PAD model by \citet{Valdez1994} is adopted. This model computes three composite features as a linear combination of the average Value (V) and Saturation (S) levels: \begin{itemize} \item Pleasure = $0.69 \times V + 0.22 \times S$ \item Arousal = $-0.31 \times V + 0.60 \times S$ \item Dominance = $-0.76 \times V + 0.32 \times S$ \end{itemize} \end{itemize} 
 
