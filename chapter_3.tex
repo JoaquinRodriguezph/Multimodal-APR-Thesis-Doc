@@ -54,7 +54,7 @@ Multimodal learning integrates heterogeneous features from text and images to im
 	\item \textbf{Late Fusion:} Decision level integration, where separate models are trained per modality, and their outputs are combined for final prediction.
 \end{itemize}
 
-Following \citet{liu2022} and \citet{kampman2018}, this research adopts an early fusion mechanism that dynamically adjusts the contribution of each modality based on the target personality trait, recognizing that certain traits (e.g., Openness) may be more visually encoded, while others (e.g., Neuroticism) are better captured through language.
+Following \citet{liu2022} and \citet{kampman2018},where feature vectors from all modalities are concatenated into a single, unified vector. This approach is based on the rationale that certain traits (e.g., Openness) may be more visually encoded, while others (e.g., Neuroticism) are better captured through language, and allows the model to learn from all available cues.
 
 \section{Machine Learning Theory}
 
