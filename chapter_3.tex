@@ -13,21 +13,21 @@ This chapter presents the theoretical foundations that inform the development of
 
 \section{Text Processing Theory}
 
-Textual data from Instagram captions provides valuable linguistic cues for personality inference. This study employs the \textit{Vector Space Model} \citep{salton1975}, where text is represented as weighted feature vectors using the Term Frequency Inverse Document Frequency (TF-IDF) scheme. TF-IDF reflects the importance of words within individual captions while down weighting common terms across the corpus, enhancing the model's ability to capture personality relevant language patterns.
+Textual data from Instagram captions provides valuable linguistic cues for personality inference. This study employs the \textit{Vector Space Model} \citep{salton1975}, where text is represented as weighted feature vectors using the Term Frequency Inverse Document Frequency (TF-IDF) scheme. TF-IDF reflects the importance of words within individual captions while downweighting common terms across the corpus, enhancing the model's ability to capture personality-relevant language patterns.
 
 
-TF-IDF is a feature selection model that "measures how often a word was used by a given personality type as compared to all the personality type" It is best used in "informal text data" as it takes into account the whole body of text when measuring the frequency of the word given the personality type. \citep{Pradhan_Bhansali_Chandnani_Pangaonkar_2020}.
+TF-IDF is a feature selection model that "measures how often a word was used by a given personality type as compared to all the personality types." It is best used in "informal text data" as it takes into account the whole body of text when measuring the frequency of the word given the personality type. \citep{Pradhan_Bhansali_Chandnani_Pangaonkar_2020}.
 
 Beyond sparse TF-IDF vectors, word embeddings such as Word2Vec or contextual models like BERT offer dense semantic representations that capture nuanced word relationships. These embeddings complement TF-IDF by providing richer contextual information, essential for modeling bilingual and informal language prevalent among Filipino social media users.
 
-Word2Vec learns dense vector representations of words, capturing semantic and syntactic meanings based on training on large text corpora. It provides accurate representations at lower computational costs with simpler architecture, which is ideal for larger datasets such as the one we plan to work with.  \citep{Ma_Zhang_2015}. It can model “linguistic regularities and patterns” \citep{Mikolov_Sutskever_Chen_Corrado_Dean_2013}, which is useful for the study as the dataset to be used contains informal language, slang, typos, and morphologically rich Tagalog words. 
+Word2Vec learns dense vector representations of words, capturing semantic and syntactic meanings based on training on large text corpora. It provides accurate representations at lower computational costs with a simpler architecture, which is ideal for larger datasets such as the one we worked with.  \citep{Ma_Zhang_2015}. It can model “linguistic regularities and patterns” \citep{Mikolov_Sutskever_Chen_Corrado_Dean_2013}, which is useful for the study, as the dataset that was used contains informal language, slang, typos, and morphologically rich Tagalog words. 
 
 
 \section{Image Processing Theory}
 
-Instagram's visual content necessitates effective image processing techniques to extract personality related features. Standard preprocessing steps include resizing and normalization to ensure uniformity across image inputs. Feature extraction leverages deep Convolutional Neural Networks (CNNs), specifically the ResNET50 architecture, which is recognized for its high accuracy on benchmark datasets and its ability to learn complex representations by training deeper networks without suffering from the vanishing gradient problem \citep{he2015}.
+Instagram's visual content necessitates effective image processing techniques to extract personality-related features. Standard preprocessing steps include resizing and normalization to ensure uniformity across image inputs. Feature extraction leverages deep Convolutional Neural Networks (CNNs), specifically the ResNET50 architecture, which is recognized for its high accuracy on benchmark datasets and its ability to learn complex representations by training deeper networks without suffering from the vanishing gradient problem \citep{he2015}.
 
-Extracted image features encompass both low level characteristics (e.g., color, brightness) and high level semantic content (e.g., objects, scenes) known to correlate with personality traits, as supported by prior research.
+Extracted image features encompass both low-level characteristics (e.g., color, brightness) and high-level semantic content (e.g., objects, scenes) known to correlate with personality traits, as supported by prior research.
 
 \section{Statistical Evaluation Theory}
 To assess the significance and strength of observed relationships in the data, this study employs statistical tests suited for categorical variables.
@@ -39,7 +39,7 @@ When calculating Chi-squared, data is thought of as being in table format. The \
 $$E = \frac{ \text{M}_R  \times  \text{M}_C }{\text{n}}$$
 $\text{M}_R$ refers to the \textit{row marginal} of the cell, which means the sum of all values in that row. Likewise, $\text{M}_C$ refers to the \textit{column marginal} of the cell, which is the sum of all values in the column. $n$ refers to the total sample size. At this point, some interpretations can be made. Cell $\chi^2$ values below 1.0 mean that the expected value is roughly equal to the observed value. Higher values mean that the observed values are more or less than expected.
 
-Once all $\chi^2$ value are obtained, they will be summed to get the final $\chi^2$ value for the whole table. In order to determine the significance of this statistic, the \textit{degrees of freedom} is calculated using this formula:
+Once all $\chi^2$ values are obtained, they will be summed to get the final $\chi^2$ value for the whole table. In order to determine the significance of this statistic, the \textit{degrees of freedom} is calculated using this formula:
 $$df = (Number of rows - 1)(Number of columns - 1)$$
 With both the $\chi^2$ value and \textit{degrees of freedom}, the \textit{Chi-square table of significances} is referred to in order to obtain the \textit{significance level} of the value. If $P < 0.05$, it can be concluded that the groups are significantly different. For further interpretation, the most common test used to assess the strength of this significance and correlation is the \textit{Cramer’s V test}, calculated with this formula:
 $$V = \sqrt{ \frac{ \chi^2 }{ n(k - 1) } }$$
@@ -50,11 +50,11 @@ In this, $k$ refers to the smaller value between $(Number of rows - 1)$ and $(Nu
 Multimodal learning integrates heterogeneous features from text and images to improve personality prediction accuracy. Two primary fusion strategies are considered:
 
 \begin{itemize}
-	\item \textbf{Early Fusion:} Feature level integration, where extracted features from each modality are concatenated into a unified vector prior to model training.
+	\item \textbf{Early Fusion:} Feature-level integration, where extracted features from each modality are concatenated into a unified vector prior to model training.
 	\item \textbf{Late Fusion:} Decision level integration, where separate models are trained per modality, and their outputs are combined for final prediction.
 \end{itemize}
 
-Following \citet{liu2022} and \citet{kampman2018},where feature vectors from all modalities are concatenated into a single, unified vector. This approach is based on the rationale that certain traits (e.g., Openness) may be more visually encoded, while others (e.g., Neuroticism) are better captured through language, and allows the model to learn from all available cues.
+Following \citet{liu2022} and \citet{kampman2018}, where feature vectors from all modalities are concatenated into a single, unified vector. This approach is based on the rationale that certain traits (e.g., Openness) may be more visually encoded, while others (e.g., Neuroticism) are better captured through language, and allows the model to learn from all available cues.
 
 \section{Machine Learning Theory}
 
@@ -73,18 +73,18 @@ subject to the constraints $y_i(\mathbf{w} \cdot \mathbf{x}_i - b) \geq 1 - \xi_
 \subsection{Extreme Gradient Boosting (XGBoost)}
 \textbf{Extreme Gradient Boosting (XGBoost)} is a powerful tree-based ensemble method. It builds a series of decision trees sequentially, where each new tree corrects the errors of the previous ones. The final prediction is an aggregate of the predictions from all trees. The objective function that XGBoost minimizes combines a loss function and a regularization term:
 $$\text{Obj} = \sum_{i=1}^{n} l(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)$$
-where $l(y_i, \hat{y}_i)$ is the loss function that measures the error between the true label $y_i$ and the prediction $\hat{y}_i$, and $\Omega(f_k)$ is the regularization term that penalizes the complexity of the $k$-th tree to prevent overfitting.
+where $l(y_i, \hat{y}_i)$ is the loss function that measures the error between the true label $y_i$, and the prediction $\hat{y}_i$, and $\Omega(f_k)$ is the regularization term that penalizes the complexity of the $k$-th tree to prevent overfitting.
 
-\section{Model Interpretability Theory}
-\label{sec:interpretability_theory}
-To ensure the transparency and trustworthiness of the predictive models, this study will employ a state-of-the-art model explanation framework.
+% \section{Model Interpretability Theory}
+% \label{sec:interpretability_theory}
+% To ensure the transparency and trustworthiness of the predictive models, this study will employ a state-of-the-art model explanation framework.
 
-\subsection{SHAP (SHapley Additive exPlanations)}
-SHAP is a game-theoretic approach used to explain the output of any machine learning model. It computes the contribution of each feature to a specific prediction. The core of SHAP is the additive feature attribution model, which represents an explanation as a linear function of binary variables:
-$$g(z') = \phi_0 + \sum_{j=1}^{M} \phi_j z'_j$$
-In this model, $g(z')$ is the explanation model that approximates the original model's output, $z' \in \{0, 1\}^M$ indicates the presence or absence of a feature, $M$ is the number of features, $\phi_0$ is the base value (the average prediction over the dataset), and $\phi_j$ is the \textbf{SHAP value} for feature $j$. This value represents the feature's contribution to pushing the model's output away from the base value.
+% \subsection{SHAP (SHapley Additive exPlanations)}
+% SHAP is a game-theoretic approach used to explain the output of any machine learning model. It computes the contribution of each feature to a specific prediction. The core of SHAP is the additive feature attribution model, which represents an explanation as a linear function of binary variables:
+% $$g(z') = \phi_0 + \sum_{j=1}^{M} \phi_j z'_j$$
+% In this model, $g(z')$ is the explanation model that approximates the original model's output, $z' \in \{0, 1\}^M$ indicates the presence or absence of a feature, $M$ is the number of features, $\phi_0$ is the base value (the average prediction over the dataset), and $\phi_j$ is the \textbf{SHAP value} for feature $j$. This value represents the feature's contribution to pushing the model's output away from the base value.
 
-A positive SHAP value for a feature indicates that the feature contributed to increasing the model's prediction, while a negative value indicates that it contributed to decreasing the prediction. The magnitude of the SHAP value indicates the strength of the feature’s impact.
+% A positive SHAP value for a feature indicates that the feature contributed to increasing the model's prediction, while a negative value indicates that it contributed to decreasing the prediction. The magnitude of the SHAP value indicates the strength of the feature’s impact.
 
 \section{Personality Theory}
 
@@ -96,14 +96,14 @@ This research operationalizes personality using the \textit{Big Five Personality
 	\item \textbf{Agreeableness:} \\
  	This trait describes a person’s willingness to cooperate and compromise with others, or the ease with which they co-exist with other people. High-scoring individuals are seen as more accommodating, empathetic, and passive, while low scorers may appear argumentative and confrontational. 
 	\item \textbf{Conscientiousness:} \\
-	This trait describes the care and meticulousness put into one’s activities, relating to traits such as self-discipline and attention to detail.. High-scoring individuals tend to be organized and efficient, while low scorers may appear disorderly but more easygoing and spontaneous.
+	This trait describes the care and meticulousness put into one’s activities, relating to traits such as self-discipline and attention to detail. High-scoring individuals tend to be organized and efficient, while low scorers may appear disorderly but more easygoing and spontaneous.
 	\item \textbf{Neuroticism:} \\
 	This trait describes a person’s tendency towards negative emotions and their emotional vulnerability to unfavorable scenarios. High-scoring individuals tend to be reactive and nervous, with their mental state being more easily influenced, while low scorers are emotionally stable, confident, and secure.
 	\item \textbf{Openness to Experience:} \\
 	This trait describes a person’s willingness to subject themselves to new, unfamiliar experiences and situations, and is also related to creativity. High-scoring individuals are curious, open-minded, and more open to trying new things, while low scorers are more cautious, preferring consistency and familiarity. 
 \end{enumerate}
 
-These five factors are considered statistically independent, meaning that a high or low score in one trait does not predict scores in the others \citep{babcock2020big}. There are numerous existing questionnaires that are used to assess these traits, such as the Big Five Inventory (BFI), the various versions of the NEO Personality Inventory, and the Big-Five Factor Markers. Research has also shown that these traits generally remain stable and consistent throughout adulthood \citep{babcock2020big}. However, there is an acknowledgement that while these five traits encompass a large area of personality, it does not claim to capture all aspects \citep{babcock2020big}. For instance, an alternative personality model, the HEXACO model, was developed based on the Big Five. It names a sixth dimension: Honesty-Humility, which was obtained by applying the lexical approach to multiple languages around the world. It also defines the base five traits slightly differently than the Big Five does \citep{feher2021looking}. Furthermore, it should be noted that the Big Five model was developed in a Western context, meaning that personality nuances of non-Western cultures may not be adequately captured with this model \citep{feher2021looking}.
+These five factors are considered statistically independent, meaning that a high or low score in one trait does not predict scores in the others \citep{babcock2020big}. There are numerous existing questionnaires used to assess these traits, such as the Big Five Inventory (BFI), various versions of the NEO Personality Inventory, and the Big-Five Factor Markers. Research has also shown that these traits generally remain stable and consistent throughout adulthood \citep{babcock2020big}. However, there is an acknowledgement that while these five traits encompass a large area of personality, they do not claim to capture all aspects \citep{babcock2020big}. For instance, an alternative personality model, the HEXACO model, was developed based on the Big Five. It names a sixth dimension: Honesty-Humility, which was obtained by applying the lexical approach to multiple languages around the world. It also defines the base five traits slightly differently than the Big Five does \citep{feher2021looking}. Furthermore, it should be noted that the Big Five model was developed in a Western context, meaning that personality nuances of non-Western cultures may not be adequately captured with this model \citep{feher2021looking}.
 
 \section{Dimensionality Reduction Theory}
 \label{sec:theory_pca}
