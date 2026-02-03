@@ -1,7 +1,7 @@
 \chapter{Methodology}
 \label{sec:methodology}
 
-This chapter outlined the research method designed to create and assess a multimodal Automatic Personality Recognition (APR) framework for Filipino Instagram users. This framework addressed the specific language and cultural challenges found in the dataset, including code switching and unique patterns of visual self-expression. The process started with preprocessing, followed by exploratory data analysis and feature extraction from text, images, and metadata. It also included an early combination of these features. Finally, machine learning models were trained and thoroughly evaluated to determine how well they performed in predicting users’ personality traits.
+This chapter outlines the research method designed to create and assess a multimodal Automatic Personality Recognition (APR) framework for Filipino Instagram users. This framework addresses the specific language and cultural challenges found in the dataset, including code switching and unique patterns of visual self-expression. The process started with preprocessing, followed by exploratory data analysis and feature extraction from text, images, and metadata. It also included an early combination of these features. Finally, machine learning models were trained and thoroughly evaluated to determine how well they performed in predicting users’ personality traits.
 
 \begin{figure}[H]
 	\centering
@@ -61,9 +61,9 @@ Profile Pictures & Total & 1,030 \\
 
 
 \subsection{Personality Score Transformation to Labels}
-n its raw form, the PagkataoKo dataset provided personality scores as continuous numerical values ranging from 1.0 to 5.0 for each of the Big Five traits. Since this study framed personality recognition as a classification task, these continuous scores were transformed into discrete labels.
+In its raw form, the PagkataoKo dataset provides personality scores as continuous numerical values ranging from 1.0 to 5.0 for each of the Big Five traits. Since this study framed personality recognition as a classification task, these continuous scores were transformed into discrete labels.
 
-To achieve this, a \textbf{median split} was performed independently for each of the five personality traits. This choice was informed by the findings of Aviles et al. (2023), who explored eight different discretization methods on Filipino social media data. Their study found that while methods that removed a large number of participants (such as LHNASD, which removed 70\% of the data) achieved the highest performance, the LH Median method provided the best balance between performance and data retention. Specifically, the LH Median method achieved the second-highest average Kappa score while only removing a small fraction of participants (approximately 6\%) whose scores fell exactly on the median \citep{aviles2023}. Given this trade-off, the median split was selected as a robust and practical approach that preserved the vast majority of the dataset while still creating distinct high and low classes for the models.
+To achieve this, a \textbf{median split} was performed independently for each of the five personality traits. This choice was informed by the findings of \citet{aviles2023}, who explored eight different discretization methods on Filipino social media data. Their study found that while methods that removed a large number of participants (such as LHNASD, which removed 70\% of the data) achieved the highest performance, the LH Median method provided the best balance between performance and data retention. Specifically, the LH Median method achieved the second-highest average Kappa score while only removing a small fraction of participants (approximately 6\%) whose scores fell exactly on the median \citep{aviles2023}. Given this trade-off, the median split was selected as a robust and practical approach that preserved the vast majority of the dataset while still creating distinct high and low classes for the models.
 
 For a given trait (e.g., Openness), users with a score above the median value for that trait were assigned the High label (e.g., High-Openness), while users with scores at or below the median were assigned the Low label (e.g., Low-Openness). This process resulted in five separate binary labeling schemes, one for each personality dimension—which served as the target variables for the classification models.
 
@@ -77,16 +77,19 @@ For a given trait (e.g., Openness), users with a score above the median value fo
 
 
 \subsection{Data Splitting}
-For model training and evaluation, the dataset was divided using a user-level stratified split: \textbf{70\%} for training, \textbf{15\%} for validation, and \textbf{15\%} for testing. To ensure that the proportion of High and Low labels for each personality trait remained consistent across these sets, the split was stratified based on the generated personality labels. This approach helped prevent model bias and ensured that the models were trained and evaluated on representative distributions of each personality class.
+For model training and evaluation, the dataset was divided using a user-level stratified split: \textbf{70\%} for training, \textbf{15\%} for validation, and \textbf{15\%} for testing. A user-level split was used to ensure that data of users remains completely "unseen" prior to validation or testing. To ensure that the proportion of High and Low labels for each personality trait remained consistent across these sets, the split was stratified based on the generated personality labels. This approach helped prevent model bias and ensured that the models were trained and evaluated on representative distributions of each personality class.
 
 \section{Preprocessing}
 This stage cleaned and organized the raw data to make it suitable for feature extraction. The main task was \textbf{user-level aggregation}, in which all posts, images, and metadata for a single user were collected into a single behavioral profile. 
 
 \subsection{Image Preprocessing}
-All images went through preprocessing to prepare them for the \textbf{ResNet50} model. Each image was resized to 224×224 pixels to match the model’s required input size. Corrupted image files were also checked, and any posts with unreadable images were flagged and excluded from the image-based feature extraction process.
+A maximum of 300 of a user's most recent images were collected for use in the study due to resource constraints. All collected images then went through preprocessing to prepare them for the \textbf{ResNet50} model. Each image was resized to 224×224 pixels to match the model’s required input size. Corrupted image files were also checked, and any posts with unreadable images were flagged and excluded from the image-based feature extraction process.
 
 \subsection{Text Preprocessing}
-A basic text cleaning method was used to preserve as much of the original content as possible, including multilingual text. The process involved breaking down the raw caption text into tokens and replacing elements such as URLs and user mentions with generic tokens (e.g., URL, USER) rather than removing them completely. This approach preserved the context of where a link or mention appeared. All languages were retained in the text.
+A basic text cleaning method was used to preserve as much of the original content as possible, including multilingual text. The process involved breaking down the raw caption text into tokens and replacing elements such as URLs and user mentions with generic tokens (e.g., URL, USER) rather than removing them completely. This approach preserved the context of where a link or mention appeared. All languages were retained in the text. Furthermore, all captions of a single user are aggregated into a single vector using two different aggregation methods. This aggregation is further discussed in Section~\ref{subsec:wordembeddingrepresentation}.
+
+\subsection{Metadata Preprocessing}
+The two raw numerical features, PostCount and FollowingCount, are normalized using Min-Max scaling. This converts them to a consistent 0.0-1.0 range.
 
 
 \section{Exploratory Data Analysis}
@@ -125,7 +128,7 @@ This stage converted the raw, multimodal data associated with each Instagram use
 The process was divided into three parallel pipelines, one for each data modality.
 
 \subsection{Image Modality Pipeline}
-This pipeline processed all valid images from a user's profile to extract a comprehensive set of visual features. For each image, the following features were extracted in parallel before being aggregated to the user level.
+This pipeline processed all valid images from a user's profile to extract a comprehensive set of visual features. For all image features, only the 300 most recent images of a user were processed. For each image, the following features were extracted in parallel before being aggregated to the user level.
 
 \subsubsection{High-Level Semantic Features via ResNet50}
 The pre-trained \textbf{ResNet50} convolutional neural network was used as a feature extractor. For each image, a \textbf{2,048-dimensional feature vector} was extracted from the output of the final average pooling layer. This vector captured abstract visual concepts, objects, and textures.
@@ -135,11 +138,13 @@ ResNet50 was chosen because it demonstrated higher classification accuracy on be
 \subsubsection{Object and Scene Recognition via the Imagga API}
 To quantify the semantic content and social context of the images, this study leveraged the \textbf{Imagga API}, a commercial computer vision service.
 
-Imagga was a cloud-based service that provided a suite of powerful image analysis tools through a simple API. Its core functions included automated image tagging, categorization, color extraction, and content moderation, all powered by pre-trained deep learning models capable of recognizing thousands of objects, scenes, and concepts \citep{imagga_website, imagga_solutions}. The Imagga API was selected for its robust recognition capabilities, which provided a reliable method for extracting semantic features without the significant overhead of training a custom object detection model. Its structured JSON output was easily parsed and integrated into the feature engineering pipeline, making it a pragmatic and efficient choice for this research \citep{imagga_docs}.
+Imagga is a cloud-based service that provides a suite of powerful image analysis tools through a simple API. Its core functions include automated image tagging, categorization, color extraction, and content moderation, all powered by pre-trained deep learning models capable of recognizing thousands of objects, scenes, and concepts \citep{imagga_website, imagga_solutions}. The Imagga API was selected for its robust recognition capabilities, which provided a reliable method for extracting semantic features without the significant overhead of training a custom object detection model. Its structured JSON output is easily parsed and integrated into the feature engineering pipeline, making it a pragmatic and efficient choice for this research \citep{imagga_docs}.
 
-While the Imagga API’s general model was capable of recognizing over 3,000 distinct objects and concepts \citep{imagga_solutions}, creating a feature vector of this size for each user would have been computationally inefficient and resulted in a highly sparse feature space. To create a denser and more manageable feature set, a fixed-size vocabulary of the most relevant tags was established. This followed a standard approach analogous to a bag-of-words model in text processing \citep{salton1975}. A vocabulary of the top N=200 most frequent tags across the entire dataset was identified. Subsequently, for each user, a \textbf{200-dimensional feature vector} was constructed, where each dimension represented the frequency of one of these top tags appearing in that user’s posts.
+% While the Imagga API’s general model is capable of recognizing over 3,000 distinct objects and concepts \citep{imagga_solutions}, creating a feature vector of this size for each user would have been computationally inefficient and resulted in a highly sparse feature space. To create a denser and more manageable feature set, a fixed-size vocabulary of the most relevant tags was established. This followed a standard approach analogous to a bag-of-words model in text processing \citep{salton1975}. A vocabulary of the top N=200 most frequent tags across the entire dataset was identified. Subsequently, for each user, a \textbf{200-dimensional feature vector} was constructed, where each dimension represented the frequency of one of these top tags appearing in that user’s posts.
 
-The study specifically utilized the \texttt{/tags} endpoint of the Imagga API. For each image submitted, the API returned a JSON object containing a list of detected tags (e.g., “person,” “selfie,” “food,” “beach”) and a corresponding confidence score (from 0 to 100) for each tag \citep{imagga_docs}. These tags were used to construct features such as the frequency of posts containing people, selfies, or specific objects, which prior literature had linked to traits like Extraversion.
+Lemmatization was applied using a 94-term dictionary* in order to normalize variations in wording. For example, plural words such as "animals" were reduced to simply "animal". This reduced vocabulary redundancy.
+
+The study specifically utilized the \texttt{/tags} endpoint of the Imagga API. For each image submitted, the API returned a JSON object containing a list of detected tags (e.g., “person,” “selfie,” “food,” “beach”) and a corresponding confidence score (from 0 to 100) for each tag \citep{imagga_docs}. These tags were used to construct features such as the frequency of posts containing people, selfies, or specific objects, which prior literature had linked to traits like Extraversion. Preprocessing was done on tags that contained spaces, which were replaced with underscores. For example, "portrait photography" was replaced with "portrait\_photography".
 
 \begin{figure}[H]
 	\centering
@@ -159,32 +164,54 @@ The study specifically utilized the \texttt{/tags} endpoint of the Imagga API. F
 	\label{fig:imagga_json}
 \end{figure}
 
-Furthermore, the used of Imagga is also for feasibility due to the Imagga JSON tags already being a part of the PagkataoKo Dataset.
+Furthermore, the usage of Imagga is also for feasibility purposes due to the Imagga JSON tags already being a part of the PagkataoKo Dataset.
+
+
 \subsubsection{Low-Level Photo Characteristics Analysis}
 To capture the aesthetic qualities of images, a set of low-level features was extracted.
 
 For each image, color features were derived using the HSV (Hue, Saturation, Value) color space. The inclusion of these features was based on the works of \citet{ferwerda2016} and \citet{Ferwerda2018}, whose studies were similar to ours in that they conducted APR using Instagram photos and found correlations between certain features and Big Five personality traits. These features were also employed in the work of \citet{Branz2020}, who similarly focused on Instagram photo-based APR. 
 
-\begin{itemize} \item \textbf{Hue-related Features:} The range of the Hue (H) parameter is divided into six intervals corresponding to the primary hues: red, orange, yellow, green, blue, and violet. For each hue, the share of the image surface it covers is calculated by dividing the number of pixels in that hue's interval by the total number of pixels. Furthermore, these are merged into composite features representing the share of \textit{warm colors} (red, orange, yellow) and \textit{cold colors} (green, blue, violet). \item \textbf{Saturation-related Features:} For each image, the mean saturation and saturation variance are calculated. The saturation axis is also divided into three equally spaced intervals (low, mid, high), and the share of pixels falling into each interval is computed. These features quantify whether an image's colors are bleak and colorless (low saturation), vivid (high saturation), or a mix of both (high variance). \item \textbf{Value-related Features:} The mean and variance of the Value (V) parameter are calculated across all pixels to represent how light or dark an image is and its level of contrast, respectively. Similar to saturation, the value axis is divided into three intervals (low, mid, high), and the share of pixels in each is calculated to quantify the presence of dark and light areas. \item \textbf{Pleasure-Arousal-Dominance (PAD) Features:} To model the emotional expression conveyed by an image's color properties, the PAD model by \citet{Valdez1994} is adopted. This model computes three composite features as a linear combination of the average Value (V) and Saturation (S) levels: \begin{itemize} \item Pleasure = $0.69 \times V + 0.22 \times S$ \item Arousal = $-0.31 \times V + 0.60 \times S$ \item Dominance = $-0.76 \times V + 0.32 \times S$ \end{itemize} \end{itemize} 
+\begin{itemize} 
+	\item \textbf{Hue-related Features:} The range of the Hue (H) parameter is divided into six intervals corresponding to the primary hues: red, orange, yellow, green, blue, and violet. For each hue, the share of the image surface it covers is calculated by dividing the number of pixels in that hue's interval by the total number of pixels. Furthermore, these are merged into composite features representing the share of \textit{warm colors} (red, orange, yellow) and \textit{cold colors} (green, blue, violet). 
+	\item \textbf{Saturation-related Features:} For each image, the mean saturation and saturation variance are calculated. The saturation axis is also divided into three equally spaced intervals (low, mid, high), and the share of pixels falling into each interval is computed. These features quantify whether an image's colors are bleak and colorless (low saturation), vivid (high saturation), or a mix of both (high variance). 
+	\item \textbf{Value-related Features:} The mean and variance of the Value (V) parameter are calculated across all pixels to represent how light or dark an image is and its level of contrast, respectively. Similar to saturation, the value axis is divided into three intervals (low, mid, high), and the share of pixels in each is calculated to quantify the presence of dark and light areas. 
+	\item \textbf{Pleasure-Arousal-Dominance (PAD) Features:} To model the emotional expression conveyed by an image's color properties, the PAD model by \citet{Valdez1994} is adopted. This model computes three composite features as a linear combination of the average Value (V) and Saturation (S) levels: 		
+		\begin{itemize} 
+			\item Pleasure = $0.69 \times V + 0.22 \times S$ 
+			\item Arousal = $-0.31 \times V + 0.60 \times S$ 
+			\item Dominance = $-0.76 \times V + 0.32 \times S$ 
+		\end{itemize} 
+\end{itemize} 
 
 All of these post-level aesthetic features are then aggregated to the user level by calculating their average values across all of a user's images, creating a comprehensive aesthetic profile.
 
+The library \textit{cupy}* was used in order to convert image RGB data into HSV data. The library divided the hues into the six classifying colors, and divided them into warm and cool colors. The PAD values were then calculated using the converted data.
+
 
 \subsection{Text Modality Pipeline}
-This pipeline processes all textual captions from a user's posts to extract linguistic and semantic features.
+This pipeline processed all textual captions from a user's posts to extract linguistic and semantic features.
 
 \subsubsection{Contextual Embeddings from TF-IDF}
-To capture deep contextual meaning from the user's captions, this study will utilize \textbf{TF-IDF} model to generate embeddings for the text. Its training corpus includes the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the TF-IDF model will produce a sparse feature vector. The dimensionality of this vector will be equal to the vocabulary size of the training corpus. Based on the full PagkataoKo Instagram subset, which contains 92,030 unique tokens, the final dimension will be a substantial subset of this size.
-
-
-
+To capture deep contextual meaning from the user's captions, this study utilized the \textbf{TF-IDF} model to generate embeddings for the text. Its training corpus included the text captions of 178,650 Instagram posts collected in the Pagkatao dataset \citep{tighe_acorda_2022}. For each user's aggregated captions, the TF-IDF model produced a sparse feature vector. The dimensionality of this vector is equal to the vocabulary size of the training corpus. The resulting feature vector came out to be 36,398 dimensions.
 
 \begin{comment}
-While traditional methods like TF-IDF capture lexical importance, they fail to understand context, semantics, or word order. BERT (Bidirectional Encoder Representations from Transformers) models do well in natural language understanding and have been shown to significantly outperform TF-IDF in personality classification tasks. For example, a study by \citet{zhang2023} directly comparing the two approaches for MBTI personality prediction found that a fine-tuned BERT model paired with a Logistic Regression classifier achieved an average accuracy of 87.7\%, a notable improvement over the 84.3\% accuracy achieved by the same classifier using a traditional TF-IDF vectorizer \citep{zhang2023}. BERT's key advantage is its ability to generate contextual embeddings; the representation of a word changes based on the words surrounding it. Given the dataset's mix of English, Tagalog, and code-switching, a multilingual BERT model is particularly suitable, as it has been pre-trained on a corpus of over 100 languages and can effectively handle the linguistic complexity of the data \citep{devlin2018bert, cruz2022roberta}.
+%While traditional methods like TF-IDF capture lexical importance, they fail to understand context, semantics, or word order. BERT (Bidirectional Encoder Representations from Transformers) models do well in natural language understanding and have been shown to significantly outperform TF-IDF in personality classification tasks. For example, a study by \citet{zhang2023} directly comparing the two approaches for MBTI personality prediction found that a fine-tuned BERT model paired with a Logistic Regression classifier achieved an average accuracy of 87.7\%, a notable improvement over the 84.3\% accuracy achieved by the same classifier using a traditional TF-IDF vectorizer \citep{zhang2023}. BERT's key advantage is its ability to generate contextual embeddings; the representation of a word changes based on the words surrounding it. Given the dataset's mix of English, Tagalog, and code-switching, a multilingual BERT model is particularly suitable, as it has been pre-trained on a corpus of over 100 languages and can effectively handle the linguistic complexity of the data \citep{devlin2018bert, cruz2022roberta}.
 \end{comment}
 
 \subsubsection{Word Embedding Representation}
-As a complementary feature to the contextual embeddings from TF-IDF, pre-trained \textbf{Word2Vec} word embeddings were also used to capture a static, non-contextual representation of semantic meaning \citep{Mikolov_Sutskever_Chen_Corrado_Dean_2013}. For each user, the embeddings for all words in their captions were combined by computing the mean of the vectors (average pooling). This resulted in a single, dense vector for each user that represented the aggregate meaning of their posts.
+\label{subsec:wordembeddingrepresentation}
+As a complementary feature to the contextual embeddings from TF-IDF, pre-trained \textbf{Word2Vec} word embeddings were also used to capture a static, non-contextual representation of semantic meaning \citep{Mikolov_Sutskever_Chen_Corrado_Dean_2013}. For each user, the embeddings for all words in their captions were combined with two averaging methods. Each resulted in a single, dense vector for each user that represented the aggregate meaning of their posts.
+
+The first averaging method, dubbed "All words equal," first concatenated all captions of a user into one large caption before converting each word into a vector using Word2Vec. Each vector of each word was then averaged in order to obtain the final user vector. This resulted in a vector where each word that the user used has an equal weight in the final vector. The second averaging method, dubbed "All posts equal," placed more emphasis on the overall composition of each post or caption as a whole rather than individual words. This approach treats each post as separate until the final user aggregation. This is done by first obtaining the Word2Vec vector of each word, still separated by post, and then getting the average vector for all words in a single post. The vector of each post under a single user is then averaged, resulting in a final user vector. In this approach, the weights of individual words are more skewed in order to place emphasis on overall meanings.
+
+\begin{figure}[H]
+	\centering
+	% Placeholder for the actual diagram image
+	\includegraphics[width=1\textwidth]{"figures/word2vec_averaging.png"}
+	\caption{Visualization of Word2Vec averaging methods}
+	\label{fig:word2vec_averaging}
+\end{figure}
 
 The pre-trained model used was from \citet{velasco2021filwembs}, which contained “texts from Tagalog Wikipedia, news articles, and tweets.” Its data sources included \citet{Cruz_Cheng_2019}’s WikiText-TL-39, \citet{Cruz_Resabal_Lin_Velasco_Cheng_2021}’s NewsPH-NLI, and an unpublished Twitter dataset. Preprocessing techniques, such as “removing quotes and its contents” \citep{velasco2021filwembs}, were applied prior to performing word embedding.
 
