@@ -240,22 +240,35 @@ The final value of $k$ for each feature set was determined empirically during im
 \begin{figure}[H]
 	\centering
 	% Placeholder for the actual diagram image
-	\includegraphics[width=\textwidth]{"figures/Image-Pipeline-Diagram.pdf"}
+	\includegraphics[width=\textwidth]{"figures/Image-Pipeline-Diagram.png"}
 	\caption{The Image Feature Engineering Pipeline. }
 	\label{fig:image_pipeline_diagram}
 \end{figure}
 
-Features were extracted from each image via three parallel processes: High-Level Semantics (ResNet50), Object Content (Imagga API), and Low-Level Aesthetics. These post-level features were then aggregated to the user level and concatenated. The final user-level image vector was a combination of these three feature sets, with an estimated total dimensionality of approximately 2,269 (2,048 from ResNet50, ~200 from top Imagga tags, and 21 from aesthetic features).
+Features were extracted from each image via parallel processes capturing three distinct levels of data: High-Level Semantics (ResNet50), Object Content (Imagga API), and Low-Level Aesthetics (HSV and Color Properties). These post-level features were then aggregated to the user level and concatenated. 
+
+As illustrated in Figure \ref{fig:image_pipeline_diagram}, the final user-level image vector with 30\% confidence filtering resulted in a total dimensionality of approximately 2,807. This vector is composed of:
+\begin{itemize}
+	\item \textbf{2,048} dimensions from the ResNet50 model;
+	\item \textbf{738} dimensions from the filtered Imagga tags;
+	\item \textbf{21} dimensions from the HSV and color aesthetic features.
+\end{itemize}
 
 \begin{figure}[H]
 	\centering
 	% Placeholder for the actual diagram image
-	\includegraphics[width=\textwidth]{"figures/Text-Pipeline-Diagram.pdf"}
+	\includegraphics[width=\textwidth]{"figures/Text-Pipeline-Diagram.png"}
 	\caption{The Text Feature Engineering Pipeline. }
 	\label{fig:text_pipeline_diagram}
 \end{figure}
 
-A user's entire caption corpus was processed through two parallel paths to extract lexical features (TF-IDF) and semantic embeddings (Word2Vec). These features were aggregated to the user level and concatenated. The final output was a user-level text vector, with a dimensionality equal to the sum of the Word2Vec dimension (300) and the training set’s vocabulary size (V) from TF-IDF.
+A user's entire caption corpus was processed through two parallel paths to extract lexical features (TF-IDF) and semantic embeddings (Word2Vec). These features were aggregated to the user level and concatenated. 
+
+As shown in Figure \ref{fig:text_pipeline_diagram}, the TF-IDF path involved average pooling using the top 1,500 terms. The final output was a user-level text vector with a dimensionality of 1,800, calculated as the sum of:
+\begin{itemize}
+	\item \textbf{1,500} dimensions from the top-term TF-IDF vectorizer;
+	\item \textbf{300} dimensions from the Word2Vec embeddings.
+\end{itemize}
 
 
 \begin{figure}[H]
