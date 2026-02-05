@@ -305,7 +305,7 @@ Lastly, an XGBoost classifier was also trained. This gradient-boosting algorithm
 
 \section{Model Analysis}
 \label{subsec:analysis}
-A detailed review was conducted to assess how well the trained models performed. The main metrics for evaluation were the \texttt{Macro-F1 score} and the \texttt{Area Under the Receiver Operating Characteristic Curve (AUC-ROC)}. The Macro-F1 score was chosen because it works well for datasets with uneven class distributions. The AUC-ROC was used to evaluate the models’ ability to rank and differentiate between classes.
+A detailed review was conducted to assess how well the trained models performed. The main metrics for evaluation were \textbf{Cohen's Kappa} and the \textbf{Area Under the Receiver Operating Characteristic Curve (AUC-ROC)}. Cohen's Kappa was chosen because it provides a robust measure of agreement that accounts for the possibility of the agreement occurring by chance, which is particularly useful for datasets with uneven class distributions. The AUC-ROC was used to evaluate the models' ability to rank and differentiate between classes.
 
 \texttt{SHAP (SHapley Additive exPlanations)} was employed to understand how the models made decisions. SHAP allowed for the measurement of how much each feature contributed to the models’ predictions. This generated plots showing global feature importance, providing a clear ranking of the most impactful visual, textual, and metadata cues for each personality trait.
 
