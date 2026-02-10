@@ -142,7 +142,7 @@ Imagga is a cloud-based service that provides a suite of powerful image analysis
 
 % While the Imagga API’s general model is capable of recognizing over 3,000 distinct objects and concepts \citep{imagga_solutions}, creating a feature vector of this size for each user would have been computationally inefficient and resulted in a highly sparse feature space. To create a denser and more manageable feature set, a fixed-size vocabulary of the most relevant tags was established. This followed a standard approach analogous to a bag-of-words model in text processing \citep{salton1975}. A vocabulary of the top N=200 most frequent tags across the entire dataset was identified. Subsequently, for each user, a \textbf{200-dimensional feature vector} was constructed, where each dimension represented the frequency of one of these top tags appearing in that user’s posts.
 
-Lemmatization was applied using a 94-term dictionary* in order to normalize variations in wording. For example, plural words such as "animals" were reduced to simply "animal". This reduced vocabulary redundancy.
+Lemmatization was applied using a 94-term dictionary, using the WordNet corpus in the Natural Language Toolkit (NLTK) \citep{bird2009natural} in order to normalize variations in wording. For example, plural words such as "animals" were reduced to simply "animal". This reduced vocabulary redundancy.
 
 The study specifically utilized the \texttt{/tags} endpoint of the Imagga API. For each image submitted, the API returned a JSON object containing a list of detected tags (e.g., “person,” “selfie,” “food,” “beach”) and a corresponding confidence score (from 0 to 100) for each tag \citep{imagga_docs}. These tags were used to construct features such as the frequency of posts containing people, selfies, or specific objects, which prior literature had linked to traits like Extraversion. Preprocessing was done on tags that contained spaces, which were replaced with underscores. For example, "portrait photography" was replaced with "portrait\_photography".
 
@@ -186,7 +186,7 @@ For each image, color features were derived using the HSV (Hue, Saturation, Valu
 
 All of these post-level aesthetic features are then aggregated to the user level by calculating their average values across all of a user's images, creating a comprehensive aesthetic profile.
 
-The library \textit{cupy}* was used in order to convert image RGB data into HSV data. The library divided the hues into the six classifying colors, and divided them into warm and cool colors. The PAD values were then calculated using the converted data.
+The library \textit{cupy} \citep{Okuta2017CuPyA} was used in order to convert image RGB data into HSV data. The library divided the hues into the six classifying colors and additionally divided those colors into warm and cool colors. The PAD values were then calculated using the converted data.
 
 
 \subsection{Text Modality Pipeline}
