@@ -47,32 +47,33 @@ From these rankings, some general observations can be made. Metadata and HSV fre
 
 
 \section{Model Performance Analysis}
-The performance of the classification models—Logistic Regression (LR), Support Vector Machine (SVM), and XGBoost—was evaluated across various unimodal, bimodal, and multimodal feature combinations for each of the Big Five personality traits. The primary metric for evaluation was Cohen’s Kappa ($\kappa$), which accounts for the possibility of agreement occurring by chance.
+The performance of the classification models Logistic Regression (LR), Support Vector Machine (SVM), and XGBoost was evaluated across various unimodal, bimodal, and multimodal feature combinations. The primary metric for evaluation was Cohen’s Kappa ($\kappa$), which measures the agreement between predicted and actual labels while accounting for chance.
 
 \subsection{Performance by Trait}
-Model performance varied significantly depending on the trait and the specific combination of features utilized.
+The results indicate that while visual features often provide a strong predictive baseline, the addition of textual features (TF-IDF) and account metadata typically acts as a refinement layer, enhancing accuracy or providing necessary context.
 
 \begin{itemize}
-	\item \textbf{Extraversion:} This trait generally showed the strongest and most consistent predictive performance. In bimodal visual combinations such as Combination U7 (ResNet + Imagga), XGBoost achieved a test kappa of 0.2105. Performance peaked in multimodal settings, specifically Combination M1 (TF-IDF + ResNet + Metadata) using SVM, which yielded a test kappa of 0.2456.
-	\item \textbf{Openness:} Predictive accuracy for Openness was highest when visual features were included. Combination U8 (ResNet + HSV) achieved a test kappa of 0.2762 with Logistic Regression, marking one of the highest scores across all experiments.
-	\item \textbf{Conscientiousness:} This trait saw moderate performance. Combination B5 (TF-IDF + HSV) reached a test kappa of 0.1537 using Logistic Regression, while the addition of metadata in Combination M3 (TF-IDF + HSV + Metadata) slightly improved this to 0.1569.
-	\item \textbf{Agreeableness and Neuroticism:} These traits proved the most challenging to predict. Results often yielded low or negative kappa values, suggesting that the selected features may not fully capture the nuances of these dimensions within the Filipino Instagram context. For instance, Neuroticism in Combination M1 resulted in a kappa of -0.0907.
+	\item \textbf{Extraversion:} This trait showed significant improvement when moving from purely visual bimodal sets to multimodal configurations. For instance, the bimodal combination of ResNet and Imagga (U7) achieved a test kappa of 0.2105 using XGBoost. However, the inclusion of linguistic features and metadata in Combination M1 (TF-IDF + ResNet + Metadata) pushed the performance higher, with SVM reaching a test kappa of 0.2456. This suggests that while visual cues are strong indicators of sociability, linguistic density and account activity provide the context needed for higher accuracy.
+	
+	\item \textbf{Openness:} Predictive accuracy for Openness was highest in visual-heavy combinations. Combination U8 (ResNet + HSV) achieved the peak test kappa of 0.2762 using Logistic Regression. Interestingly, adding more complex feature sets like TF-IDF and Metadata in Combination M1 led to a sharp decrease in performance to 0.0590. This indicates that for Openness, simple color distributions and deep visual features are the most reliable predictors, and adding high-dimensional text data may introduce noise.
+	
+	\item \textbf{Conscientiousness:} This trait benefited from the integration of metadata with textual and visual data. While Combination U7 reached a kappa of 0.1174, moving to Combination M3 (TF-IDF + HSV + Metadata) improved the result to 0.1569 using Logistic Regression. This suggests that the regularity of posting behavior captured in metadata complements the content-based features for this trait.
+	
+	\item \textbf{Agreeableness and Neuroticism:} These traits remained the most difficult to predict, frequently resulting in negative kappa values (e.g., -0.0907 for Neuroticism in Combination M1), suggesting that the current feature set may not fully capture the psychological indicators specific to these dimensions in the Filipino context.
 \end{itemize}
 
-\subsection{Comparison of Feature Fusion Approaches}
-A key objective of this study was to determine if multimodal fusion improves prediction over unimodal or bimodal data.
+\subsection{Stability of Multimodal Fusion}
+In this analysis, stability is defined as the consistency of the model's predictive power across different trait-feature combinations, characterized by a narrower range of test kappa fluctuations and a higher frequency of positive results. 
 
-\begin{itemize}
-	\item \textbf{Bimodal Visual Combinations:} Combining different types of visual features (e.g., ResNet for deep features and HSV for color distribution) often improved performance over single-source visual sets. Combination U8 (ResNet + HSV) significantly outperformed U9 (Imagga + HSV) for both Openness and Extraversion.
-	\item \textbf{Multimodal Fusion:} The integration of text (TF-IDF), images (ResNet/HSV), and account metadata generally provided more stable results across traits. Combination M4, which integrated TF-IDF, ResNet, Imagga, and Metadata, achieved a test kappa of 0.1264 for Openness. 
-	\item \textbf{Overfitting Observations:} Despite high performance in certain categories, some bimodal text-image combinations faced issues with dimensionality (exceeding 38,000 features). This led to instances of overfitting, where high validation kappas (e.g., 0.8372 for Neuroticism in some XGBoost runs) did not translate to the test set, which remained negative.
-\end{itemize}
+The unimodal and bimodal visual sets (U7–U10) exhibited high volatility, with test kappa values swinging from 0.2762 to -0.1982. In contrast, Multimodal combinations (M1–M5) demonstrated greater stability. While they did not always reach the absolute highest peaks found in specialized visual sets, they maintained a more consistent positive range—predominantly between 0.05 and 0.24 for Openness, Conscientiousness, and Extraversion—and significantly reduced the frequency of extreme negative outliers compared to unimodal runs.
 
 \subsection{Algorithm Comparison}
-The three models exhibited distinct performance characteristics across the dataset:
+The three models were evaluated across 15 different feature combinations. Their performance is summarized below:
 
 \begin{itemize}
-	\item \textbf{XGBoost:} Frequently the top performer for Extraversion and Openness. It demonstrated a superior ability to handle complex, high-dimensional feature spaces, particularly in bimodal visual tasks.
-	\item \textbf{Logistic Regression:} Performed best when metadata or HSV features were involved. This suggests that these specific features may have a more linear relationship with certain personality traits like Conscientiousness.
-	\item \textbf{SVM:} Highly effective in specific multimodal configurations. It achieved the highest overall score for Extraversion in combinations M1 and M5, reaching a kappa of 0.2456.
+	\item \textbf{XGBoost:} Top performer in 6 out of 15 combinations, primarily dominating in Extraversion and Openness. It proved most effective at handling non-linear relationships within bimodal visual data. However, it was also the most prone to overfitting on high-dimensional multimodal sets, where validation kappa reached 0.8372 while the test kappa remained negative.
+	
+	\item \textbf{Logistic Regression:} Most effective for Conscientiousness and Agreeableness, leading in 5 out of 15 combinations. It performed best when utilizing Metadata and HSV features, suggesting these features share a more linear relationship with "orderly" personality traits.
+	
+	\item \textbf{SVM:} Best in 4 out of 15 combinations, specifically those involving Multimodal Fusion (M1, M2, M4, and M5). It achieved the highest overall score for Extraversion ($\kappa = 0.2456$). SVM demonstrated a superior ability to find optimal hyperplanes in the high-dimensional space created when combining linguistic features with deep visual data.
 \end{itemize}
