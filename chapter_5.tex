@@ -18,7 +18,10 @@
 \end{table}
 
 In the Table \ref{tab:best_models}, among the personality traits, Extraversion has Logistic Regression, run in GPU, as the best performing model with the highest kappa score, boasting 0.3684, with the feature combination Word2Vec and HSV. On the other hand, Neuroticism has XGBoost as the worst performing model compared to the models of each trait, with the kappa score of 0.0749, with the feature combination Word2Vec and HSV.
+
 Openness, Extraversion and Neuroticism are consistent with their feature type combination, being Word2Vec and HSV. However, Conscientiousness only has TF-IDF, Word2Vec, and Metadata as the feature type combination used by the best model, which is SVM, under Conscientiousnes with the kappa score of 0.2451. Agreeableness has Word2Vec and Metadata combination, which are the text feature and a metadata feature.
+
+The models except XGBoost appear at least two times, which are Logistic Regression and SVM. Openness and Extraversion have Logistic Regression as the best model, while Conscientiousnes and Agreeable have SVM as the best model.
 
 \begin{table}[H]
     \centering
@@ -35,6 +38,11 @@ Openness, Extraversion and Neuroticism are consistent with their feature type co
     \end{tabularx}
     \label{bestcohenmodel}
 \end{table}
+
+In Table ~\ref{tab:uni_kappa}, Openness has Logistic Regression as the best model that used ResNet50 and HSV with the test kappa of 0.2762. Then, Neuroticism has very near zero test kappa of 0.0037 for SVM that uses Resnet50 and HSV.
+
+All of the traits in Table \ref{tab:uni_kappa} except Consciousness have Resnet50 and HSV as the best feature combination, while Resnet50 and Imagga performed the best for Consciousness. Openness, Conscientiousness, and Extraversion have best performing models with test kappa scores that exceed 0.1 threshold, while Agreeableness and Neuroticism have their best models perform weak with their test kappa less than 0.1. Neuroticism has the best model with the least scores among the other personality traits.
+
 \begin{table}[H]
     \centering
     \caption{Best performing model after learning bimodal features in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trai}
@@ -50,6 +58,9 @@ Openness, Extraversion and Neuroticism are consistent with their feature type co
     \end{tabularx}
     \label{bestcohenmodel}
 \end{table}
+
+In Table ~\ref{tab:bi_kappa}, 
+
 \begin{table}[H]
     \centering
     \caption{Best performing model after learning multimodal features in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trait for each modality}
@@ -66,11 +77,6 @@ Openness, Extraversion and Neuroticism are consistent with their feature type co
     \label{bestcohenmodel}
 \end{table}
 
-In Table ~\ref{tab:uni_kappa}, all traits except Consciousness have Resnet50 and HSV as the best feature combination, while Resnet50 and Imagga performed the best for Consciousness. Openness, Conscientiousness, and Extraversion have best performing models with test kappa scores that exceed 0.1 threshold, while Agreeableness and Neuroticism have their best models perform weak with their test kappa less than 0.1. Neuroticism has the best model with the least scores among the other personality traits.
-
-For the disagreement side where the kappa score is in negative, Openness, Agreeableness and Neuroticism have models with the least kappa scores. Among the traits, Agreeableness has a model with the least kappa score of -0.1214.
-
-In Table ~\ref{tab:bi_kappa}, 
 
 \section{Discussion}
 
