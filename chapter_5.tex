@@ -4,76 +4,64 @@
 \section{Results}
 \begin{table}[H]
     \centering
-    \caption{Best performing model in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trait for each modality}
+    \caption{Best performing models per personality trait with its feature combination}
+    \label{tab:best_models}
+    \begin{tabularx}{\textwidth}{l|X|X|l}
+        \hline
+        \textbf{Trait} & \textbf{Feature Type} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
+        Openness & Resnet50 + HSV & Logistic Regression (GPU) & 0.2762 \\ \hline
+        Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.2451 \\ \hline
+        Extraversion & Word2Vec, HSV & Logistic Regression (GPU) & 0.3684 \\ \hline
+        Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.2129 \\ \hline
+        Neuroticism & Word2Vec, HSV & XGBoost & 0.0749 \\ \hline
+    \end{tabularx}
+\end{table}
+
+In the Table \ref{tab:best_models}, among the personality traits, Extraversion has Logistic Regression, run in GPU, as the best performing model with the highest kappa score, boasting 0.3684, with the feature combination Word2Vec and HSV. On the other hand, Neuroticism has XGBoost as the worst performing model compared to the models of each trait, with the kappa score of 0.0749, with the feature combination Word2Vec and HSV.
+Openness, Extraversion and Neuroticism are consistent with their feature type combination, being Word2Vec and HSV. However, Conscientiousness only has TF-IDF, Word2Vec, and Metadata as the feature type combination used by the best model, which is SVM, under Conscientiousnes with the kappa score of 0.2451. Agreeableness has Word2Vec and Metadata combination, which are the text feature and a metadata feature.
+
+\begin{table}[H]
+    \centering
+    \caption{Best performing model after learning unimodal features in terms of Cohen's Kappa running on a testing data, set in a specific combination of features per personality trait}
     \label{tab:uni_kappa}
     \begin{tabularx}{\textwidth}{l|X|X|l}
     \hline
         \textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-        \multicolumn{4}{l}{\textbf{Unimodal}} \\ \hline
-        \multicolumn{4}{l}{\textbf{Most Agreement (Positive Test Kappa)}} \\ \hline
         Openness & Resnet50 + HSV & Logistic Regression (GPU) & 0.2762 \\ \hline
         Conscientiousness & Resnet50 + Imagga & XGBoost & 0.1174 \\ \hline
         Extraversion & Resnet50 + HSV & XGBoost & 0.2632 \\ \hline
         Agreeableness & Resnet50 + HSV & SVM (GPU) & 0.0444 \\ \hline
         Neuroticism & Resnet50 + HSV & SVM (GPU) & 0.0037 \\ \hline
-        \multicolumn{4}{l}{} \\
-        \multicolumn{4}{l}{} \\ \hline
-        \multicolumn{4}{l}{\textbf{Most Disagreement (Negative Test Kappa)}}\\ \hline
-        Openness & Imagga + HSV & XGBoost & -0.0133 \\ \hline
-        Conscientiousness & N/A & N/A & N/A \\ \hline
-        Extraversion & N/A & N/A & N/A \\ \hline
-        Agreeableness & Resnet50 + Imagga + HSV & Logistic Regression (GPU) & -0.1214 \\ \hline
-        Neuroticism & Resnet50 + Imagga + HSV & SVM (GPU) & -0.0788 \\ \hline
     \end{tabularx}
     \label{bestcohenmodel}
 \end{table}
 \begin{table}[H]
     \centering
-    \caption{Best performing model in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trait for each modality}
+    \caption{Best performing model after learning bimodal features in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trai}
     \label{tab:bi_kappa}
     \begin{tabularx}{\textwidth}{l|X|l|l}
     \hline
         \textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-        \multicolumn{4}{l}{\textbf{Bimodal}} \\ \hline
-        \multicolumn{4}{l}{\textbf{Most Agreement (Positive Test Kappa)}} \\ \hline
         Openness & Resnet50 + HSV, Metadata & Logistic Regression (GPU) & 0.2602 \\ \hline
         Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.2451 \\ \hline
         Extraversion & Word2Vec, HSV & Logistic Regression (GPU) & 0.3684 \\ \hline
         Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.2129 \\ \hline
         Neuroticism & Word2Vec, HSV & XGBoost & 0.0749 \\ \hline
-        \multicolumn{4}{l}{} \\
-        \multicolumn{4}{l}{} \\ \hline
-        \multicolumn{4}{l}{\textbf{Most Disagreement (Negative Test Kappa)}} \\ \hline
-        Openness & TFIDF, Imagga & XGBoost & -0.0155 \\ \hline
-        Conscientiousness & Resnet50, Metadata & XGBoost & -0.037 \\ \hline
-        Extraversion & N/A & N/A & N/A \\ \hline
-        Agreeableness & Resnet50 + Imagga, Metadata & Logistic Regression (GPU) & -0.1032 \\ \hline
-        Neuroticism & Imagga + HSV, Metadata & XGBoost & -0.1259 \\ \hline
     \end{tabularx}
     \label{bestcohenmodel}
 \end{table}
 \begin{table}[H]
     \centering
-    \caption{Best performing model in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trait for each modality}
+    \caption{Best performing model after learning multimodal features in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trait for each modality}
     \label{tab:mm_kappa}
     \begin{tabularx}{\textwidth}{l|X|l|l}
     \hline
         \textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-        \multicolumn{4}{l}{\textbf{Multimodal}}\\ \hline
-        \multicolumn{4}{l}{\textbf{Most Agreement (Positive Test Kappa)}} \\ \hline
         Openness & Word2Vec, Resnet50 + Imagga + HSV, Metadata & XGBoost & 0.2267 \\ \hline
         Conscientiousness & TFIDF + Word2Vec, HSV, Metadata & SVM (GPU) & 0.2442 \\ \hline
         Extraversion & TFIDF + Word2Vec, Resnet50, Metadata & XGBoost & 0.2807 \\ \hline
         Agreeableness & Word2Vec, HSV, Metadata & SVM (GPU) & 0.1979 \\ \hline
         Neuroticism & Word2Vec, HSV, Metadata & XGBoost & 0.065 \\ \hline
-        \multicolumn{4}{l}{} \\
-        \multicolumn{4}{l}{} \\ \hline
-        \multicolumn{4}{l}{\textbf{Most Disagreement (Negative Test Kappa)}} \\ \hline
-        Openness & N/A & N/A & N/A \\ \hline
-        Conscientiousness & N/A & N/A & N/A \\ \hline
-        Extraversion & N/A & N/A & N/A \\ \hline
-        Agreeableness & Word2Vec, Resnet50, Metadata & XGBoost & -0.0201 \\ \hline
-        Neuroticism & TFIDF, Imagga, Metadata & SVM & -0.1218 \\ \hline
     \end{tabularx}
     \label{bestcohenmodel}
 \end{table}
