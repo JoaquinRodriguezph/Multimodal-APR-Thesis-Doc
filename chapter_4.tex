@@ -25,8 +25,25 @@ A mixed sampling strategy was employed to recruit participants. The initial phas
 From an initial pool of 3,186 participants, a filtering process was applied to ensure relevance to the Filipino context. Only individuals who identified their nationality as either “Filipino” or “mixed-Filipino” were retained, resulting in a final cohort of 3,128 individuals whose data comprised the full PagkataoKo dataset \citep{tighe_acorda_2022}.
 
 
-\subsection{Data Characteristics}
+\subsection{Data Characteristics before Filtering}
 This study was only concerned with the Instagram portion of the dataset, which comprised 44.1\% of the data, or 1,380 respondents who authorized access to their accounts. The posts collected were made over a 10-year period prior to the data collection (2010–2020) \citep{tighe_acorda_2022}. Detailed numerical characteristics of this subset are shown in Table~\ref{tab:pagkataoko_data_characteristics}. Further details, such as participant demographics and language use, were discussed in Section~\ref{subsec:eda}.
+
+\subsection{Dataset Characteristics After Filtering}
+\label{subsec:final_data_characteristics}
+
+The Instagram subset underwent additional filtering to ensure data quality and coherence. Only users with a minimum of 30 posts containing both images and captions were retained. Additionally, a maximum of 300 of each user's most recent posts were included in the final analysis.
+
+The characteristics of the final filtered dataset are presented below:
+
+\begin{itemize}
+	\item \textbf{Total Users:} 752 unique Filipino Instagram users
+	\item \textbf{Total Posts:} 139,713 posts (all containing both images and captions)
+	\item \textbf{Average Posts per User:} 185.79 posts (SD = 217.34)
+	\item \textbf{Posts per User Range:} 30 to 1,740 posts
+	\item \textbf{Data Split Distribution:} Training set: 526 users (70\%), Validation set: 112 users (15\%), Test set: 114 users (15\%)
+\end{itemize}
+
+All posts in this final dataset contain both textual captions and images. The 300-post limit per user ensures that users with extensive posting histories do not disproportionately influence the feature representations, while the 30-post minimum ensures sufficient data for reliable user-level aggregation.
 
 \begin{table}[h!]
 \centering
@@ -148,24 +165,43 @@ The study specifically utilized the \texttt{/tags} endpoint of the Imagga API. F
 
 \begin{figure}[H]
 	\centering
-	\begin{verbatim}
-		{
-			"result": {
-				"tags": [
-				{ "confidence": 95.4, "tag": { "en": "beach" } },
-				{ "confidence": 88.1, "tag": { "en": "ocean" } },
-				{ "confidence": 75.9, "tag": { "en": "person" } },
-				{ "confidence": 62.3, "tag": { "en": "sunset" } }
-				]
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{"figures/imagga_example_image.png"}
+		\subcaption*{Example Input Image}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\begin{verbatim}
+			{
+				"result": {
+					"tags": [
+					{ "confidence": 99.2, 
+						"tag": { "en": "food" } },
+					{ "confidence": 98.7, 
+						"tag": { "en": "dish" } },
+					{ "confidence": 97.3, 
+						"tag": { "en": "cuisine" } },
+					{ "confidence": 95.1, 
+						"tag": { "en": "delicious" } },
+					{ "confidence": 92.8, 
+						"tag": { "en": "meal" } },
+					{ "confidence": 89.5, 
+						"tag": { "en": "restaurant" } }
+					]
+				}
 			}
-		}
-	\end{verbatim}
-	\caption{ \texttt{Sample JSON Output from the Imagga API /tags Endpoint. An illustrative, non-dataset-specific example of the JSON response for an image of a person at a beach during sunset.}}
+		\end{verbatim}
+		\subcaption*{Corresponding Imagga API JSON Output}
+	\end{minipage}
+	\caption{Example image and corresponding JSON output from the Imagga API /tags endpoint. The left image shows a sample photograph (source: Imagga documentation), and the right panel displays the API's JSON response containing detected tags with their confidence scores.}
 	\label{fig:imagga_json}
 \end{figure}
 
 Furthermore, the usage of Imagga is also for feasibility purposes due to the Imagga JSON tags already being a part of the PagkataoKo Dataset.
 
+For each user, the tag lists from all their images were aggregated to compute the frequency of each tag across the user's posts. Two versions of these tag features were generated: one using all tags (no confidence filter) and one applying a 30\% confidence threshold (i.e., keeping only tags with a confidence score of at least 30\%). Preliminary experiments on the validation set showed that the confidence‑filtered version resulted in near‑zero predictive performance (\(\kappa \approx 0\)) for all traits, while the unfiltered version retained meaningful variance. Therefore, only the unfiltered Imagga features (i.e., all tags) were used in the final feature sets. This choice is also practical because the raw Imagga JSON tags are already part of the PagkataoKo dataset \citep{tighe_acorda_2022}.
 
 \subsubsection{Low-Level Photo Characteristics Analysis}
 To capture the aesthetic qualities of images, a set of low-level features was extracted.
@@ -205,6 +241,8 @@ As a complementary feature to the contextual embeddings from TF-IDF, pre-trained
 
 The first averaging method, dubbed "All words equal," first concatenated all captions of a user into one large caption before converting each word into a vector using Word2Vec. Each vector of each word was then averaged in order to obtain the final user vector. This resulted in a vector where each word that the user used has an equal weight in the final vector. The second averaging method, dubbed "All posts equal," placed more emphasis on the overall composition of each post or caption as a whole rather than individual words. This approach treats each post as separate until the final user aggregation. This is done by first obtaining the Word2Vec vector of each word, still separated by post, and then getting the average vector for all words in a single post. The vector of each post under a single user is then averaged, resulting in a final user vector. In this approach, the weights of individual words are more skewed in order to place emphasis on overall meanings.
 
+Both averaging strategies were evaluated independently on the validation set for each personality trait. The strategy that yielded the higher validation Kappa was retained for that trait in the subsequent multimodal experiments. This allowed the model to adapt the text representation to the trait‑specific linguistic patterns.
+
 \begin{figure}[H]
 	\centering
 	% Placeholder for the actual diagram image
@@ -229,13 +267,12 @@ This preprocessing step is for ensuring that the metadata features contribute fa
 \subsection{Dimensionality Reduction as an Optional Step}
 The primary methodological approach of this study was to utilize the full, high-dimensional feature vectors generated from ResNet50 (2,048 dimensions) and TF-IDF (vocabulary size). This decision was motivated by a core research objective: to maintain the highest possible level of interpretability. Applying dimensionality reduction techniques, such as PCA, transforms the original features into a new set of components, which can make it difficult to trace a prediction back to the specific, original visual or textual cues (e.g., a particular object in an image or a specific word in a caption).
 
-However, if initial modeling experiments with the full feature set yielded poor performance, showed significant signs of overfitting, or proved to be computationally prohibitive, \textbf{Principal Component Analysis (PCA)} was explored as an optional, secondary step. In this contingency, PCA would be applied to the aggregated ResNet50 and TF-IDF feature sets to create a more compact and less noisy representation before feature fusion. This two-stage approach allowed the study to first prioritize interpretability while retaining a robust method for managing dimensionality if it proved necessary.
+However, if initial modeling experiments with the full feature set yielded poor performance, exhibited significant signs of overfitting, or proved computationally prohibitive, \textbf{Principal Component Analysis (PCA)} was explored as an optional secondary step. In this contingency, PCA would be applied to the aggregated ResNet50 and TF-IDF feature sets to create a more compact and less noisy representation before feature fusion. This two-stage approach allowed the study to first prioritize interpretability while retaining a robust method for managing dimensionality if it proved necessary.
 
 \subsection{Feature Pipelines}
-These diagrams illustrated the flow of data from its raw form through the parallel feature engineering pipelines to the final aggregated user vector.
+Figures \ref{fig:image_pipeline_diagram}, \ref{fig:text_pipeline_diagram}, and \ref{fig:fusion_diagram} illustrate the flow of data from its raw form through the parallel feature engineering pipelines to the final aggregated user vector.
 
-The final value of $k$ for each feature set was determined empirically during implementation. The table below represented an estimate for each of the image feature pipeline and text feature pipeline.
-
+The final value of $k$ for each feature set was determined empirically during implementation. 
 
 \begin{figure}[H]
 	\centering
@@ -282,11 +319,21 @@ As shown in Figure \ref{fig:text_pipeline_diagram}, the TF-IDF path involved ave
 The outputs from the individual modality pipelines—the Image Vector (Est. Dim: \textasciitilde2,269), Text Vector (Est. Dim: \textasciitilde V (Vocabulary Size)), and Metadata Vector (Dim: 2)—are combined via feature concatenation. This process results in the final, unified user feature vector which serves as the input for the machine learning models.
 
 \section{Feature Selection}
-Following feature extraction, a feature selection step was implemented to identify relevant predictors. The approach varied based on the feature type.
+\label{sec:feature_selection}
 
-For discrete, categorical features, such as the tags generated by the Imagga API, the \textbf{Chi-Squared ($\chi^2$) test of independence} was used. This statistical method was well-suited for evaluating the association between each categorical feature and the binary High/Low personality labels. Features that showed a statistically significant association (indicated by a low p-value) were considered highly relevant.
+For each modality, multiple feature extraction variants were available (e.g., different TF‑IDF vocabulary sizes, two Word2Vec aggregation methods, two Imagga tag‑filtering options). Rather than applying a generic feature selection algorithm (such as Chi‑square or LASSO), we adopted a \textit{configuration selection} approach: for every personality trait, we evaluated each variant on the validation set and chose the one that maximized Cohen's Kappa. This procedure ensured that the final feature representation was tailored to the trait while keeping the test set completely unseen.
 
-For the high-dimensional, dense features generated by ResNet50 and BERT, the Chi-Squared test was not appropriate. Instead, the relevance of these features was assessed post-modeling using the interpretability techniques described in Section \ref{subsec:analysis}, such as SHAP. This allowed for an evaluation of feature importance based on their actual contribution to the final model predictions.
+Specifically, the following variants were considered:
+
+\begin{itemize}
+	\item \textbf{TF‑IDF:} Two versions—one using all terms (vocabulary size 36,398) and one using only the top 1,500 most frequent terms. The latter reduces dimensionality and may improve generalization.
+	\item \textbf{Word2Vec:} Two aggregation strategies—\textit{words‑weighted‑equally} (averaging all word vectors across all captions) and \textit{posts‑weighted‑equally} (averaging per post then across posts), as described in Section~\ref{subsec:wordembeddingrepresentation}.
+	\item \textbf{Imagga tags:} Two versions—unfiltered (all tags) and confidence‑filtered (retaining only tags with confidence \(\geq 30\%\)). The confidence‑filtered version gave negligible validation performance and was therefore discarded.
+\end{itemize}
+
+For each trait, the best‑performing configuration of each modality (based on validation Kappa) was selected. These optimal configurations were then used to build the unimodal, bimodal, and multimodal feature sets. Because the selection was guided solely by validation performance, the test data remained untouched.
+
+After fixing the configuration for each trait, we did \textit{not} perform any further feature pruning (e.g., by coefficient magnitude or correlation filters). 
 
 \section{Early Feature Fusion}
 \label{subsec:fusion}
@@ -305,9 +352,14 @@ Lastly, an XGBoost classifier was also trained. This gradient-boosting algorithm
 
 \section{Model Analysis}
 \label{subsec:analysis}
-A detailed review was conducted to assess how well the trained models performed. The main metrics for evaluation were \textbf{Cohen's Kappa} and the \textbf{Area Under the Receiver Operating Characteristic Curve (AUC-ROC)}. Cohen's Kappa was chosen because it provides a robust measure of agreement that accounts for the possibility of the agreement occurring by chance, which is particularly useful for datasets with uneven class distributions. The AUC-ROC was used to evaluate the models' ability to rank and differentiate between classes.
+A detailed review was conducted to assess the predictive performance of the best model per trait. The primary metric was \textbf{Cohen's Kappa} (\(\kappa\)), which measures agreement between predicted and actual labels while accounting for chance. Kappa is particularly suitable for binary classification tasks with potentially imbalanced classes, as it provides a more robust assessment than raw accuracy.
 
-\texttt{SHAP (SHapley Additive exPlanations)} was employed to understand how the models made decisions. SHAP allowed for the measurement of how much each feature contributed to the models’ predictions. This generated plots showing global feature importance, providing a clear ranking of the most impactful visual, textual, and metadata cues for each personality trait.
+Beyond predictive performance, we aimed to understand \textit{which} features drive the models’ decisions for each personality trait. Two complementary analysis techniques were employed:
+
+\begin{itemize}
+	\item \textbf{Feature importance from model coefficients and gain.} For logistic regression, the learned coefficients directly indicate the direction (positive/negative) and magnitude of each feature’s influence on the log‑odds of the High label. For XGBoost, we extracted the gain‑based feature importance, which sums the improvement in accuracy brought by a feature whenever it is used in a tree split \citep{chen2016}. Both measures provide a global ranking of the most influential visual, textual, and metadata cues.
+	\item \textbf{Pearson correlation.} To examine linear relationships between individual features and the binary personality labels, we computed the point‑biserial correlation coefficient (equivalent to Pearson’s \(r\)). This analysis was applied to continuous features such as the ResNet50 dimensions, HSV statistics, and metadata counts.
+\end{itemize}
 
 Lastly, a series of model analyses were conducted. This involved training and evaluating separate models on distinct subsets of the full feature set. The same set of classifiers (Logistic Regression, SVM, XGBoost) was applied to each experimental condition to ensure a fair comparison. The experimental conditions were explicitly defined in Table \ref{tab:ablation_conditions}.
 
