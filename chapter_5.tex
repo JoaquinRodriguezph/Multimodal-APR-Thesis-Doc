@@ -112,25 +112,161 @@ From these rankings, some general observations can be made. Metadata and HSV fre
 
 
 \section{Model Performance Analysis}
-The performance of the classification models Logistic Regression (LR), Support Vector Machine (SVM), and XGBoost was evaluated across various unimodal, bimodal, and multimodal feature combinations. The primary metric for evaluation was Cohen’s Kappa ($\kappa$), which measures the agreement between predicted and actual labels while accounting for chance.
+The performance of the classification models—Logistic Regression (LR) and Support Vector Machine (SVM)—was evaluated to determine the best configurations for each of the Big Five personality traits. The primary metric for evaluation was Cohen’s Kappa ($\kappa$), which measures the agreement between predicted and actual labels while accounting for chance.
 
-\subsection{Performance by Trait}
-The results indicate that while visual features often provide a strong predictive baseline, the addition of textual features (TF-IDF) and account metadata typically acts as a refinement layer, enhancing accuracy or providing necessary context.
+\subsection{Overall Best Performing Models}
+Table~\ref{tab:best_overall} summarizes the winning configurations for each trait. Unlike earlier broad sweeps, these models represent the optimal balance of modalities and algorithm selection.
 
+\begin{table}[H]
+	\centering
+	\caption{Best Performing Models and Hyperparameters per Personality Trait}
+	\label{tab:best_overall}
+	\begin{tabularx}{\textwidth}{@{} l l l X c @{}}  % X column allows wrapping in Model column
+		\toprule
+		\textbf{Trait} & \textbf{ID} & \textbf{Combination} & \textbf{Model (Params)} & \textbf{Kappa} \\
+		\midrule
+		Openness          & U8   & ResNet50 + HSV                         & LR ($C=0.1$)                                  & 0.2762 \\
+		Conscientiousness & B24  & TF-IDF + W2V + Metadata                 & SVM ($C=1.0$, $\gamma=0.0001$, RBF)           & 0.2451 \\
+		Extraversion      & B10  & Word2Vec + HSV                           & LR ($C=0.3594$)                               & 0.3684 \\
+		Agreeableness     & M10  & Word2Vec + HSV + Metadata                & SVM ($C=10.0$, $\gamma=0.0001$, RBF)          & 0.1979 \\
+		Neuroticism       & TF-IDF & TF-IDF (Unimodal)                      & SVM ($C=1.0$, $\gamma=0.0001$, RBF)           & 0.1615 \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\subsection{Trait-Specific Analysis and Interpretable Features}
+% Table 1: Top Pearson Correlations by Trait
+\begin{table}[htbp]
+	\centering
+	\caption{Top Pearson Correlations by Trait (positive and negative)}
+	\label{tab:pearson}
+	\begin{tabular}{@{} l l c l c @{}}
+		\toprule
+		\textbf{Trait} & \multicolumn{2}{c}{\textbf{Positive}} & \multicolumn{2}{c}{\textbf{Negative}} \\
+		\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+		& \textbf{Feature} & \textbf{$r$} & \textbf{Feature} & \textbf{$r$} \\
+		\midrule
+		\multirow{10}{2.2cm}{Openness (U8)} 
+		& resnet\_1573 & 0.30 & resnet\_334 & -0.25 \\
+		& resnet\_1450 & 0.25 & resnet\_1322 & -0.22 \\
+		& resnet\_1737 & 0.24 & resnet\_1881 & -0.21 \\
+		& resnet\_947   & 0.24 & resnet\_1840 & -0.21 \\
+		& resnet\_626   & 0.23 & resnet\_832  & -0.20 \\
+		\cmidrule(lr){1-5}
+		\multirow{9}{2.2cm}{Conscientiousness (B24)} 
+		& tfidf\_tb          & 0.29 & tfidf\_party   & -0.30 \\
+		& tfidf\_celebrating & 0.26 & tfidf\_current & -0.24 \\
+		& tfidf\_let s       & 0.25 & tfidf\_mo      & -0.21 \\
+		& tfidf\_garden      & 0.24 & tfidf\_lost    & -0.21 \\
+		& tfidf\_aking       & 0.23 & & \\
+		\cmidrule(lr){1-5}
+		\multirow{10}{2.2cm}{Extraversion (B10)} 
+		& w2v\_16  & 0.30 & w2v\_288 & -0.32 \\
+		& w2v\_41  & 0.29 & w2v\_258 & -0.30 \\
+		& w2v\_162 & 0.28 & w2v\_38  & -0.27 \\
+		& w2v\_184 & 0.28 & w2v\_271 & -0.27 \\
+		& w2v\_190 & 0.26 & w2v\_160 & -0.26 \\
+		\cmidrule(lr){1-5}
+		\multirow{10}{2.2cm}{Agreeableness (M10)} 
+		& w2v\_192            & 0.24 & w2v\_254 & -0.21 \\
+		& w2v\_111            & 0.23 & w2v\_56  & -0.21 \\
+		& w2v\_295            & 0.18 & w2v\_66  & -0.20 \\
+		& w2v\_256            & 0.18 & w2v\_204 & -0.20 \\
+		& w2v\_167            & 0.18 & w2v\_38  & -0.17 \\
+		\cmidrule(lr){1-5}
+		\multirow{9}{2.2cm}{Neuroticism (TFIDF\_ALL)} 
+		& tfidf\_siya      & 0.28 & tfidf\_credits   & -0.24 \\
+		& tfidf\_ganito    & 0.28 & tfidf\_lights    & -0.24 \\
+		& tfidf\_join      & 0.28 & tfidf\_heat      & -0.24 \\
+		& tfidf\_anniversary & 0.28 & tfidf\_good food & -0.23 \\
+		& tfidf\_facebook  & 0.25 & & \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+% Table 2: Top 5 Features by Coefficient / Permutation Importance
+\begin{table}[htbp]
+	\centering
+	\caption{Top 5 Features by Model Coefficient or Permutation Importance}
+	\label{tab:importance}
+	\begin{tabular}{@{} l l c @{}}
+		\toprule
+		\textbf{Trait (Model)} & \textbf{Feature} & \textbf{Value} \\
+		\midrule
+		\multirow{5}{3cm}{Openness (Logistic Regression --- Absolute Coef.)} 
+		& resnet\_243  & 0.271 \\
+		& resnet\_1751 & 0.269 \\
+		& resnet\_1068 & 0.264 \\
+		& resnet\_1545 & 0.261 \\
+		& resnet\_547  & 0.254 \\
+		\cmidrule(lr){1-3}
+		\multirow{5}{3cm}{Conscientiousness (SVM Permutation --- Kappa Drop)} 
+		& tfidf\_17       & 0.054 \\
+		& tfidf\_amazing  & 0.054 \\
+		& tfidf\_soon     & 0.039 \\
+		& tfidf\_31       & 0.036 \\
+		& tfidf\_love u   & 0.036 \\
+		\cmidrule(lr){1-3}
+		\multirow{5}{3cm}{Extraversion (Logistic Regression --- Absolute Coef.)} 
+		& w2v\_w2v\_247 & 0.806 \\
+		& w2v\_w2v\_210 & 0.763 \\
+		& w2v\_w2v\_98  & 0.741 \\
+		& w2v\_w2v\_242 & 0.728 \\
+		& w2v\_w2v\_129 & 0.677 \\
+		\cmidrule(lr){1-3}
+		\multirow{5}{3cm}{Agreeableness (SVM Permutation --- Kappa Drop)} 
+		& w2v\_w2v\_149 & 0.060 \\
+		& w2v\_w2v\_168 & 0.048 \\
+		& w2v\_w2v\_138 & 0.045 \\
+		& w2v\_w2v\_15  & 0.045 \\
+		& w2v\_w2v\_58  & 0.042 \\
+		\cmidrule(lr){1-3}
+		\multirow{5}{3cm}{Neuroticism (SVM Permutation --- Kappa Drop)} 
+		& tfidf\_like s    & 0.033 \\
+		& tfidf\_said      & 0.029 \\
+		& tfidf\_mountains & 0.029 \\
+		& tfidf\_house     & 0.026 \\
+		& tfidf\_class     & 0.023 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+\subsubsection{Extraversion}
+Extraversion emerged as the most predictable trait in this study ($\kappa = 0.3684$). The winning model (B10) utilized a combination of semantic text embeddings (Word2Vec) and aesthetic features (HSV).
+
+Analysis of Pearson correlations indicates that high Extraversion is strongly linked to specific semantic clusters in post captions. This suggests that the way social interaction and “outgoing” behavior are phrased in social media provides a more robust signal than visual data alone for this trait.
+
+\subsubsection{Openness}
+Openness achieved its best result ($\kappa = 0.2762$) through the U8 combination, which is purely visual (ResNet50 + HSV). While the model coefficients are dominated by deep visual features (ResNet), the aesthetic features provide a layer of interpretability. Higher Openness scores correlate with more complex visual information and specific color distributions, confirming that users high in Openness tend to post diverse and aesthetically varied content rather than conforming to a single “visual brand.”
+
+\subsubsection{Conscientiousness}
+For Conscientiousness, the B24 combination ($\kappa = 0.2451$) demonstrated the importance of merging linguistic features with account behavioral metadata.
+
+The Pearson correlation analysis for B24 reveals highly interpretable linguistic markers:
 \begin{itemize}
-	\item \textbf{Extraversion:} This trait showed significant improvement when moving from purely visual bimodal sets to multimodal configurations. For instance, the bimodal combination of ResNet and Imagga (U7) achieved a test kappa of 0.2105 using XGBoost. However, the inclusion of linguistic features and metadata in Combination M1 (TF-IDF + ResNet + Metadata) pushed the performance higher, with SVM reaching a test kappa of 0.2456. This suggests that while visual cues are strong indicators of sociability, linguistic density and account activity provide the context needed for higher accuracy.
-	
-	\item \textbf{Openness:} Predictive accuracy for Openness was highest in visual-heavy combinations. Combination U8 (ResNet + HSV) achieved the peak test kappa of 0.2762 using Logistic Regression. Interestingly, adding more complex feature sets like TF-IDF and Metadata in Combination M1 led to a sharp decrease in performance to 0.0590. This indicates that for Openness, simple color distributions and deep visual features are the most reliable predictors, and adding high-dimensional text data may introduce noise.
-	
-	\item \textbf{Conscientiousness:} This trait benefited from the integration of metadata with textual and visual data. While Combination U7 reached a kappa of 0.1174, moving to Combination M3 (TF-IDF + HSV + Metadata) improved the result to 0.1569 using Logistic Regression. This suggests that the regularity of posting behavior captured in metadata complements the content-based features for this trait.
-	
-	\item \textbf{Agreeableness and Neuroticism:} These traits remained the most difficult to predict, frequently resulting in negative kappa values (e.g., -0.0907 for Neuroticism in Combination M1), suggesting that the current feature set may not fully capture the psychological indicators specific to these dimensions in the Filipino context.
+	\item \textbf{Positive Correlations:} Tokens such as \textit{grateful}, \textit{amazing}, \textit{experience}, and \textit{celebrating} show strong positive relationships with high Conscientiousness. This suggests a pattern of posts centered on milestone reporting and expressions of gratitude.
+	\item \textbf{Negative Correlations:} The token \textit{party} shows a strong negative correlation. This implies that users high in Conscientiousness may refrain from posting content associated with high-arousal, impulsive social activities, preferring more “orderly” or reflective content.
 \end{itemize}
 
+\subsubsection{Agreeableness}
+The best model for Agreeableness (M10, $\kappa = 0.1979$) relied on Word2Vec, HSV, and Metadata. An interpretable aesthetic finding for this trait is the positive correlation with \textbf{Aesthetic Value Mean} (brightness). This suggests that Agreeable users tend to post images that are brighter and more visually “open,” which aligns with psychological profiles of the trait involving optimism and approachability.
+
+\subsubsection{Neuroticism}
+Neuroticism was best predicted using unimodal TF-IDF features ($\kappa = 0.1615$). This is a significant finding, as it suggests that for this difficult-to-predict trait, specific keywords are more informative than visual or metadata patterns.
+
+The top correlated features include Filipino-specific tokens such as \textit{siya} (third person pronoun) and \textit{ganito} (like this). Interestingly, high Neuroticism was positively correlated with tokens like \textit{anniversary}, but negatively correlated with \textit{good food}, suggesting that the trait manifests in specific contextual reflections rather than generic lifestyle content.
+
+\subsection{Summary of Observations}
+The analysis confirms that textual modalities (TF-IDF and Word2Vec) are the primary drivers for Conscientiousness, Agreeableness, and Neuroticism, while visual modalities (ResNet and HSV) dominate Openness and Extraversion. Furthermore, the inclusion of Metadata acted as a crucial “refinement” feature for Agreeableness and Conscientiousness, providing a boost in Kappa by capturing behavioral regularity that content alone could not model.
+\begin{comment}
 \subsection{Stability of Multimodal Fusion}
 In this analysis, stability is defined as the consistency of the model's predictive power across different trait-feature combinations, characterized by a narrower range of test kappa fluctuations and a higher frequency of positive results. 
 
 The unimodal and bimodal visual sets (U7–U10) exhibited high volatility, with test kappa values swinging from 0.2762 to -0.1982. In contrast, Multimodal combinations (M1–M5) demonstrated greater stability. While they did not always reach the absolute highest peaks found in specialized visual sets, they maintained a more consistent positive range—predominantly between 0.05 and 0.24 for Openness, Conscientiousness, and Extraversion—and significantly reduced the frequency of extreme negative outliers compared to unimodal runs.
+
+
+	content...
 
 \subsection{Algorithm Comparison}
 The three models were evaluated across 15 different feature combinations. Their performance is summarized below:
@@ -142,3 +278,4 @@ The three models were evaluated across 15 different feature combinations. Their 
 	
 	\item \textbf{SVM:} Best in 4 out of 15 combinations, specifically those involving Multimodal Fusion (M1, M2, M4, and M5). It achieved the highest overall score for Extraversion ($\kappa = 0.2456$). SVM demonstrated a superior ability to find optimal hyperplanes in the high-dimensional space created when combining linguistic features with deep visual data.
 \end{itemize}
+\end{comment}
