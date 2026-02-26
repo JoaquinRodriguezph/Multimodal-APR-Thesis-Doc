@@ -22,24 +22,24 @@ In the Table \ref{tab:best_models}, among the personality traits, Extraversion h
 Openness, Extraversion and Neuroticism are consistent with their feature type combination, being Word2Vec and HSV. However, Conscientiousness only has TF-IDF, Word2Vec, and Metadata as the feature type combination used by the best model, which is SVM, under Conscientiousnes with the kappa score of 0.2451. Agreeableness has Word2Vec and Metadata combination, which are the text feature and a metadata feature.
 
 \begin{table}[h]
-\centering
-\caption{Unimodal Text Results (Cohen's $\kappa$)}
-\label{tab:unimodal_text_performance}
-\begin{tabular}{llccccc}
-\hline
-\textbf{Feature} & \textbf{Variant} & \textbf{O} & \textbf{C} & \textbf{E} & \textbf{A} & \textbf{N} \\
-\hline
-\multirow{TF-IDF}
- & 1.5k & 0.1005 & 0.0969 & 0.1754 & 0.1217 & -0.0242 \\
- & All  & 0.1531 & 0.2271 & 0.2456 & 0.0200 & 0.1615 \\
-\hline
-\multirow{Word2Vec}
- & WWE & 0.1381 & 0.0297 & 0.1754 & 0.1174 & 0.0000 \\
- & PWE & 0.2267 & 0.1102 & 0.3684 & 0.1620 & -0.0447 \\
-\hline
-Combined & -- & 0.1706 & 0.1960 & 0.1404 & 0.1206 & 0.0188 \\
-\hline
-\end{tabular}
+	\centering
+	\caption{Unimodal Text Results (Cohen's $\kappa$)}
+	\label{tab:unimodal_text_performance}
+	\begin{tabular}{llccccc}
+		\hline
+		\textbf{Feature} & \textbf{Variant} & \textbf{O} & \textbf{C} & \textbf{E} & \textbf{A} & \textbf{N} \\
+		\hline
+		\multirow{2}{*}{TF-IDF} % Added {2} and {*}
+		& 1.5k & 0.1005 & 0.0969 & 0.1754 & 0.1217 & -0.0242 \\
+		& All  & 0.1531 & 0.2271 & 0.2456 & 0.0200 & 0.1615 \\
+		\hline
+		\multirow{2}{*}{Word2Vec} % Added {2} and {*}
+		& WWE & 0.1381 & 0.0297 & 0.1754 & 0.1174 & 0.0000 \\
+		& PWE & 0.2267 & 0.1102 & 0.3684 & 0.1620 & -0.0447 \\
+		\hline
+		Combined & -- & 0.1706 & 0.1960 & 0.1404 & 0.1206 & 0.0188 \\
+		\hline
+	\end{tabular}
 \end{table}
 
 In Table ~\ref{tab:unimodal_text_performance}, in the case of TF-IDF, using all tags rather than only the ones that fall in the 1,500 most common generally performed better, with the exception of Agreeability. This shows that using all available information and taking less common nuances into account likely improves personality prediction. Between Word2Vec’s two averaging strategies, the one that prioritized post composition (“Posts Weighed Equally”) performed better than the alternative, except for Neuroticism; however, the difference for that trait is minor. This could mean that taking overall post composition and sentiment into account, rather than just individual word usage, may reveal aspects of personality that are useful in its prediction. 
