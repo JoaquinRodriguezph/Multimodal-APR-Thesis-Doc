@@ -13,7 +13,7 @@
         Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.2451 \\ \hline
         Extraversion & Word2Vec, HSV & Logistic Regression (GPU) & 0.3684 \\ \hline
         Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.2129 \\ \hline
-        Neuroticism & Word2Vec, HSV & XGBoost & 0.0749 \\ \hline
+        Neuroticism & TF-IDF (All) & SVM & 0.1615 \\ \hline
     \end{tabularx}
 \end{table}
 
@@ -34,15 +34,19 @@ Openness, Extraversion and Neuroticism are consistent with their feature type co
 		& All  & 0.1531 & 0.2271 & 0.2456 & 0.0200 & 0.1615 \\
 		\hline
 		\multirow{2}{*}{Word2Vec} % Added {2} and {*}
-		& WWE & 0.1381 & 0.0297 & 0.1754 & 0.1174 & 0.0000 \\
-		& PWE & 0.2267 & 0.1102 & 0.3684 & 0.1620 & -0.0447 \\
+		& Words Weighted Equally & 0.1381 & 0.0297 & 0.1754 & 0.1174 & 0.0000 \\
+		& Posts Weighted Equally & 0.2267 & 0.1102 & 0.3684 & 0.1620 & -0.0447 \\
 		\hline
 		Combined & -- & 0.1706 & 0.1960 & 0.1404 & 0.1206 & 0.0188 \\
 		\hline
 	\end{tabular}
 \end{table}
 
-In Table ~\ref{tab:unimodal_text_performance}, in the case of TF-IDF, using all tags rather than only the ones that fall in the 1,500 most common generally performed better, with the exception of Agreeability. This shows that using all available information and taking less common nuances into account likely improves personality prediction. Between Word2Vec’s two averaging strategies, the one that prioritized post composition (“Posts Weighed Equally”) performed better than the alternative, except for Neuroticism; however, the difference for that trait is minor. This could mean that taking overall post composition and sentiment into account, rather than just individual word usage, may reveal aspects of personality that are useful in its prediction. 
+Table ~\ref{tab:unimodal_text_performance}, outlines the performance of unimodal text results, namely for TF-IDF, Word2Vec, and their combinations for all personality traits. This table also reports the performances of the two variations of the text models: only the top 1,500 most frequent tags of TF-IDF versus all tags, and the “Words Weighted Equally” approach of Word2Vec versus the “Posts Weighted Equally” approach.
+
+In the case of TF-IDF, using all tags rather than only the top 1,500 generally performed better—having kappa differences ranging from 0.0526 to 0.1857—with the exception of Agreeability, whose 1,500 tag variation achieved a 0.1217, a 0.1017 difference from the other. This shows that using all available information and taking less common nuances into account likely improves personality prediction. Between Word2Vec’s two averaging strategies, on the other hand, the one that prioritized post composition (“Posts Weighed Equally”) performed better than the alternative, with kappa score differences ranging from 0.0446 to 0.1930. The exception is for Neuroticism; however, the difference for that trait is minor and the result unremarkable ($\kappa$ = 0.00). This could mean that taking overall post composition and sentiment into account, rather than just individual word usage, may reveal aspects of personality that are useful in its prediction. 
+
+The combination of the two text features did not improve on the individual results, with some results, most notably TF-IDF’s Neuroticism and Word2Vec’s Extraversion, performing better on their own. Most combination scores came between the best and worst scores of their respective parts, with the exception of Extraversion, whose combination performed worst overall. These results show that TF-IDF and Word2Vec likely share overlapping personality information, which does not broaden our understanding but instead creates noise.
 
 \begin{table}[H]
     \centering
