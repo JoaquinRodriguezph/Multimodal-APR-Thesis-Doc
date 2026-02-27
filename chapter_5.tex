@@ -11,15 +11,15 @@
         \textbf{Trait} & \textbf{Feature Type} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
         Openness & Resnet50 + HSV & Logistic Regression (GPU) & 0.2762 \\ \hline
         Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.2451 \\ \hline
-        Extraversion & Word2Vec, HSV & Logistic Regression (GPU) & 0.3684 \\ \hline
+        Extraversion & Word2Vec & Logistic Regression (GPU) & 0.3684 \\ \hline
         Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.2129 \\ \hline
         Neuroticism & TF-IDF (All) & SVM & 0.1615 \\ \hline
     \end{tabularx}
 \end{table}
 
-In the Table \ref{tab:best_models}, among the personality traits, Extraversion has Logistic Regression, run in GPU, as the best performing model with the highest kappa score, boasting 0.3684, with the feature combination Word2Vec and HSV. On the other hand, Neuroticism has XGBoost as the worst performing model compared to the models of each trait, with the kappa score of 0.0749, with the feature combination Word2Vec and HSV.
+In the Table \ref{tab:best_models}, among the personality traits, Extraversion has Logistic Regression, run in GPU, as the best performing model with the highest kappa score, boasting 0.3684, with the feature combination Word2Vec. On the other hand, Neuroticism has XGBoost as the worst performing model compared to the models of each trait, with the kappa score of 0.0749, with the feature combination Word2Vec.
 
-Openness, Extraversion and Neuroticism are consistent with their feature type combination, being Word2Vec and HSV. However, Conscientiousness only has TF-IDF, Word2Vec, and Metadata as the feature type combination used by the best model, which is SVM, under Conscientiousnes with the kappa score of 0.2451. Agreeableness has Word2Vec and Metadata combination, which are the text feature and a metadata feature.
+Openness, Extraversion and Neuroticism are consistent with their feature type combination, being Word2Vec. However, Conscientiousness only has TF-IDF, Word2Vec, and Metadata as the feature type combination used by the best model, which is SVM, under Conscientiousnes with the kappa score of 0.2451. Agreeableness has Word2Vec and Metadata combination, which are the text feature and a metadata feature.
 
 \begin{table}[h]
 	\centering
