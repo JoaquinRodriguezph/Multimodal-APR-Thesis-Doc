@@ -6,24 +6,6 @@ In summary, this research conducted a series of experiments to investigate the c
 
 The results, as measured by Cohen's kappa ($\kappa$), indicate that the effectiveness of personality prediction is highly trait-dependent. As shown in Table~\ref{tab:conclusion_results}, Extraversion proved to be the most accurately predicted trait, achieving the highest kappa score of 0.3684 using a combination of Word2Vec and HSV features. While multimodal approaches—combining visual and textual data—yielded superior results for Conscientiousness, Extraversion, and Agreeableness, there were two outliers. Openness performed its best using image features, namely Resnet50 and HSV.  On the other hand, Neuroticism performed its best using purely TF-IDF features. This suggests that while combining features from different modalities are powerful predictors for most traits, certain personality traits remain more effectively expressed through unimodal features.
 
-\begin{table}[h]
-	\centering
-	\caption{Summary of Top Performing Models and Feature Sets per Trait}
-	\label{tab:conclusion_results}
-	\begin{tabular}{lllc}
-		\hline
-		\textbf{Trait} & \textbf{Model Code} & \textbf{Primary Features} & \textbf{Cohen's $\kappa$} \\ 
-		\hline
-		Openness & U8 (LR) & ResNet50 + HSV & 0.2762 \\
-		Conscientiousness & B24 (SVM) & TF-IDF + Word2Vec + Metadata & 0.2451 \\
-		Extraversion & B10 (LR) & Word2Vec + HSV & 0.3684 \\
-		Agreeableness & M10 (SVM) & Word2Vec + HSV + Metadata & 0.1979 \\
-		Neuroticism & TF-IDF (SVM) & Textual (All) & 0.1615 \\
-		\hline
-	\end{tabular}
-\end{table}
-
-
 Beyond raw performance, the study highlighted a significant trade-off between predictive power and interpretability. While deep learning-based features like ResNet50 and Word2Vec consistently drove the highest accuracy, they offered less transparency regarding why specific features were indicative of a trait. In contrast, TF-IDF provided more clear and interpretable tags. Additionally, it was observed that while metadata was included in several top-performing models, its overall influence was minimal compared to the core visual and textual embeddings. Ultimately, this research demonstrates that while a multimodal approach generally enhances APR performance,  unimodal approaches still outshine in other traits..
 
 \section{Recommendations}
