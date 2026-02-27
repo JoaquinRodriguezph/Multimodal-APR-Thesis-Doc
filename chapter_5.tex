@@ -142,15 +142,15 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 	\centering
 	\caption{Best Performing Models and Hyperparameters per Personality Trait}
 	\label{tab:best_overall}
-	\begin{tabularx}{\textwidth}{@{} l l l X c @{}}  % X column allows wrapping in Model column
+	\begin{tabularx}{\textwidth}{@{} l X X c @{}}  % X column allows wrapping in Model column
 		\toprule
-		\textbf{Trait} & \textbf{ID} & \textbf{Combination} & \textbf{Model (Params)} & \textbf{Kappa} \\
+		\textbf{Trait} & \textbf{Combination} & \textbf{Model (Params)} & \textbf{Kappa} \\
 		\midrule
-		Openness          & U8   & ResNet50 + HSV                         & LR ($C=0.1$)                                  & 0.2762 \\
-		Conscientiousness & B24  & TF-IDF + W2V + Metadata                 & SVM ($C=1.0$, $\gamma=0.0001$, RBF)           & 0.2451 \\
-		Extraversion      & B10  & Word2Vec + HSV                           & LR ($C=0.3594$)                               & 0.3684 \\
-		Agreeableness     & M10  & Word2Vec + HSV + Metadata                & SVM ($C=10.0$, $\gamma=0.0001$, RBF)          & 0.1979 \\
-		Neuroticism       & TF-IDF & TF-IDF (Unimodal)                      & SVM ($C=1.0$, $\gamma=0.0001$, RBF)           & 0.1615 \\
+		O          & ResNet50 + HSV                         & LR ($C=0.1$)                                  & 0.2762 \\
+		C & TF-IDF + W2V + Metadata                 & SVM ($C=1.0$, $\gamma=0.0001$, RBF)           & 0.2451 \\
+		E      & Word2Vec + HSV                           & LR ($C=0.3594$)                               & 0.3684 \\
+		A      & Word2Vec + HSV + Metadata                & SVM ($C=10.0$, $\gamma=0.0001$, RBF)          & 0.1979 \\
+		N       & TF-IDF                      & SVM ($C=1.0$, $\gamma=0.0001$, RBF)           & 0.1615 \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
