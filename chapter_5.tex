@@ -133,7 +133,7 @@ From these rankings, some general observations can be made. Metadata and HSV fre
 
 
 \section{Model Performance Analysis}
-The performance of the classification models—Logistic Regression (LR) and Support Vector Machine (SVM)—was evaluated to determine the best configurations for each of the Big Five personality traits. The primary metric for evaluation was Cohen’s Kappa ($\kappa$), which measures the agreement between predicted and actual labels while accounting for chance.
+The performance of the classification models—Logistic Regression (LR), Support Vector Machine (SVM), and XGBoost — was evaluated to determine the best configurations for each of the Big Five personality traits. The primary metric for evaluation was Cohen’s Kappa ($\kappa$), which measures the agreement between predicted and actual labels while accounting for chance.
 
 \subsection{Overall Best Performing Models}
 Table~\ref{tab:best_overall} summarizes the winning configurations for each trait. Unlike earlier broad sweeps, these models represent the optimal balance of modalities and algorithm selection.
@@ -254,29 +254,69 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 
 
 \subsubsection{Extraversion}
-Extraversion emerged as the most predictable trait in this study ($\kappa = 0.3684$). The winning model (B10) utilized a combination of semantic text embeddings (Word2Vec) and aesthetic features (HSV).
 
-Analysis of Pearson correlations indicates that high Extraversion is strongly linked to specific semantic clusters in post captions. This suggests that the way social interaction and “outgoing” behavior are phrased in social media provides a more robust signal than visual data alone for this trait.
+Extraversion emerged as the most predictable trait in this study ($\kappa = 0.3684$). The winning model (B10) utilized a combination of semantic text embeddings (Word2Vec) and aesthetic features (HSV), with Logistic Regression as the optimal algorithm.
+
+\textbf{Key features:} Pearson correlation analysis revealed that high Extraversion is strongly linked to specific Word2Vec clusters (e.g., w2v\_16: $r = 0.30$, w2v\_41: $r = 0.29$) while showing negative correlations with others (e.g., w2v\_288: $r = -0.32$, w2v\_258: $r = -0.30$). Permutation importance further confirmed that Word2Vec dimensions dominate the model's decisions.
+
+\begin{comment}
+	conte\textbf{Interpretation:} These patterns suggest that the way social interaction and ``outgoing'' behavior are phrased in social media provides a more robust signal than visual data alone for this trait. The positive correlations likely capture language around social activities and engagement, while negative correlations may reflect introspective or solitary content.nt...
+\end{comment}
+
+
+\textbf{Connection to prior work:} This finding aligns with foundational work by Mairesse et al. (2007), who demonstrated that Extraversion is strongly correlated with specific linguistic categories—particularly words related to social processes and positive emotion. More recently, \citet{Ferwerda2018}) found that HSV features showed modest correlations with Extraversion. HSV alone achieved only $\kappa = 0.0115$, but when combined with Word2Vec, performance substantially improved. This supports Skowron et al.'s (2016) assertion that multimodal fusion—specifically combining linguistic and visual cues—yields optimal results for Extraversion, as the trait manifests through both what users say and the aesthetic quality of what they post.
 
 \subsubsection{Openness}
-Openness achieved its best result ($\kappa = 0.2762$) through the U8 combination, which is purely visual (ResNet50 + HSV). While the model coefficients are dominated by deep visual features (ResNet), the aesthetic features provide a layer of interpretability. Higher Openness scores correlate with more complex visual information and specific color distributions, confirming that users high in Openness tend to post diverse and aesthetically varied content rather than conforming to a single “visual brand.”
+
+Openness achieved its best result ($\kappa = 0.2762$) through the U8 combination, which is purely visual (ResNet50 + HSV) with Logistic Regression.
+
+\textbf{Key features:} Model coefficients are dominated by deep visual features (e.g., resnet\_243: coefficient 0.271, resnet\_1751: 0.269, resnet\_1068: 0.264). Pearson correlations show positive associations with multiple ResNet dimensions (resnet\_1573: $r = 0.30$, resnet\_1450: $r = 0.25$) and negative correlations with others (resnet\_334: $r = -0.25$, resnet\_1322: $r = -0.22$).
+
+\begin{comment}
+	cont\textbf{Interpretation:} Higher Openness scores correlate with more complex visual information and specific color distributions, confirming that users high in Openness tend to post diverse and aesthetically varied content rather than conforming to a single ``visual brand.'' The aesthetic features, though lower-dimensional, provide interpretability: the pattern suggests openness manifests through visual exploration and novelty-seeking in image selection.ent...
+\end{comment}
+
+
+\textbf{Connection to prior work:} These results strongly align with Ferwerda et al.'s (2016) finding that Openness is reliably predicted from Instagram image features, particularly color diversity and compositional complexity.The dominance of visual over textual features for Openness confirms Azucar et al.'s (2018) meta-analytic finding that Openness is primarily expressed through ``demographic and aesthetic statistics'' rather than linguistic content, distinguishing it from traits like Conscientiousness that rely more heavily on text.
 
 \subsubsection{Conscientiousness}
-For Conscientiousness, the B24 combination ($\kappa = 0.2451$) demonstrated the importance of merging linguistic features with account behavioral metadata.
 
-The Pearson correlation analysis for B24 reveals highly interpretable linguistic markers:
-\begin{itemize}
-	\item \textbf{Positive Correlations:} Tokens such as \textit{grateful}, \textit{amazing}, \textit{experience}, and \textit{celebrating} show strong positive relationships with high Conscientiousness. This suggests a pattern of posts centered on milestone reporting and expressions of gratitude.
-	\item \textbf{Negative Correlations:} The token \textit{party} shows a strong negative correlation. This implies that users high in Conscientiousness may refrain from posting content associated with high-arousal, impulsive social activities, preferring more “orderly” or reflective content.
-\end{itemize}
+For Conscientiousness, the B24 combination ($\kappa = 0.2451$) demonstrated the importance of merging linguistic features with account behavioral metadata, with SVM as the optimal algorithm.
+
+\textbf{Key features:} Permutation importance identified TF-IDF tokens as the most influential predictors, including \textit{tfidf\_17} (kappa drop: 0.054), \textit{amazing} (0.054), \textit{soon} (0.039), and \textit{love u} (0.036). Pearson correlation analysis reveals interpretable linguistic markers: positive correlations with tokens such as \textit{tb} ($r = 0.29$), \textit{celebrating} ($r = 0.26$), \textit{let s} ($r = 0.25$), and \textit{garden} ($r = 0.24$), while showing negative correlations with \textit{party} ($r = -0.30$), \textit{current} ($r = -0.24$), and \textit{mo} ($r = -0.21$).
+
+\begin{comment}
+	content\textbf{Interpretation:} The positive correlations suggest a pattern of posts centered on milestone reporting, gratitude, and organized activities—consistent with the trait's association with discipline and planfulness. The strong negative correlation with \textit{party} implies that users high in Conscientiousness may refrain from posting content associated with high-arousal, impulsive social activities, preferring more ``orderly'' or reflective content. The inclusion of metadata (post and following counts) further captures behavioral regularity—consistent posting patterns that content analysis alone cannot model....
+\end{comment}
+
+
+\textbf{Connection to prior work:} These findings resonate with Pennebaker and King's (1999) early work linking Conscientiousness to linguistic markers of achievement and organization. More specifically, our results align with Tighe and Cheng's (2018) pioneering Filipino APR study, which found that TF-IDF unigrams were the strongest predictors of Conscientiousness among Filipino Twitter users—a pattern our Instagram-based results replicate. The negative correlation with \textit{party} echoes Majumder et al.'s (2017) finding that Conscientious individuals use fewer words related to impulsive activities and leisure. The metadata contribution extends Azucar et al.'s (2018) observation that ``activity statistics'' (post frequency, following patterns) predict Conscientiousness, as organized behavior manifests not just in what users post, but in how regularly they engage with the platform.
 
 \subsubsection{Agreeableness}
-The best model for Agreeableness (M10, $\kappa = 0.1979$) relied on Word2Vec, HSV, and Metadata. An interpretable aesthetic finding for this trait is the positive correlation with \textbf{Aesthetic Value Mean} (brightness). This suggests that Agreeable users tend to post images that are brighter and more visually “open,” which aligns with psychological profiles of the trait involving optimism and approachability.
+
+The best model for Agreeableness (M10, $\kappa = 0.1979$) relied on Word2Vec, HSV, and Metadata with SVM.
+
+\textbf{Key features:} Permutation importance shows Word2Vec dimensions dominating (w2v\_149: kappa drop 0.060, w2v\_168: 0.048, w2v\_138: 0.045). Pearson correlations reveal positive associations with Word2Vec clusters (w2v\_192: $r = 0.24$, w2v\_111: $r = 0.23$) and negative correlations with others (w2v\_254: $r = -0.21$, w2v\_56: $r = -0.21$). An interpretable aesthetic finding is the positive correlation with \textbf{Aesthetic Value Mean} (brightness).
+
+\begin{comment}
+	conte\textbf{Interpretation:} The brightness correlation suggests that Agreeable users tend to post images that are brighter and more visually ``open''—aligning with psychological profiles of the trait involving optimism, warmth, and approachability. The Word2Vec patterns likely capture language around cooperation, positive social interactions, and empathetic expression.nt...
+\end{comment}
+
+
+\textbf{Connection to prior work:} Our Word2Vec results extend Mairesse et al.'s (2007) finding that Agreeableness is linguistically marked by words with "positive emotion" and "social processes". The metadata contribution mirrors Secuya's (2021) observation that account-level features (following counts, posting frequency) provide complementary signals for Agreeableness, as the trait manifests in social connectedness and engagement patterns. However, our modest performance ($\kappa = 0.1979$) suggests that Agreeableness remains challenging to predict from social media alone—a limitation noted across multiple Filipino APR studies (Tighe et al., 2022; Gomez et al., 2024).
 
 \subsubsection{Neuroticism}
-Neuroticism was best predicted using unimodal TF-IDF features ($\kappa = 0.1615$). This is a significant finding, as it suggests that for this difficult-to-predict trait, specific keywords are more informative than visual or metadata patterns.
 
-The top correlated features include Filipino-specific tokens such as \textit{siya} (third person pronoun) and \textit{ganito} (like this). Interestingly, high Neuroticism was positively correlated with tokens like \textit{anniversary}, but negatively correlated with \textit{good food}, suggesting that the trait manifests in specific contextual reflections rather than generic lifestyle content.
+Neuroticism was best predicted using unimodal TF-IDF features ($\kappa = 0.1615$) with SVM—a significant finding, as it suggests that for this difficult-to-predict trait, specific keywords are more informative than visual or metadata patterns.
+
+\textbf{Key features:} Permutation importance identifies tokens such as \textit{like s} (kappa drop: 0.033), \textit{said} (0.029), \textit{mountains} (0.029), \textit{house} (0.026), and \textit{class} (0.023) as most influential. Pearson correlations reveal Filipino-specific tokens as strong positive markers: \textit{siya} (third person pronoun, $r = 0.28$), \textit{ganito} (like this, $r = 0.28$), \textit{join} ($r = 0.28$), and \textit{anniversary} ($r = 0.28$). Negative correlations include \textit{credits} ($r = -0.24$), \textit{lights} ($r = -0.24$), \textit{heat} ($r = -0.24$), and \textit{good food} ($r = -0.23$).
+
+\begin{comment}
+	co\textbf{Interpretation:} The prominence of Filipino-specific pronouns (\textit{siya}) and demonstratives (\textit{ganito}) suggests that Neuroticism manifests in the structural and referential aspects of language rather than explicit emotional content. The positive correlation with \textit{anniversary} alongside negative correlation with \textit{good food} implies that high-Neuroticism users may post about personally significant events (potentially with anxious reflection) while avoiding content expressing simple pleasures or satisfaction—consistent with the trait's association with negative affect and rumination.
+	ntent...
+\end{comment}
+
+\textbf{Connection to prior work:}  Our results align with Han et al. (2020), who demonstrated that interpretable word-level features often outperform dense embeddings for Neuroticism precisely because the trait manifests in specific lexical choices rather than broad semantic patterns. The presence of Filipino-specific markers echoes Tighe and Cheng's (2018) observation that code-switching and local language use carry personality-relevant signals that generic embeddings may miss. The overall low performance ($\kappa = 0.1615$) is consistent across Filipino APR literature—Acorda et al. (2019) achieved only $R^2 = 0.500$ (equivalent to modest classification performance), and Tighe et al. (2022) noted Neuroticism as the most challenging trait across both Twitter and Instagram subsets. This suggests that either Neuroticism is less visibly expressed on social media, or that the cues are more subtle and context-dependent than current feature sets capture.
 
 \subsection{Summary of Observations}
 The analysis confirms that textual modalities (TF-IDF and Word2Vec) are the primary drivers for Conscientiousness, Agreeableness, and Neuroticism, while visual modalities (ResNet and HSV) dominate Openness and Extraversion. Furthermore, the inclusion of Metadata acted as a crucial “refinement” feature for Agreeableness and Conscientiousness, providing a boost in Kappa by capturing behavioral regularity that content alone could not model.
