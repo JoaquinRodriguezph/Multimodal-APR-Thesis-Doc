@@ -2,6 +2,110 @@
 \label{sec:results}
 
 \section{Results}
+
+\subsection{Feature Configuration Selection on Validation Data}
+\label{sec:preliminary_analysis}
+
+Before training the final models, we conducted a series of experiments on those features with two configurations (TF-IDF, Word2Vec, and Imagga). For each of those features,  we compared two configurations and selected the variant that achieved the higher Cohen's Kappa on the validation set for each personality trait individually.
+
+\subsubsection{TF-IDF Vocabulary Size}
+
+We compared two TF-IDF configurations: using all available terms (vocabulary size of 36,398) and using only the top 1,500 most frequent terms. Table~\ref{tab:validation_tfidf} presents the validation performance for each trait.
+
+\begin{table}[H]
+	\centering
+	\caption{Validation performance comparison: TF-IDF (all terms) vs. top 1,500 terms}
+	\label{tab:validation_tfidf}
+	\begin{tabular}{lcc}
+		\hline
+		\textbf{Trait} & \textbf{All Terms} & \textbf{Top 1,500 Terms} \\
+		\hline
+		Openness          & 0.2264 (XGBoost) & 0.2467 (XGBoost) \\
+		Conscientiousness & 0.3195 (LogReg)  & 0.3342 (LogReg)  \\
+		Extraversion      & 0.3036 (XGBoost) & 0.2679 (XGBoost) \\
+		Agreeableness     & 0.0342 (XGBoost) & 0.0160 (XGBoost) \\
+		Neuroticism       & 0.1958 (XGBoost) & 0.2669 (XGBoost) \\
+		\hline
+	\end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:validation_tfidf}, the optimal vocabulary size varied by trait. Extraversion and Agreeableness performed better with the full vocabulary, while Openness, Conscientiousness, and Neuroticism achieved higher validation scores using only the top 1,500 terms.
+
+\subsubsection{Word2Vec Aggregation Strategy}
+
+We evaluated two approaches for aggregating Word2Vec embeddings at the user level: (1) ``Words Weighted Equally''---averaging all word vectors across all captions, and (2) ``Posts Weighted Equally''---averaging per post first, then across posts. 
+
+\begin{table}[H]
+	\centering
+	\caption{Validation performance comparison: Word2Vec aggregation strategies}
+	\label{tab:validation_word2vec}
+	\begin{tabular}{lcc}
+		\hline
+		\textbf{Trait} & \textbf{Words Weighted Equally} & \textbf{Posts Weighted Equally} \\
+		\hline
+		Openness          & 0.2909 (LogReg)  & 0.3536 (XGBoost) \\
+		Conscientiousness & 0.3221 (XGBoost) & 0.2905 (SVM)     \\
+		Extraversion      & 0.2143 (SVM)     & 0.1250 (SVM)     \\
+		Agreeableness     & 0.2512 (SVM)     & 0.2683 (LogReg)  \\
+		Neuroticism       & 0.1421 (XGBoost) & 0.1204 (XGBoost) \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The optimal aggregation method varied across traits. Posts Weighted Equally performed better for Openness and Agreeableness, while Words Weighted Equally performed better for Conscientiousness, Extraversion, and Neuroticism.
+
+\subsubsection{Imagga Tag Confidence Filtering}
+
+For the Imagga object tags, we tested two approaches: using all detected tags regardless of confidence, and applying a 30\% confidence threshold.
+
+\begin{table}[H]
+	\centering
+	\caption{Validation performance comparison: Imagga tags with and without confidence filtering}
+	\label{tab:validation_imagga}
+	\begin{tabular}{lcccc}
+		\hline
+		\multirow{2}{*}{\textbf{Trait}} & \multicolumn{2}{c}{\textbf{No Filter}} & \multicolumn{2}{c}{\textbf{30\% Confidence Filter}} \\
+		\cline{2-5}
+		& \textbf{Model} & \textbf{Kappa} & \textbf{Model} & \textbf{Kappa} \\
+		\hline
+		Openness          & XGBoost  & 0.2310 & All Models (Tied) & 0 \\
+		Conscientiousness & XGBoost  & 0.1317 & All Models (Tied) & 0 \\
+		Extraversion      & XGBoost  & 0.1863 & All Models (Tied) & 0 \\
+		Agreeableness     & LogReg   & 0.1522 & All Models (Tied) & 0 \\
+		Neuroticism       & XGBoost  & 0.2814 & All Models (Tied) & 0 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The confidence-filtered version produced zero predictive value across all traits, with all models achieving a Kappa score of 0---indicating no agreement beyond chance. This is evident in \ref{tab:imagga_30} where all three models per traits result to 0 Kappa score. Consequently, we proceeded with the unfiltered Imagga tags for all multimodal experiments.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{lll}
+        \hline
+        \textbf{Trait} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
+        \multirow{3}{*}{Openness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                  & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                  & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Conscientiousness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                           & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                           & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Extraversion} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                      & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                      & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Agreeableness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                       & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                       & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Neuroticism} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                     & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                     & XGBoost                   & 0.0000 \\ \hline
+    \end{tabular}
+    \caption{Performance of all models with Imagga features with 30\% Confidence Filtering
+    \label{tab:imagga_30}
+\end{table}
+
+These feature configurations, guided solely by validation performance, were used in the unimodal, bimodal, and multimodal models whose final test results are presented in the following sections.
+
 \begin{table}[H]
     \centering
     \caption{Best performing models per personality trait with its feature combination}
@@ -63,6 +167,7 @@ The combination of the two text features did not improve on the individual resul
     \end{tabularx}
     \label{bestcohenmodel}
 \end{table}
+
 
 In Table ~\ref{tab:uni_kappa}, Openness has Logistic Regression as the best model that used ResNet50 and HSV with the test kappa of 0.2762. Then, Neuroticism has very near zero test kappa of 0.0037 for SVM that uses Resnet50 and HSV.
 
@@ -159,7 +264,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 	\end{tabularx}
 \end{table}
 
-\subsection{Trait-Specific Analysis and Interpretable Features}
+\subsection{Interpretable Features and Classification Performance by Trait}
 % Table 1: Top Pearson Correlations by Trait
 \begin{table}[htbp]
 	\centering
@@ -185,7 +290,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 		& tfidf\_garden      & 0.24 & tfidf\_lost    & -0.21 \\
 		& tfidf\_aking       & 0.23 & & \\
 		\cmidrule(lr){1-5}
-		\multirow[b]{5}{*}{Extraversion (B10)} 
+		\multirow[b]{5}{*}{Extraversion (U2 Posts Weighted Equally)} 
 		& w2v\_16  & 0.30 & w2v\_288 & -0.32 \\
 		& w2v\_41  & 0.29 & w2v\_258 & -0.30 \\
 		& w2v\_162 & 0.28 & w2v\_38  & -0.27 \\
@@ -257,70 +362,154 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 \end{table}
 
 
+\begin{table}[htbp]
+	\centering
+	\caption{Comparative Performance and Algorithm Gaps across Personality Traits\\(Models are considered close if $|\text{Gap}| \le 0.05$; Neuroticism has only one model within this bound.)}
+	\label{tab:algorithm_gaps}
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{@{} l c c c c c c c c c @{}}
+			\toprule
+			\textbf{Trait} & \textbf{Best Comb.} & \textbf{Alg.} & \textbf{Best $\kappa$} & \textbf{R1} & \textbf{$\kappa_1$} & \textbf{Gap$_1$} & \textbf{R2} & \textbf{$\kappa_2$} & \textbf{Gap$_2$} \\
+			\midrule
+			Openness & U8 & LogReg & 0.2762 & LogReg (U4) & 0.2602 & 0.0160 & LogReg (B25) & 0.2443 & 0.0319 \\
+			Conscientiousness & B24 & SVM & 0.2451 & SVM (B17) & 0.2442 & 0.0009 & SVM (M17) & 0.2442 & 0.0009 \\
+			Extraversion & U2 & SVM & 0.3684 & LogReg (B10) & 0.3684 & 0.0000 & XGBoost (B0) & 0.3333 & 0.0351 \\
+			Agreeableness & B23 & SVM & 0.2129 & XGBoost (B17) & 0.2091 & 0.0038 & XGBoost (U3) & 0.2081 & 0.0048 \\
+			Neuroticism & tfidf\_all & SVM & 0.1615 & XGBoost (U11) & 0.1118 & 0.0497 & --- & --- & --- \\
+			\bottomrule
+		\end{tabular}%
+	}
+\end{table}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Descriptive Statistics of Correctly vs. Incorrectly Classified Users}
+	\label{tab:descriptive_stats}
+	\setlength{\tabcolsep}{4pt} % Reduces padding between columns
+	\small % Reduces font size slightly to fit more data
+	\begin{tabular}{@{} l l c c c c r @{}}
+		\toprule
+		\textbf{Trait} & \textbf{Metric} & \textbf{Corr. Mean} & \textbf{Corr. SD} & \textbf{Incorr. Mean} & \textbf{Incorr. SD} & \textbf{$p$-value} \\
+		\midrule
+		\multirow{3}{*}{Openness} 
+		& Total Posts & 188.84 & 237.04 & 197.53 & 232.17 & 0.8504 \\
+		& Avg Cap Len & 55.75 & 31.64 & 71.26 & 50.83 & 0.0848 \\
+		& Blue Share & 0.3103 & 0.0880 & 0.2685 & 0.0723 & 0.0077 \\
+		\cmidrule(lr){1-7}
+		\multirow{3}{*}{Conscien.} 
+		& Total Posts & 198.39 & 229.16 & 180.74 & 245.39 & 0.7053 \\
+		& Avg Cap Len & 62.55 & 37.29 & 58.87 & 44.44 & 0.6531 \\
+		& Meta-Follow & 0.1578 & 0.1447 & 0.1794 & 0.1292 & 0.4120 \\
+		\cmidrule(lr){1-7}
+		\multirow{3}{*}{Extraver.} 
+		& Total Posts & 213.45 & 256.68 & 145.17 & 170.53 & 0.0962 \\
+		& Avg Cap Len & 60.40 & 38.84 & 62.91 & 42.69 & 0.7649 \\
+		& Std Cap Len & 82.29 & 75.10 & 80.76 & 56.19 & 0.9039 \\
+		\cmidrule(lr){1-7}
+		\multirow{3}{*}{Agreeable.} 
+		& Total Posts & 172.30 & 211.66 & 218.81 & 262.30 & 0.3143 \\
+		& Avg Cap Len & 54.42 & 32.52 & 70.50 & 47.07 & 0.0448 \\
+		& Std Cap Len & 67.30 & 54.60 & 101.75 & 82.26 & 0.0136 \\
+		\cmidrule(lr){1-7}
+		\multirow{3}{*}{Neurotic.} 
+		& Total Posts & 186.29 & 245.58 & 195.54 & 228.48 & 0.8404 \\
+		& Avg Cap Len & 70.13 & 48.07 & 55.36 & 32.64 & 0.0750 \\
+		& Std Cap Len & 93.38 & 85.37 & 74.25 & 56.12 & 0.1887 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \subsubsection{Extraversion}
 
-Extraversion emerged as the most predictable trait in this study ($\kappa = 0.3684$). The winning model (B10) utilized a combination of semantic text embeddings (Word2Vec) and aesthetic features (HSV), with Logistic Regression as the optimal algorithm.
+Extraversion achieved its best result ($\kappa = 0.3684$) through the U2 combination (Word2Vec PWE) using the SVM model.
 
-\textbf{Key features:} Pearson correlation analysis revealed that high Extraversion is strongly linked to specific Word2Vec clusters (e.g., w2v\_16: $r = 0.30$, w2v\_41: $r = 0.29$) while showing negative correlations with others (e.g., w2v\_288: $r = -0.32$, w2v\_258: $r = -0.30$). Permutation importance further confirmed that Word2Vec dimensions dominate the model's decisions.
+There is a 0.0000 gap between the top SVM and Logistic Regression performance, with the top SVM model performance utilizing only Word2Vec PWE features and the top Logistic Regression model performance using both Word2Vec WWE features and HSV. The model performed similarly across both classes, with slightly better recall for low-Extraversion users (Low: precision 0.56, recall 0.60, F1 0.58; High: precision 0.57, recall 0.53, F1 0.55). Correctly classified users averaged more posts (213.45) than misclassified users (145.17). Correctly classified users had a higher average post count (213.45) compared to incorrectly classified users (145.17). It was also observed that misclassified users often utilized single-emoji captions or very short text, which might limit the model's performance due to lack of text. 
+
+This finding aligns with prior research (e.g., Mairesse et al., 2007; Park et al., 2015; Youyou et al., 2017), which consistently identifies Extraversion as one of the most accurately inferable personality traits from social media data, particularly through text.
 
 \begin{comment}
 	conte\textbf{Interpretation:} These patterns suggest that the way social interaction and ``outgoing'' behavior are phrased in social media provides a more robust signal than visual data alone for this trait. The positive correlations likely capture language around social activities and engagement, while negative correlations may reflect introspective or solitary content.nt...
 \end{comment}
 
 
-\textbf{Connection to prior work:} This finding aligns with foundational work by Mairesse et al. (2007), who demonstrated that Extraversion is strongly correlated with specific linguistic categories—particularly words related to social processes and positive emotion. More recently, \citet{Ferwerda2018}) found that HSV features showed modest correlations with Extraversion. HSV alone achieved only $\kappa = 0.0115$, but when combined with Word2Vec, performance substantially improved. This supports Skowron et al.'s (2016) assertion that multimodal fusion—specifically combining linguistic and visual cues—yields optimal results for Extraversion, as the trait manifests through both what users say and the aesthetic quality of what they post.
+\begin{comment}
+	conte\textbf{Connection to prior work:} This finding aligns with foundational work by Mairesse et al. (2007), who demonstrated that Extraversion is strongly correlated with specific linguistic categories—particularly words related to social processes and positive emotion. More recently, \citet{Ferwerda2018}) found that HSV features showed modest correlations with Extraversion. HSV alone achieved only $\kappa = 0.0115$, but when combined with Word2Vec, performance substantially improved. This supports Skowron et al.'s (2016) assertion that multimodal fusion—specifically combining linguistic and visual cues—yields optimal results for Extraversion, as the trait manifests through both what users say and the aesthetic quality of what they post.nt...
+\end{comment}
+
 
 \subsubsection{Openness}
 
-Openness achieved its best result ($\kappa = 0.2762$) through the U8 combination, which is purely visual (ResNet50 + HSV) with Logistic Regression.
+Openness achieved its best result ($\kappa = 0.2762$) through the U8 combination (ResNet50 + HSV) using the Logistic Regression model. The closest competitor was Logistic Regression on U4 (ResNet50‑only), achieving $\kappa = 0.2602$ (gap $0.0160$).
 
-\textbf{Key features:} Model coefficients are dominated by deep visual features (e.g., resnet\_243: coefficient 0.271, resnet\_1751: 0.269, resnet\_1068: 0.264). Pearson correlations show positive associations with multiple ResNet dimensions (resnet\_1573: $r = 0.30$, resnet\_1450: $r = 0.25$) and negative correlations with others (resnet\_334: $r = -0.25$, resnet\_1322: $r = -0.22$).
 
+The model performed better on low-Openness users (precision 0.69, recall 0.71, F1 0.70) than high-Openness users (precision 0.59, recall 0.56, F1 0.57). Analysis of descriptive statistics revealed that correctly classified users had a significantly 
+higher share of blue hues ($0.3103$) compared to misclassified users ($0.2685$), with a 
+$p$-value of $0.0077$. Conversely, incorrectly classified users showed a higher share of red 
+and warm colors. 
 \begin{comment}
 	cont\textbf{Interpretation:} Higher Openness scores correlate with more complex visual information and specific color distributions, confirming that users high in Openness tend to post diverse and aesthetically varied content rather than conforming to a single ``visual brand.'' The aesthetic features, though lower-dimensional, provide interpretability: the pattern suggests openness manifests through visual exploration and novelty-seeking in image selection.ent...
 \end{comment}
 
-
-\textbf{Connection to prior work:} These results strongly align with Ferwerda et al.'s (2016) finding that Openness is reliably predicted from Instagram image features, particularly color diversity and compositional complexity.The dominance of visual over textual features for Openness confirms Azucar et al.'s (2018) meta-analytic finding that Openness is primarily expressed through ``demographic and aesthetic statistics'' rather than linguistic content, distinguishing it from traits like Conscientiousness that rely more heavily on text.
+These results strongly align with Ferwerda et al.'s (2016) finding that Openness is reliably predicted from Instagram image features, particularly color diversity and compositional complexity.The dominance of visual over textual features for Openness confirms Azucar et al.'s (2018) meta-analytic finding that Openness is primarily expressed through ``demographic and aesthetic statistics'' rather than linguistic content, distinguishing it from traits like Conscientiousness that rely more heavily on text.
 
 \subsubsection{Conscientiousness}
 
-For Conscientiousness, the B24 combination ($\kappa = 0.2451$) demonstrated the importance of merging linguistic features with account behavioral metadata, with SVM as the optimal algorithm.
+For Conscientiousness, the B24 (TF-IDF, Word2Vec, and Metadata) combination ($\kappa = 0.2451$) garnered the best kappa score, using the SVM model. The two closest competitors were SVM on B17 (TF‑IDF + Word2Vec + HSV) and SVM on M17 (TF‑IDF + Word2Vec + HSV + Metadata), both achieving $\kappa = 0.2442$ with a gap of only $0.0009$.
 
-\textbf{Key features:} Permutation importance identified TF-IDF tokens as the most influential predictors, including \textit{tfidf\_17} (kappa drop: 0.054), \textit{amazing} (0.054), \textit{soon} (0.039), and \textit{love u} (0.036). Pearson correlation analysis reveals interpretable linguistic markers: positive correlations with tokens such as \textit{tb} ($r = 0.29$), \textit{celebrating} ($r = 0.26$), \textit{let s} ($r = 0.25$), and \textit{garden} ($r = 0.24$), while showing negative correlations with \textit{party} ($r = -0.30$), \textit{current} ($r = -0.24$), and \textit{mo} ($r = -0.21$).
+Permutation importance identified TF-IDF tokens as the most influential predictors, including \textit{tfidf\_17} (kappa drop: 0.054), \textit{amazing} (0.054), \textit{soon} (0.039), and \textit{love u} (0.036). Pearson correlation an	alysis reveals interpretable linguistic markers: positive correlations with tokens such as \textit{tb} ($r = 0.29$), \textit{celebrating} ($r = 0.26$), \textit{let s} ($r = 0.25$), and \textit{garden} ($r = 0.24$), while showing negative correlations with \textit{party} ($r = -0.30$), \textit{current} ($r = -0.24$), and \textit{mo} ($r = -0.21$).
 
+Both classes performed similarly (Low: precision 0.64, recall 0.64, F1 0.64; High: precision 0.62, recall 0.62, F1 0.62). Misclassified users had fewer posts on average (\textit{PostCount\_normalized}: correct mean = 0.129, incorrect mean = 0.111) and slightly higher following counts (\textit{FollowingCount\_normalized}: correct = 0.158, incorrect = 0.179). Descriptive statistics showed that correctly classified users averaged more total posts 
+($198.39$) than misclassified ones ($180.74$). Interpretable TF-IDF markers revealed 
+that high Conscientiousness is strongly linked to organization-related tokens like 
+``tb'' (throwback) ($r = 0.29$) and ``celebrating'' ($r = 0.26$), while impulsive 
+leisure activities like ``party'' ($r = -0.30$) showed a strong negative correlation.
 \begin{comment}
 	content\textbf{Interpretation:} The positive correlations suggest a pattern of posts centered on milestone reporting, gratitude, and organized activities—consistent with the trait's association with discipline and planfulness. The strong negative correlation with \textit{party} implies that users high in Conscientiousness may refrain from posting content associated with high-arousal, impulsive social activities, preferring more ``orderly'' or reflective content. The inclusion of metadata (post and following counts) further captures behavioral regularity—consistent posting patterns that content analysis alone cannot model....
 \end{comment}
 
-
-\textbf{Connection to prior work:} These findings resonate with Pennebaker and King's (1999) early work linking Conscientiousness to linguistic markers of achievement and organization. More specifically, our results align with Tighe and Cheng's (2018) pioneering Filipino APR study, which found that TF-IDF unigrams were the strongest predictors of Conscientiousness among Filipino Twitter users—a pattern our Instagram-based results replicate. The negative correlation with \textit{party} echoes Majumder et al.'s (2017) finding that Conscientious individuals use fewer words related to impulsive activities and leisure. The metadata contribution extends Azucar et al.'s (2018) observation that ``activity statistics'' (post frequency, following patterns) predict Conscientiousness, as organized behavior manifests not just in what users post, but in how regularly they engage with the platform.
+These findings resonate with Pennebaker and King's (1999) early work linking Conscientiousness to linguistic markers of achievement and organization. More specifically, our results align with Tighe and Cheng's (2018) pioneering Filipino APR study, which found that TF-IDF unigrams were the strongest predictors of Conscientiousness among Filipino Twitter users—a pattern our Instagram-based results replicate. The negative correlation with \textit{party} echoes Majumder et al.'s (2017) finding that Conscientious individuals use fewer words related to impulsive activities and leisure. The metadata contribution extends Azucar et al.'s (2018) observation that ``activity statistics'' (post frequency, following patterns) predict Conscientiousness, as organized behavior manifests not just in what users post, but in how regularly they engage with the platform.
 
 \subsubsection{Agreeableness}
 
-The best model for Agreeableness (M10, $\kappa = 0.1979$) relied on Word2Vec, HSV, and Metadata with SVM.
+Agreeableness achieved its best result ($\kappa = 0.2129$) through the B23 combination (Word2Vec + Metadata) using the SVM model. The closest competitors were XGBoost on B17 (TF‑IDF + Word2Vec + HSV) with $\kappa = 0.2091$ (gap $0.0038$) and XGBoost on U3 (TF‑IDF + Word2Vec) with $\kappa = 0.2081$ (gap $0.0048$).
 
-\textbf{Key features:} Permutation importance shows Word2Vec dimensions dominating (w2v\_149: kappa drop 0.060, w2v\_168: 0.048, w2v\_138: 0.045). Pearson correlations reveal positive associations with Word2Vec clusters (w2v\_192: $r = 0.24$, w2v\_111: $r = 0.23$) and negative correlations with others (w2v\_254: $r = -0.21$, w2v\_56: $r = -0.21$). An interpretable aesthetic finding is the positive correlation with \textbf{Aesthetic Value Mean} (brightness).
-
+The model performed better on high-Agreeableness users, though with more false positives (Low: precision 0.61, recall 0.51, F1 0.56; High: precision 0.55, recall 0.65, F1 0.60). Misclassified users had more posts (\textit{PostCount\_normalized}: correct mean = 0.109, incorrect mean = 0.141) and higher following counts (\textit{FollowingCount\_normalized}: correct = 0.152, incorrect = 0.185). Descriptive statistics showed that misclassified users displayed significantly higher 
+caption length variance ($101.75$) compared to correctly classified users ($67.30$) 
+with a $p$-value of $0.0136$. This connotates that users who alternate between long and short captions are more harder to predict. 
 \begin{comment}
 	conte\textbf{Interpretation:} The brightness correlation suggests that Agreeable users tend to post images that are brighter and more visually ``open''—aligning with psychological profiles of the trait involving optimism, warmth, and approachability. The Word2Vec patterns likely capture language around cooperation, positive social interactions, and empathetic expression.nt...
 \end{comment}
 
 
-\textbf{Connection to prior work:} Our Word2Vec results extend Mairesse et al.'s (2007) finding that Agreeableness is linguistically marked by words with "positive emotion" and "social processes". The metadata contribution mirrors Secuya's (2021) observation that account-level features (following counts, posting frequency) provide complementary signals for Agreeableness, as the trait manifests in social connectedness and engagement patterns. However, our modest performance ($\kappa = 0.1979$) suggests that Agreeableness remains challenging to predict from social media alone—a limitation noted across multiple Filipino APR studies (Tighe et al., 2022; Gomez et al., 2024).
+\begin{comment}
+	Our Word2Vec results extend Mairesse et al.'s (2007) finding that Agreeableness is linguistically marked by words with "positive emotion" and "social processes".
+\end{comment} 
+The metadata contribution mirrors Secuya's (2021) observation that account-level features (following counts, posting frequency) provide complementary signals for Agreeableness, as the trait manifests in social connectedness and engagement patterns. However, our modest performance ($\kappa = 0.1979$) suggests that Agreeableness remains challenging to predict from social media alone—a limitation noted across multiple Filipino APR studies (Tighe et al., 2022; Gomez et al., 2024).
 
 \subsubsection{Neuroticism}
 
-Neuroticism was best predicted using unimodal TF-IDF features ($\kappa = 0.1615$) with SVM—a significant finding, as it suggests that for this difficult-to-predict trait, specific keywords are more informative than visual or metadata patterns.
+Neuroticism was best predicted using all TF-IDF  features ($\kappa = 0.1615$) with SVM.
 
-\textbf{Key features:} Permutation importance identifies tokens such as \textit{like s} (kappa drop: 0.033), \textit{said} (0.029), \textit{mountains} (0.029), \textit{house} (0.026), and \textit{class} (0.023) as most influential. Pearson correlations reveal Filipino-specific tokens as strong positive markers: \textit{siya} (third person pronoun, $r = 0.28$), \textit{ganito} (like this, $r = 0.28$), \textit{join} ($r = 0.28$), and \textit{anniversary} ($r = 0.28$). Negative correlations include \textit{credits} ($r = -0.24$), \textit{lights} ($r = -0.24$), \textit{heat} ($r = -0.24$), and \textit{good food} ($r = -0.23$).
+Permutation importance identifies tokens such as \textit{like s} (kappa drop: 0.033), \textit{said} (0.029), \textit{mountains} (0.029), \textit{house} (0.026), and \textit{class} (0.023) as most influential. Pearson correlations reveal Filipino-specific tokens as strong positive markers: \textit{siya} (third person pronoun, $r = 0.28$), \textit{ganito} (like this, $r = 0.28$), \textit{join} ($r = 0.28$), and \textit{anniversary} ($r = 0.28$). Negative correlations include \textit{credits} ($r = -0.24$), \textit{lights} ($r = -0.24$), \textit{heat} ($r = -0.24$), and \textit{good food} ($r = -0.23$).
 
 \begin{comment}
 	co\textbf{Interpretation:} The prominence of Filipino-specific pronouns (\textit{siya}) and demonstratives (\textit{ganito}) suggests that Neuroticism manifests in the structural and referential aspects of language rather than explicit emotional content. The positive correlation with \textit{anniversary} alongside negative correlation with \textit{good food} implies that high-Neuroticism users may post about personally significant events (potentially with anxious reflection) while avoiding content expressing simple pleasures or satisfaction—consistent with the trait's association with negative affect and rumination.
 	ntent...
 \end{comment}
 
-\textbf{Connection to prior work:}  Our results align with Han et al. (2020), who demonstrated that interpretable word-level features often outperform dense embeddings for Neuroticism precisely because the trait manifests in specific lexical choices rather than broad semantic patterns. The presence of Filipino-specific markers echoes Tighe and Cheng's (2018) observation that code-switching and local language use carry personality-relevant signals that generic embeddings may miss. The overall low performance ($\kappa = 0.1615$) is consistent across Filipino APR literature—Acorda et al. (2019) achieved only $R^2 = 0.500$ (equivalent to modest classification performance), and Tighe et al. (2022) noted Neuroticism as the most challenging trait across both Twitter and Instagram subsets. This suggests that either Neuroticism is less visibly expressed on social media, or that the cues are more subtle and context-dependent than current feature sets capture.
+This trait exhibited the largest algorithmic gap ($0.0497$) between the best SVM 
+and the XGBoost runner-up. The model performed weakly on both classes, with slightly better performance on high-Neuroticism users (Low: precision 0.40, recall 0.32, F1 0.36; High: precision 0.39, recall 0.48, F1 0.43).
+Correctly classified users had a higher average caption length ($70.13$) than 
+misclassified users ($55.36$), indicating that the model predicts better among users with longer captions. 
+
+Our results align with Han et al. (2020), who demonstrated that interpretable word-level features often outperform dense embeddings for Neuroticism precisely because the trait manifests in specific lexical choices rather than broad semantic patterns. \begin{comment}
+	The presence of Filipino-specific markers echoes Tighe and Cheng's (2018) observation that code-switching and local language use carry personality-relevant signals that generic embeddings may miss.
+\end{comment} 
+The overall low performance for Neuroticism ($\kappa = 0.1615$) is consistent with 
+existing Filipino APR literature using Twitter data. Our results outperform the 
+baselines established by Tighe \& Cheng (2018), who achieved $\kappa = 0.0711$, 
+and Aviles et al. (2023), who reported $\kappa = 0.1403$ using the same Pagkataoko 
+dataset and median-split methodology. 
 
 \subsection{Summary of Observations}
 The analysis confirms that textual modalities (TF-IDF and Word2Vec) are the primary drivers for Conscientiousness, Agreeableness, and Neuroticism, while visual modalities (ResNet and HSV) dominate Openness and Extraversion. Furthermore, the inclusion of Metadata acted as a crucial “refinement” feature for Agreeableness and Conscientiousness, providing a boost in Kappa by capturing behavioral regularity that content alone could not model.
