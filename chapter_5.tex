@@ -331,9 +331,11 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 
 \subsubsection{Extraversion}
 
-Extraversion emerged as the most predictable trait in this study ($\kappa = 0.3684$). The best combination utilized Word2Vec PWE (Posts Weighted Equally) features, with Support Vector Machine as the optimal model.
+Extraversion achieved its best result ($\kappa = 0.3684$) through the U2 combination (Word2Vec PWE) using the SVM model.
 
 There is a 0.0000 gap between the top SVM and Logistic Regression performance, with the top SVM model performance utilizing only Word2Vec PWE features and the top Logistic Regression model performance using both Word2Vec WWE features and HSV. Correctly classified users had a higher average post count (213.45) compared to incorrectly classified users (145.17). It was also observed that misclassified users often utilized single-emoji captions or very short text, which might limit the model's performance due to lack of text.
+
+This finding aligns with prior research (e.g., Mairesse et al., 2007; Park et al., 2015; Youyou et al., 2017), which consistently identifies Extraversion as one of the most accurately inferable personality traits from social media data, particularly through text.
 
 \begin{comment}
 	conte\textbf{Interpretation:} These patterns suggest that the way social interaction and ``outgoing'' behavior are phrased in social media provides a more robust signal than visual data alone for this trait. The positive correlations likely capture language around social activities and engagement, while negative correlations may reflect introspective or solitary content.nt...
@@ -347,7 +349,7 @@ There is a 0.0000 gap between the top SVM and Logistic Regression performance, w
 
 \subsubsection{Openness}
 
-Openness achieved its best result ($\kappa = 0.2762$) through the U8 combination (ResNet50 + HSV) using the Logistic Regression model.
+Openness achieved its best result ($\kappa = 0.2762$) through the U8 combination (ResNet50 + HSV) using the Logistic Regression model. The closest competitor was Logistic Regression on U4 (ResNet50‑only), achieving $\kappa = 0.2602$ (gap $0.0160$).
 
 Analysis of descriptive statistics revealed that correctly classified users had a significantly 
 higher share of blue hues ($0.3103$) compared to misclassified users ($0.2685$), with a 
@@ -363,7 +365,7 @@ These results strongly align with Ferwerda et al.'s (2016) finding that Openness
 
 \subsubsection{Conscientiousness}
 
-For Conscientiousness, the B24 (TF-IDF, Word2Vec, and Metadata) combination ($\kappa = 0.2451$) garnered the best kappa score, using the SVM model.
+For Conscientiousness, the B24 (TF-IDF, Word2Vec, and Metadata) combination ($\kappa = 0.2451$) garnered the best kappa score, using the SVM model. The two closest competitors were SVM on B17 (TF‑IDF + Word2Vec + HSV) and SVM on M17 (TF‑IDF + Word2Vec + HSV + Metadata), both achieving $\kappa = 0.2442$ with a gap of only $0.0009$.
 
 Permutation importance identified TF-IDF tokens as the most influential predictors, including \textit{tfidf\_17} (kappa drop: 0.054), \textit{amazing} (0.054), \textit{soon} (0.039), and \textit{love u} (0.036). Pearson correlation an	alysis reveals interpretable linguistic markers: positive correlations with tokens such as \textit{tb} ($r = 0.29$), \textit{celebrating} ($r = 0.26$), \textit{let s} ($r = 0.25$), and \textit{garden} ($r = 0.24$), while showing negative correlations with \textit{party} ($r = -0.30$), \textit{current} ($r = -0.24$), and \textit{mo} ($r = -0.21$).
 
@@ -380,7 +382,7 @@ These findings resonate with Pennebaker and King's (1999) early work linking Con
 
 \subsubsection{Agreeableness}
 
-The best model for Agreeableness (M10, $\kappa = 0.1979$) relied on Word2Vec, HSV, and Metadata with SVM.
+Agreeableness achieved its best result ($\kappa = 0.2129$) through the B23 combination (Word2Vec + Metadata) using the SVM model. The closest competitors were XGBoost on B17 (TF‑IDF + Word2Vec + HSV) with $\kappa = 0.2091$ (gap $0.0038$) and XGBoost on U3 (TF‑IDF + Word2Vec) with $\kappa = 0.2081$ (gap $0.0048$).
 
 Descriptive statistics showed that misclassified users displayed significantly higher 
 caption length variance ($101.75$) compared to correctly classified users ($67.30$) 
