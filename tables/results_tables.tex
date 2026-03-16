@@ -1,0 +1,627 @@
+\small
+\setlength{\tabcolsep}{4pt}
+
+\begin{longtable}{llcccccc}
+\caption{Unimodal Model Performance ($\kappa$)}\label{tab:unimodal_results_full} \\
+
+\hline
+\textbf{Feature} & \textbf{Trait} & \multicolumn{3}{c}{\textbf{Best Validation $\kappa$}} & \multicolumn{3}{c}{\textbf{Test $\kappa$}} \\
+\cline{3-8}
+ &  & LR & SVM & XGB & LR & SVM & XGB \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Feature} & \textbf{Trait} & \multicolumn{3}{c}{\textbf{Best Validation $\kappa$}} & \multicolumn{3}{c}{\textbf{Test $\kappa$}} \\
+\cline{3-8}
+ &  & LR & SVM & XGB & LR & SVM & XGB \\
+\hline
+\endhead
+
+\hline
+\multicolumn{8}{r}{\textit{Continued on next page}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+%------------------ Rows start here ------------------%
+\multicolumn{8}{l}{\textbf{U1.1: TF-IDF (1,500 features)}} \\
+& Openness & 0.2141 & 0.1616 & \textbf{0.2467} & 0.0798 & 0.0898 & \textbf{0.1005} \\
+& Conscientiousness & \textbf{0.3342} & 0.1634 & 0.1825 & 0.0515 & \textbf{0.0969} & 0.0468 \\
+& Extraversion & 0.1429 & 0.1429 & \textbf{0.2679} & 0.1579 & \textbf{0.1754} & 0.1579 \\
+& Agreeableness & -0.0010 & 0.0000 & \textbf{0.0160} & \textbf{0.1217} & 0.0000 & -0.0138 \\
+& Neuroticism & 0.1532 & 0.0834 & \textbf{0.2669} & -0.1568 & \textbf{-0.0242} & -0.2128 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U1.2: TF-IDF (All)}} \\[3pt]
+
+& Openness & 0.2139 & 0.0784 & \textbf{0.2264} & \textbf{0.1531} & 0.1172 & 0.0140 \\
+& Conscientiousness & \textbf{0.3195} & 0.1337 & 0.2679 & 0.1419 & 0.1003 & \textbf{0.2271} \\
+& Extraversion & 0.2321 & 0.1607 & \textbf{0.3036} & \textbf{0.2456} & \textbf{0.2456} & 0.0000 \\
+& Agreeableness & 0.0166 & 0.0000 & \textbf{0.0342} & \textbf{0.0200} & 0.0000 & -0.0113 \\
+& Neuroticism & 0.1227 & 0.0370 & \textbf{0.1958} & -0.0428 & \textbf{0.1615} & -0.0734 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U2.1: Word2Vec (Words Weighted Equally)}} \\
+
+& Openness & \textbf{0.2909} & 0.2857 & 0.2347 & 0.0362 & 0.1204 & \textbf{0.1381} \\
+& Conscientiousness & 0.1233 & 0.2982 & \textbf{0.3221} & 0.0200 & \textbf{0.0297} & -0.0396 \\
+& Extraversion & 0.0893 & \textbf{0.2143} & \textbf{0.2143} & \textbf{0.1754} & 0.1228 & 0.0702 \\
+& Agreeableness & 0.1980 & \textbf{0.2512} & 0.2160 & -0.0006 & -0.0188 & \textbf{0.1174} \\
+& Neuroticism & -0.0129 & 0.0862 & \textbf{0.1421} & -0.1404 & \textbf{0.0000} & -0.1176 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U2.2: Word2Vec (Posts Weighted Equally)}} \\
+
+& Openness & 0.1586 & 0.2456 & \textbf{0.3536} & 0.0243 & 0.1544 & \textbf{0.2267} \\
+& Conscientiousness & 0.2878 & \textbf{0.2905} & 0.1698 & 0.0719 & \textbf{0.1102} & 0.0127 \\
+& Extraversion & 0.0893 & \textbf{0.1250} & 0.1071 & 0.2982 & \textbf{0.3684} & 0.0351 \\
+& Agreeableness & \textbf{0.2683} & 0.1623 & 0.2140 & -0.0891 & \textbf{0.1620} & 0.1430 \\
+& Neuroticism & 0.0787 & 0.0979 & \textbf{0.1204} & -0.1094 & -0.1114 & \textbf{-0.0447} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U3: TF-IDF + Word2Vec}} \\
+
+& Openness & 0.0902 & 0.2006 & \textbf{0.2513} & 0.0692 & \textbf{0.1706} & 0.1431 \\
+& Conscientiousness & 0.1165 & 0.2217 & \textbf{0.3195} & \textbf{0.1960} & 0.1334 & 0.1036 \\
+& Extraversion & 0.1250 & 0.0714 & \textbf{0.3036} & \textbf{0.1404} & 0.0702 & 0.1053 \\
+& Agreeableness & \textbf{0.1426} & 0.0512 & 0.1409 & 0.0188 & 0.0696 & \textbf{0.1206} \\
+& Neuroticism & -0.0129 & 0.0741 & \textbf{0.2650} & -0.0517 & \textbf{0.0188} & 0.0112 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U4: ResNet50}} \\
+
+& Openness & 0.1979 & 0.1765 & \textbf{0.2642} & \textbf{0.2726} & 0.2285 & 0.0214 \\
+& Conscientiousness & 0.0554 & 0.1639 & \textbf{0.1666} & \textbf{-0.0068} & -0.0578 & -0.0578 \\
+& Extraversion & 0.0357 & 0.1607 & \textbf{0.2500} & 0.0351 & \textbf{0.2456} & 0.1930 \\
+& Agreeableness & 0.0711 & \textbf{0.0864} & 0.0147 & -0.0578 & \textbf{-0.0093} & -0.0226 \\
+& Neuroticism & 0.1722 & 0.2462 & \textbf{0.3488} & -0.0867 & \textbf{-0.0056} & -0.2173 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U5.1: Imagga (No Filter)}} \\
+
+& Openness & 0.0174 & 0.0113 & \textbf{0.2310} & \textbf{0.1736} & 0.1355 & 0.0692 \\
+& Conscientiousness & -0.0877 & 0.0287 & \textbf{0.1317} & -0.0085 & \textbf{0.0161} & -0.0775 \\
+& Extraversion & 0.0103 & 0.0260 & \textbf{0.1863} & \textbf{0.1677} & 0.0802 & 0.1141 \\
+& Agreeableness & \textbf{0.1522} & 0.0971 & 0.1506 & \textbf{-0.0819} & -0.1174 & -0.0992 \\
+& Neuroticism & 0.0949 & 0.0822 & \textbf{0.2814} & \textbf{-0.0151} & -0.0414 & -0.0466 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U5.2: Imagga (30\% Confidence Filter)}} \\
+
+& Openness & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+& Conscientiousness & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+& Extraversion & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+& Agreeableness & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+& Neuroticism & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U6: HSV}} \\
+
+& Openness & 0.0156 & 0.0612 & \textbf{0.1542} & -0.1284 & \textbf{-0.0106} & -0.0403 \\
+& Conscientiousness & 0.1300 & \textbf{0.2307} & 0.1502 & -0.1299 & -0.0396 & \textbf{0.0115} \\
+& Extraversion & -0.0357 & \textbf{0.0536} & \textbf{0.0536} & \textbf{0.0000} & -0.1053 & -0.1404 \\
+& Agreeableness & -0.0529 & \textbf{0.0397} & 0.0172 & 0.0427 & -0.1466 & \textbf{0.1600} \\
+& Neuroticism & \textbf{0.2746} & 0.2650 & 0.2538 & \textbf{-0.0185} & -0.0486 & \textbf{-0.0185} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U7: ResNet50 + Imagga}} \\
+
+& Openness & 0.1344 & 0.1185 & \textbf{0.2602} & -0.1070 & -0.1982 & \textbf{0.0172} \\
+& Conscientiousness & 0.0875 & 0.0871 & \textbf{0.2336} & 0.1152 & -0.0815 & \textbf{0.1174} \\
+& Extraversion & 0.0714 & 0.2321 & \textbf{0.3214} & -0.0351 & 0.1053 & \textbf{0.2105} \\
+& Agreeableness & 0.0875 & 0.0875 & \textbf{0.1228} & -0.1214 & -0.1396 & \textbf{-0.0748} \\
+& Neuroticism & 0.0739 & 0.0642 & \textbf{0.2708} & -0.1197 & \textbf{-0.0623} & -0.0907 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U8: ResNet50 + HSV}} \\
+
+& Openness & 0.1658 & 0.1744 & \textbf{0.2306} & \textbf{0.2762} & 0.2172 & 0.1531 \\
+& Conscientiousness & 0.0554 & 0.1404 & \textbf{0.1698} & -0.0958 & \textbf{0.0285} & -0.0578 \\
+& Extraversion & 0.0179 & 0.1429 & \textbf{0.2500} & 0.1228 & 0.2456 & \textbf{0.2632} \\
+& Agreeableness & \textbf{0.0711} & 0.0499 & 0.0705 & -0.0748 & \textbf{0.0444} & -0.0370 \\
+& Neuroticism & 0.1765 & 0.2613 & \textbf{0.3316} & -0.0536 & \textbf{0.0037} & -0.1568 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U9: Imagga + HSV}} \\
+
+& Openness & 0.0000 & 0.1206 & \textbf{0.2759} & -0.0285 & -0.2391 & \textbf{-0.0133} \\
+& Conscientiousness & 0.1794 & \textbf{0.2202} & 0.1655 & \textbf{0.0139} & -0.0144 & -0.0708 \\
+& Extraversion & 0.0714 & 0.2500 & \textbf{0.2857} & 0.0175 & \textbf{0.0877} & 0.0702 \\
+& Agreeableness & 0.0875 & 0.0694 & \textbf{0.1783} & \textbf{-0.1073} & -0.0552 & -0.1087 \\
+& Neuroticism & 0.0376 & 0.0376 & \textbf{0.2574} & -0.1429 & -0.1786 & \textbf{-0.0615} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U10: ResNet50 + Imagga + HSV}} \\
+
+& Openness & 0.1344 & 0.1185 & \textbf{0.3298} & -0.1070 & -0.1982 & \textbf{0.1108} \\
+& Conscientiousness & 0.0875 & 0.0875 & \textbf{0.1778} & \textbf{0.0786} & 0.0444 & -0.0357 \\
+& Extraversion & 0.0714 & 0.2321 & \textbf{0.3214} & 0.0000 & 0.1053 & \textbf{0.2105} \\
+& Agreeableness & 0.0875 & 0.0875 & \textbf{0.0881} & \textbf{-0.1214} & -0.1396 & -0.1930 \\
+& Neuroticism & 0.0545 & 0.0814 & \textbf{0.3109} & -0.1030 & \textbf{-0.0788} & -0.0989 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{U11: Metadata}} \\
+
+& Openness & \textbf{0.1701} & 0.0885 & 0.1436 & 0.1314 & 0.1431 & \textbf{0.2216} \\
+& Conscientiousness & 0.0858 & 0.1607 & \textbf{0.2507} & -0.0118 & \textbf{0.0685} & -0.0251 \\
+& Extraversion & 0.0714 & \textbf{0.1250} & \textbf{0.1250} & 0.1579 & \textbf{0.1930} & 0.1579 \\
+& Agreeableness & \textbf{0.1074} & 0.0875 & 0.0711 & \textbf{0.1323} & 0.0866 & -0.0138 \\
+& Neuroticism & 0.1414 & \textbf{0.1525} & 0.0979 & -0.1014 & -0.1176 & \textbf{0.0018} \\
+
+\end{longtable}
+
+
+
+
+\small
+\setlength{\tabcolsep}{4pt}
+
+\begin{longtable}{llcccccc}
+\caption{Bimodal Model Performance ($\kappa$)}\label{tab:bimodal_results_full} \\
+
+\hline
+\textbf{Feature} & \textbf{Trait} & \multicolumn{3}{c}{\textbf{Best Validation $\kappa$}} & \multicolumn{3}{c}{\textbf{Test $\kappa$}} \\
+\cline{3-8}
+ &  & LR & SVM & XGB & LR & SVM & XGB \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Feature} & \textbf{Trait} & \multicolumn{3}{c}{\textbf{Best Validation $\kappa$}} & \multicolumn{3}{c}{\textbf{Test $\kappa$}} \\
+\cline{3-8}
+ &  & LR & SVM & XGB & LR & SVM & XGB \\
+\hline
+\endhead
+
+\hline
+\multicolumn{8}{r}{\textit{Continued on next page}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+%------------------ Rows start here ------------------%
+\multicolumn{8}{l}{\textbf{B1: TFIDF + Resnet50}} \\
+
+& Openness & 0.1158 & 0.1600 & \textbf{0.2513} & \textbf{0.0528} & 0.0000 & -0.0038 \\
+& Conscientiousness & -0.0067 & 0.0840 & \textbf{0.1011} & \textbf{0.1548} & 0.0526 & -0.0605 \\
+& Extraversion & 0.2143 & 0.1607 & \textbf{0.3393} & 0.1930 & 0.2105 & \textbf{0.2281} \\
+& Agreeableness & -0.0556 & 0.0000 & \textbf{0.0179} & \textbf{0.0357} & 0.0000 & 0.0151 \\
+& Neuroticism & 0.1421 & 0.2082 & \textbf{0.3316} & -0.0928 & -0.1259 & \textbf{-0.0595} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B2: TFIDF + Imagga}} \\
+
+& Openness & 0.0325 & 0.1360 & \textbf{0.2642} & -0.0192 & -0.2324 & \textbf{-0.0155} \\
+& Conscientiousness & \textbf{0.1623} & 0.1420 & 0.1453 & 0.0550 & 0.0188 & \textbf{0.1058} \\
+& Extraversion & 0.0893 & 0.0893 & \textbf{0.3571} & 0.1053 & \textbf{0.1228} & 0.0702 \\
+& Agreeableness & 0.0166 & 0.0000 & \textbf{0.1420} & \textbf{0.0333} & 0.0000 & -0.1228 \\
+& Neuroticism & 0.0739 & 0.0521 & \textbf{0.2574} & -0.1553 & -0.1197 & \textbf{0.0130} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B3: TFIDF + HSV}} \\
+
+& Openness & 0.1064 & 0.1788 & \textbf{0.2344} & 0.0058 & \textbf{0.1061} & 0.0741 \\
+& Conscientiousness & 0.0122 & \textbf{0.2968} & 0.2165 & \textbf{0.1217} & 0.0798 & 0.0832 \\
+& Extraversion & 0.0714 & 0.0714 & \textbf{0.2321} & \textbf{0.1579} & \textbf{0.1579} & 0.0526 \\
+& Agreeableness & -0.0022 & 0.0389 & \textbf{0.0717} & -0.0163 & 0.0000 & \textbf{0.0742} \\
+& Neuroticism & 0.0475 & 0.1261 & \textbf{0.2344} & \textbf{-0.0389} & -0.0887 & -0.2120 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B4: TFIDF + Resnet50 + Imagga}} \\
+
+& Openness & 0.1390 & 0.1642 & \textbf{0.3093} & -0.0795 & -0.2186 & \textbf{0.1852} \\
+& Conscientiousness & 0.0741 & 0.1062 & \textbf{0.1559} & 0.0673 & -0.0277 & \textbf{-0.0068} \\
+& Extraversion & 0.1250 & 0.0893 & \textbf{0.3036} & 0.1228 & 0.1228 & \textbf{0.1930} \\
+& Agreeableness & -0.0367 & 0.0000 & \textbf{0.1057} & \textbf{0.0175} & 0.0000 & -0.1298 \\
+& Neuroticism & -0.0013 & 0.0914 & \textbf{0.2555} & -0.1197 & \textbf{-0.0788} & -0.1156 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B5: TFIDF + Resnet50 + HSV}} \\
+
+& Openness & 0.1365 & 0.1390 & \textbf{0.3093} & 0.0000 & 0.0000 & \textbf{0.0848} \\
+& Conscientiousness & -0.0257 & 0.0840 & \textbf{0.1437} & \textbf{0.1537} & 0.0175 & 0.0786 \\
+& Extraversion & 0.2321 & 0.1607 & \textbf{0.3393} & 0.1930 & \textbf{0.2105} & 0.1930 \\
+& Agreeableness & -0.0556 & \textbf{0.0530} & 0.0153 & \textbf{0.0175} & 0.0000 & -0.0357 \\
+& Neuroticism & 0.1273 & 0.2462 & \textbf{0.3009} & -0.1114 & -0.1073 & \textbf{0.0482} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B6: TFIDF + Imagga + HSV}} \\
+
+& Openness & 0.0325 & 0.1360 & \textbf{0.2602} & -0.0192 & -0.2324 & \textbf{0.0692} \\
+& Conscientiousness & \textbf{0.1778} & 0.1607 & 0.1453 & 0.0526 & 0.0175 & \textbf{0.0719} \\
+& Extraversion & 0.1071 & 0.0893 & \textbf{0.3036} & \textbf{0.1053} & \textbf{0.1053} & 0.0877 \\
+& Agreeableness & -0.0185 & 0.0000 & \textbf{0.1944} & 0.0163 & 0.0000 & \textbf{0.0696} \\
+& Neuroticism & 0.0545 & 0.0715 & \textbf{0.2383} & -0.1197 & -0.1009 & \textbf{-0.0338} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B7: TFIDF + Resnet50 + Imagga + HSV}} \\
+
+& Openness & 0.1555 & 0.1642 & \textbf{0.3636} & -0.0857 & -0.2047 & \textbf{0.1519} \\
+& Conscientiousness & 0.1097 & 0.1062 & \textbf{0.1730} & \textbf{0.0673} & -0.0106 & 0.0139 \\
+& Extraversion & 0.1250 & 0.0893 & \textbf{0.3393} & \textbf{0.1228} & 0.1053 & 0.1053 \\
+& Agreeableness & -0.0192 & 0.0000 & \textbf{0.0694} & \textbf{0.0357} & 0.0000 & -0.0345 \\
+& Neuroticism & 0.0376 & 0.0741 & \textbf{0.2727} & -0.1197 & -0.0604 & \textbf{0.0075} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B8: Word2Vec + ResNet50}} \\
+
+& Openness & 0.1091 & 0.2016 & \textbf{0.2308} & 0.1461 & 0.0545 & \textbf{0.1531} \\
+& Conscientiousness & 0.0216 & 0.1542 & \textbf{0.1825} & 0.0102 & \textbf{0.0627} & 0.0139 \\
+& Extraversion & -0.0357 & 0.2500 & \textbf{0.2857} & 0.1754 & \textbf{0.2105} & 0.1754 \\
+& Agreeableness & \textbf{0.0542} & 0.0197 & 0.0342 & -0.0605 & -0.0605 & \textbf{-0.0370} \\
+& Neuroticism & 0.0594 & 0.2536 & \textbf{0.3384} & \textbf{0.0166} & -0.0556 & -0.1941 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B9: Word2Vec + Imagga}} \\
+
+& Openness & 0.1064 & 0.1272 & \textbf{0.2772} & 0.0284 & -0.1897 & \textbf{0.1372} \\
+& Conscientiousness & 0.1623 & 0.1839 & \textbf{0.1964} & \textbf{-0.0163} & -0.0315 & -0.0526 \\
+& Extraversion & 0.0714 & 0.2679 & \textbf{0.2857} & 0.0000 & \textbf{0.1228} & 0.1053 \\
+& Agreeableness & 0.1046 & 0.0870 & \textbf{0.1623} & 0.0151 & 0.0163 & \textbf{0.1228} \\
+& Neuroticism & 0.0619 & 0.0619 & \textbf{0.2918} & -0.1764 & -0.1575 & \textbf{0.0112} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B10: Word2Vec + HSV}} \\
+
+& Openness & 0.1775 & \textbf{0.3202} & 0.2545 & 0.0110 & 0.1300 & \textbf{0.2017} \\
+& Conscientiousness & 0.1933 & 0.2449 & \textbf{0.2864} & 0.0212 & 0.0650 & \textbf{0.2233} \\
+& Extraversion & 0.0714 & 0.1786 & \textbf{0.2500} & \textbf{0.3684} & 0.1754 & 0.0526 \\
+& Agreeableness & 0.1799 & 0.1198 & \textbf{0.2155} & -0.0539 & 0.0743 & \textbf{0.1780} \\
+& Neuroticism & 0.0496 & \textbf{0.1636} & 0.1443 & -0.0242 & -0.0755 & \textbf{0.0749} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B11: Word2Vec + ResNet50 + Imagga}} \\
+
+& Openness & 0.2139 & 0.1489 & \textbf{0.2943} & -0.0344 & -0.1843 & \textbf{0.1481} \\
+& Conscientiousness & 0.1080 & 0.1267 & \textbf{0.1949} & 0.1366 & 0.1185 & \textbf{0.1451} \\
+& Extraversion & 0.1071 & 0.2500 & \textbf{0.3393} & 0.0175 & 0.1053 & \textbf{0.0702} \\
+& Agreeableness & 0.0870 & 0.0699 & \textbf{0.1046} & \textbf{-0.0357} & -0.0891 & -0.0735 \\
+& Neuroticism & 0.0156 & 0.0667 & \textbf{0.3281} & -0.1239 & \textbf{-0.0788} & -0.1531 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B12: Word2Vec + ResNet50 + HSV}} \\
+
+& Openness & 0.1091 & 0.2016 & \textbf{0.3360} & \textbf{0.1662} & 0.0545 & 0.0132 \\
+& Conscientiousness & 0.0758 & 0.1469 & \textbf{0.1949} & 0.0456 & \textbf{0.1398} & 0.0151 \\
+& Extraversion & -0.0179 & \textbf{0.2500} & \textbf{0.2500} & 0.1579 & \textbf{0.2105} & 0.1754 \\
+& Agreeableness & 0.0372 & 0.0379 & \textbf{0.0870} & -0.0421 & -0.0421 & \textbf{-0.0031} \\
+& Neuroticism & 0.0594 & 0.2500 & \textbf{0.3281} & \textbf{0.0148} & -0.0204 & -0.1875 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B13: Word2Vec + Imagga + HSV}} \\
+
+& Openness & 0.0691 & 0.1272 & \textbf{0.3152} & 0.0284 & -0.1754 & \textbf{0.1422} \\
+& Conscientiousness & 0.1809 & \textbf{0.1995} & 0.1623 & -0.0345 & 0.0006 & \textbf{0.0707} \\
+& Extraversion & 0.0893 & 0.2679 & \textbf{0.3036} & 0.0000 & \textbf{0.1228} & 0.1053 \\
+& Agreeableness & 0.0875 & 0.0694 & \textbf{0.1804} & -0.0201 & -0.0019 & \textbf{0.0321} \\
+& Neuroticism & 0.0956 & 0.0401 & \textbf{0.2765} & -0.1261 & -0.1575 & \textbf{-0.0223} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B14: Word2Vec + ResNet50 + Imagga + HSV}} \\
+
+& Openness & 0.1973 & 0.1489 & \textbf{0.3636} & -0.0285 & -0.1703 & \textbf{0.2267} \\
+& Conscientiousness & 0.1267 & 0.1080 & \textbf{0.1949} & 0.1003 & 0.1003 & \textbf{0.1451} \\
+& Extraversion & 0.1071 & 0.2500 & \textbf{0.3036} & 0.0351 & 0.1053 & \textbf{0.1228} \\
+& Agreeableness & 0.0694 & 0.0699 & \textbf{0.1944} & -0.0357 & -0.0891 & \textbf{-0.0056} \\
+& Neuroticism & 0.0182 & 0.0838 & \textbf{0.3144} & -0.1071 & \textbf{-0.0788} & -0.1280 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B15: TF-DF + Word2Vec + ResNet50}} \\
+& Openness & 0.0789 & 0.0997 & \textbf{0.2681} & 0.0631 & -0.0056 & \textbf{0.0846} \\
+& Conscientiousness & -0.0447 & 0.1183 & \textbf{0.1980} & 0.1196 & \textbf{0.1217} & -0.1128 \\
+& Extraversion & 0.2500 & 0.2500 & \textbf{0.3750} & \textbf{0.1754} & 0.1579 & 0.1579 \\
+& Agreeableness & -0.0035 & 0.0000 & \textbf{0.1757} & 0.0357 & 0.0000 & \textbf{0.0673} \\
+& Neuroticism & 0.1593 & 0.2292 & \textbf{0.3661} & -0.1094 & \textbf{-0.0867} & -0.1654 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B16: TF-DF + Word2Vec + Imagga}} \\
+& Openness & 0.0385 & 0.1404 & \textbf{0.2473} & 0.0692 & -0.2186 & \textbf{0.1314} \\
+& Conscientiousness & 0.1794 & 0.1607 & \textbf{0.2165} & \textbf{0.0550} & 0.0188 & 0.0018 \\
+& Extraversion & 0.1250 & 0.1071 & \textbf{0.3571} & 0.0526 & \textbf{0.1228} & 0.1053 \\
+& Agreeableness & 0.0160 & 0.0000 & \textbf{0.2140} & \textbf{0.1366} & 0.0000 & 0.0662 \\
+& Neuroticism & 0.0570 & 0.0570 & \textbf{0.2881} & -0.1009 & -0.1009 & \textbf{-0.0654} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B17: TF-DF + Word2Vec + HSV}} \\
+& Openness & 0.0691 & 0.2261 & \textbf{0.2632} & 0.0899 & 0.1003 & \textbf{0.1628} \\
+& Conscientiousness & -0.0048 & \textbf{0.3380} & 0.2927 & 0.1206 & \textbf{0.2442} & 0.1739 \\
+& Extraversion & 0.0893 & 0.1071 & \textbf{0.3393} & 0.1053 & 0.1053 & \textbf{0.1228} \\
+& Agreeableness & 0.1063 & 0.0512 & \textbf{0.1228} & 0.0357 & 0.0696 & \textbf{0.2091} \\
+& Neuroticism & -0.0129 & 0.1273 & \textbf{0.2706} & \textbf{-0.0185} & -0.0223 & -0.0261 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B18: TF-DF + Word2Vec + ResNet50 + Imagga}} \\
+& Openness & 0.1600 & 0.1642 & \textbf{0.3501} & -0.0707 & -0.1640 & \textbf{0.0638} \\
+& Conscientiousness & 0.0893 & 0.1062 & \textbf{0.2321} & \textbf{0.0685} & -0.0118 & -0.1128 \\
+& Extraversion & 0.1429 & 0.1429 & \textbf{0.3750} & 0.1053 & 0.1579 & \textbf{0.1754} \\
+& Agreeableness & 0.0160 & 0.0518 & \textbf{0.1228} & 0.1025 & \textbf{0.1036} & 0.0333 \\
+& Neuroticism & 0.0739 & 0.0568 & \textbf{0.2765} & -0.1009 & \textbf{-0.0623} & -0.0989 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B19: TF-DF + Word2Vec + ResNet50 + HSV}} \\
+& Openness & 0.1158 & 0.1319 & \textbf{0.2347} & 0.0736 & 0.0148 & \textbf{0.1519} \\
+& Conscientiousness & -0.0257 & 0.1029 & \textbf{0.1794} & \textbf{0.1196} & 0.0866 & -0.1467 \\
+& Extraversion & 0.2500 & 0.2500 & \textbf{0.3393} & \textbf{0.1754} & 0.1579 & 0.1228 \\
+& Agreeableness & -0.0029 & 0.0000 & \textbf{0.0512} & 0.0550 & 0.0000 & \textbf{0.0832} \\
+& Neuroticism & 0.1399 & 0.2650 & \textbf{0.2918} & -0.0928 & \textbf{-0.0497} & -0.1073 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B20: TF-DF + Word2Vec + Imagga + HSV}} \\
+& Openness & 0.0385 & 0.1404 & \textbf{0.3000} & 0.0536 & -0.2186 & \textbf{0.0745} \\
+& Conscientiousness & 0.1607 & 0.1607 & \textbf{0.1639} & \textbf{0.0707} & 0.0175 & 0.0573 \\
+& Extraversion & 0.1429 & 0.1071 & \textbf{0.3571} & 0.0526 & 0.1228 & \textbf{0.1404} \\
+& Agreeableness & 0.0166 & 0.0000 & \textbf{0.1928} & \textbf{0.1548} & 0.0000 & 0.0877 \\
+& Neuroticism & 0.0376 & 0.0570 & \textbf{0.3109} & -0.1386 & -0.0654 & \textbf{-0.0280} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B21: TF-DF + Word2Vec + ResNet50 + Imagga + HSV}} \\
+& Openness & 0.1720 & 0.1642 & \textbf{0.3298} & -0.0556 & -0.1640 & \textbf{0.1739} \\
+& Conscientiousness & 0.1063 & 0.1062 & \textbf{0.1809} & \textbf{0.0685} & -0.0289 & 0.0369 \\
+& Extraversion & 0.1607 & 0.1429 & \textbf{0.3750} & 0.1228 & 0.1579 & \textbf{0.2456} \\
+& Agreeableness & 0.0160 & 0.0518 & \textbf{0.1228} & 0.1025 & \textbf{0.1217} & 0.0333 \\
+& Neuroticism & 0.0570 & 0.0568 & \textbf{0.2650} & -0.1030 & -0.0788 & \textbf{-0.0781} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B22: TF-IDF + Metadata}} \\
+& Openness & 0.1180 & 0.1788 & \textbf{0.3273} & -0.0155 & \textbf{0.1061} & 0.0798 \\
+& Conscientiousness & 0.0122 & \textbf{0.2781} & 0.1469 & \textbf{0.1569} & 0.0798 & -0.0748 \\
+& Extraversion & 0.0714 & 0.0536 & \textbf{0.2857} & \textbf{0.1579} & \textbf{0.1579} & 0.1404 \\
+& Agreeableness & 0.0160 & 0.0210 & \textbf{0.1250} & 0.0018 & 0.0000 & \textbf{0.1239} \\
+& Neuroticism & 0.0667 & 0.0973 & \textbf{0.2312} & \textbf{-0.0575} & -0.2157 & -0.1467 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B23: Word2Vec + Metadata}} \\
+& Openness & 0.1937 & 0.2872 & \textbf{0.3202} & 0.0437 & 0.1451 & \textbf{0.2197} \\
+& Conscientiousness & \textbf{0.2262} & nan & \textbf{0.0866} & nan \\
+& Extraversion & 0.0357 & 0.1429 & \textbf{0.1786} & \textbf{0.2982} & 0.1053 & 0.1754 \\
+& Agreeableness & \textbf{0.1975} & 0.1794 & 0.1596 & -0.0708 & \textbf{0.2129} & 0.1900 \\
+& Neuroticism & 0.0471 & 0.0862 & \textbf{0.1786} & 0.0261 & 0.0056 & \textbf{0.0393} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B24: TF-IDF + Word2Vec + Metadata}} \\
+& Openness & 0.0853 & \textbf{0.2105} & 0.2062 & 0.0314 & 0.1155 & \textbf{0.1972} \\
+& Conscientiousness & -0.0597 & \textbf{0.3036} & 0.2767 & 0.1569 & \textbf{0.2451} & 0.1890 \\
+& Extraversion & 0.1071 & 0.0893 & \textbf{0.2500} & \textbf{0.1228} & 0.1053 & \textbf{0.1228} \\
+& Agreeableness & 0.1074 & 0.0512 & \textbf{0.1415} & 0.0200 & 0.0526 & \textbf{0.1930} \\
+& Neuroticism & 0.0013 & 0.0834 & \textbf{0.3080} & -0.0019 & -0.0575 & \textbf{0.0203} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B25: ResNet50 + Metadata}} \\
+& Openness & 0.1340 & 0.1818 & \textbf{0.2262} & \textbf{0.2443} & 0.2152 & -0.0968 \\
+& Conscientiousness & 0.0029 & 0.1453 & \textbf{0.1607} & -0.0421 & -0.0578 & \textbf{-0.0370} \\
+& Extraversion & 0.0536 & 0.1607 & \textbf{0.2857} & 0.1228 & 0.2456 & \textbf{0.2807} \\
+& Agreeableness & \textbf{0.0899} & 0.0875 & 0.0010 & -0.0043 & \textbf{0.0090} & -0.0864 \\
+& Neuroticism & 0.1954 & 0.2462 & \textbf{0.3710} & -0.1053 & \textbf{-0.0389} & -0.0887 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B26: Imagga + Metadata}} \\
+& Openness & 0.0377 & 0.1162 & \textbf{0.1973} & -0.0076 & -0.1592 & \textbf{0.0284} \\
+& Conscientiousness & \textbf{0.1794} & \textbf{0.1794} & 0.1607 & \textbf{0.0139} & \textbf{0.0139} & -0.0163 \\
+& Extraversion & 0.0714 & 0.2500 & \textbf{0.3393} & 0.0000 & 0.0877 & \textbf{0.1053} \\
+& Agreeableness & 0.0875 & 0.0870 & \textbf{0.1959} & -0.0722 & -0.0552 & \textbf{-0.0357} \\
+& Neuroticism & 0.0545 & 0.0207 & \textbf{0.2364} & -0.1764 & -0.1764 & \textbf{-0.0074} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B27: HSV + Metadata}} \\
+& Openness & 0.0562 & 0.1250 & \textbf{0.1455} & -0.0892 & \textbf{0.0545} & -0.0192 \\
+& Conscientiousness & 0.0499 & \textbf{0.2307} & 0.1949 & -0.1467 & \textbf{-0.0081} & -0.0201 \\
+& Extraversion & 0.1607 & \textbf{0.1786} & \textbf{0.1786} & 0.1579 & \textbf{0.1754} & 0.1404 \\
+& Agreeableness & -0.0718 & \textbf{0.1415} & 0.0711 & 0.0175 & -0.0175 & \textbf{0.0468} \\
+& Neuroticism & 0.1700 & \textbf{0.2937} & 0.2613 & -0.0318 & \textbf{0.0261} & -0.0351 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B28: ResNet50 + Imagga + Metadata}} \\
+& Openness & 0.1344 & 0.1185 & \textbf{0.2926} & -0.1070 & -0.1982 & \textbf{0.0692} \\
+& Conscientiousness & 0.0875 & 0.0871 & \textbf{0.1778} & \textbf{0.1141} & -0.0815 & -0.0357 \\
+& Extraversion & 0.1071 & 0.2321 & \textbf{0.3750} & -0.0526 & 0.1053 & \textbf{0.2105} \\
+& Agreeableness & 0.0875 & 0.0875 & \textbf{0.1244} & \textbf{-0.1032} & -0.1396 & -0.1930 \\
+& Neuroticism & 0.0570 & 0.0642 & \textbf{0.2574} & -0.1051 & \textbf{-0.0623} & -0.1156 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B29: ResNet50 + HSV + Metadata}} \\
+& Openness & 0.1818 & 0.1809 & \textbf{0.2473} & \textbf{0.2602} & 0.2443 & 0.1006 \\
+& Conscientiousness & 0.0197 & \textbf{0.1655} & 0.1063 & -0.0605 & -0.0578 & \textbf{-0.0213} \\
+& Extraversion & 0.0893 & 0.1786 & \textbf{0.2857} & 0.1404 & 0.2281 & \textbf{0.2807} \\
+& Agreeableness & \textbf{0.0717} & 0.0694 & -0.0029 & -0.0748 & -0.0264 & \textbf{0.0877} \\
+& Neuroticism & 0.1786 & 0.2462 & \textbf{0.3127} & -0.0722 & \textbf{-0.0389} & -0.1362 \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B30: Imagga + HSV + Metadata}} \\
+& Openness & 0.0377 & 0.1206 & \textbf{0.2181} & -0.0076 & -0.2391 & \textbf{0.0697} \\
+& Conscientiousness & \textbf{0.1980} & \textbf{0.1980} & 0.1233 & \textbf{0.0491} & -0.0031 & -0.0513 \\
+& Extraversion & 0.0714 & 0.2500 & \textbf{0.3393} & 0.0175 & 0.0877 & \textbf{0.1053} \\
+& Agreeableness & 0.0875 & 0.0870 & \textbf{0.1783} & -0.0735 & \textbf{-0.0552} & -0.1087 \\
+& Neuroticism & 0.0207 & 0.0376 & \textbf{0.2423} & -0.1596 & -0.1786 & \textbf{-0.1259} \\
+
+\hline
+\multicolumn{8}{l}{\textbf{B31: ResNet50 + Imagga + HSV + Metadata}} \\
+& Openness & 0.1344 & 0.1227 & \textbf{0.3298} & -0.1070 & 0.0019 & \textbf{0.1108} \\
+& Conscientiousness & 0.0875 & 0.0875 & \textbf{0.1778} & \textbf{0.1152} & 0.0809 & -0.0357 \\
+& Extraversion & 0.0893 & 0.2321 & \textbf{0.3750} & -0.0175 & 0.1053 & \textbf{0.2105} \\
+& Agreeableness & 0.0875 & 0.0875 & \textbf{0.1244} & \textbf{-0.1032} & -0.1396 & -0.1930 \\
+& Neuroticism & 0.0545 & 0.0814 & \textbf{0.2784} & -0.0862 & -0.0788 & \textbf{-0.0428} \\
+
+\end{longtable}
+
+
+\small
+\setlength{\tabcolsep}{4pt}
+
+\begin{longtable}{llcccccc}
+\caption{Multimodal Model Performance ($\kappa$)}\label{tab:multimodal_results_full} \\
+
+\hline
+\textbf{Feature} & \textbf{Trait} & \multicolumn{3}{c}{\textbf{Best Validation $\kappa$}} & \multicolumn{3}{c}{\textbf{Test $\kappa$}} \\
+\cline{3-8}
+ &  & LR & SVM & XGB & LR & SVM & XGB \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Feature} & \textbf{Trait} & \multicolumn{3}{c}{\textbf{Best Validation $\kappa$}} & \multicolumn{3}{c}{\textbf{Test $\kappa$}} \\
+\cline{3-8}
+ &  & LR & SVM & XGB & LR & SVM & XGB \\
+\hline
+\endhead
+
+\hline
+\multicolumn{8}{r}{\textit{Continued on next page}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+%------------------ Rows start here ------------------%
+\hline
+\multicolumn{8}{l}{\textbf{M1: TF-IDF + ResNet50 + Metadata}} \\
+& Openness & 0.1701 & 0.1600 & \textbf{0.2306} & 0.0019 & -0.0059 & \textbf{0.0590} \\
+& Conscientiousness & -0.0048 & 0.0840 & \textbf{0.1591} & \textbf{0.1377} & 0.0175 & -0.0592 \\
+& Extraversion & 0.2143 & 0.1607 & \textbf{0.3214} & 0.1930 & \textbf{0.2456} & 0.2281 \\
+& Agreeableness & -0.1082 & \textbf{0.0000} & -0.0003 & \textbf{0.0550} & 0.0000 & 0.0175 \\
+& Neuroticism & 0.1421 & 0.2082 & \textbf{0.3299} & \textbf{-0.0907} & -0.1259 & -0.0968 \\
+\hline
+\multicolumn{8}{l}{\textbf{M2: TF-IDF + Imagga + Metadata}} \\
+& Openness & 0.0997 & 0.1360 & \textbf{0.2222} & -0.0377 & -0.1438 & \textbf{0.1005} \\
+& Conscientiousness & 0.1794 & 0.1420 & \textbf{0.2040} & \textbf{0.0561} & 0.0515 & -0.0019 \\
+& Extraversion & 0.0893 & 0.0893 & \textbf{0.3036} & 0.1053 & \textbf{0.1930} & 0.1228 \\
+& Agreeableness & -0.0003 & 0.0000 & \textbf{0.2120} & -0.0006 & 0.0000 & \textbf{0.0006} \\
+& Neuroticism & 0.1340 & 0.0521 & \textbf{0.2103} & -0.1531 & \textbf{-0.1218} & -0.1654 \\
+\hline
+\multicolumn{8}{l}{\textbf{M3: TF-IDF + HSV + Metadata}} \\
+& Openness & 0.1111 & 0.1788 & \textbf{0.2304} & -0.0344 & \textbf{0.0843} & -0.0795 \\
+& Conscientiousness & -0.0029 & \textbf{0.2361} & 0.2010 & \textbf{0.1569} & 0.0798 & 0.1334 \\
+& Extraversion & 0.0714 & 0.0714 & \textbf{0.2857} & \textbf{0.1754} & 0.0702 & 0.0175 \\
+& Agreeableness & -0.0179 & 0.0389 & \textbf{0.0536} & -0.0488 & -0.0426 & \textbf{0.0200} \\
+& Neuroticism & 0.0619 & 0.1261 & \textbf{0.2708} & \textbf{-0.0536} & -0.1218 & -0.2075 \\
+\hline
+\multicolumn{8}{l}{\textbf{M4: TF-IDF + ResNet50 + Imagga + Metadata}} \\
+& Openness & 0.1775 & 0.1642 & \textbf{0.3056} & -0.0377 & -0.1438 & \textbf{0.1264} \\
+& Conscientiousness & 0.0928 & 0.1062 & \textbf{0.1809} & \textbf{0.0685} & -0.0815 & -0.1284 \\
+& Extraversion & 0.1250 & 0.0893 & \textbf{0.3750} & 0.1228 & \textbf{0.1930} & 0.1228 \\
+& Agreeableness & -0.0360 & 0.0000 & \textbf{0.0723} & \textbf{0.0538} & 0.0000 & -0.0138 \\
+& Neuroticism & 0.1148 & 0.0914 & \textbf{0.3316} & -0.1009 & -0.1382 & \textbf{-0.0801} \\
+\hline
+\multicolumn{8}{l}{\textbf{M5: TF-IDF + ResNet50 + HSV + Metadata}} \\
+& Openness & 0.1542 & \textbf{0.1600} & \textbf{0.1600} & \textbf{0.0745} & 0.0098 & 0.0116 \\
+& Conscientiousness & 0.0122 & 0.0840 & \textbf{0.2075} & \textbf{0.1366} & 0.0345 & 0.0980 \\
+& Extraversion & 0.2143 & 0.1607 & \textbf{0.3214} & 0.1754 & \textbf{0.2456} & 0.2105 \\
+& Agreeableness & -0.1082 & \textbf{0.0354} & -0.0354 & \textbf{0.0380} & -0.0463 & -0.0006 \\
+& Neuroticism & 0.1273 & 0.2462 & \textbf{0.3162} & \textbf{-0.1094} & -0.1259 & -0.1864 \\
+\hline
+\multicolumn{8}{l}{\textbf{M6: TF-IDF + Imagga + HSV + Metadata}} \\
+& Openness & 0.0325 & 0.1360 & \textbf{0.2602} & -0.0192 & -0.2324 & \textbf{0.0692} \\
+& Conscientiousness & 0.1607 & 0.1420 & \textbf{0.1949} & \textbf{0.0369} & 0.0345 & -0.0383 \\
+& Extraversion & 0.1071 & 0.0893 & \textbf{0.3214} & 0.0877 & \textbf{0.1053} & 0.0877 \\
+& Agreeableness & -0.0003 & 0.0000 & \textbf{0.1080} & -0.0006 & \textbf{0.0000} & -0.1046 \\
+& Neuroticism & 0.0545 & 0.0715 & \textbf{0.2062} & -0.1575 & -0.1009 & \textbf{-0.0694} \\
+\hline
+\multicolumn{8}{l}{\textbf{M7: TF-IDF + ResNet50 + Imagga + HSV + Metadata}} \\
+& Openness & 0.1555 & 0.1642 & \textbf{0.3636} & -0.0795 & -0.2047 & \textbf{0.1519} \\
+& Conscientiousness & 0.0928 & 0.1062 & \textbf{0.1730} & \textbf{0.0673} & -0.0106 & 0.0139 \\
+& Extraversion & 0.1250 & 0.0893 & \textbf{0.3750} & 0.1404 & 0.1053 & \textbf{0.2281} \\
+& Agreeableness & -0.0367 & 0.0000 & \textbf{0.0887} & \textbf{0.0175} & 0.0000 & -0.0006 \\
+& Neuroticism & 0.0351 & 0.0741 & \textbf{0.2727} & -0.1197 & \textbf{-0.0604} & -0.1798 \\
+\hline
+\multicolumn{8}{l}{\textbf{M8: Word2Vec + ResNet50 + Metadata}} \\
+& Openness & 0.1137 & 0.2016 & \textbf{0.2222} & \textbf{0.1862} & 0.0545 & -0.0431 \\
+& Conscientiousness & 0.0385 & 0.1559 & \textbf{0.1825} & 0.0285 & \textbf{0.0627} & 0.0151 \\
+& Extraversion & 0.0536 & 0.2500 & \textbf{0.2857} & \textbf{0.2105} & \textbf{0.2105} & 0.1579 \\
+& Agreeableness & \textbf{0.1086} & 0.0741 & 0.0694 & -0.0592 & -0.0421 & \textbf{-0.0201} \\
+& Neuroticism & 0.1026 & 0.2536 & \textbf{0.3384} & \textbf{0.0166} & -0.0556 & -0.1941 \\
+\hline
+\multicolumn{8}{l}{\textbf{M9: Word2Vec + Imagga + Metadata}} \\
+& Openness & 0.0902 & 0.1272 & \textbf{0.3152} & 0.0284 & -0.1897 & \textbf{0.1329} \\
+& Conscientiousness & 0.1623 & 0.1839 & \textbf{0.1980} & -0.0163 & -0.0315 & \textbf{0.1250} \\
+& Extraversion & 0.0714 & \textbf{0.2679} & \textbf{0.2679} & 0.0000 & \textbf{0.1053} & 0.0526 \\
+& Agreeableness & 0.1040 & 0.0694 & \textbf{0.1783} & -0.0031 & -0.0019 & \textbf{0.0673} \\
+& Neuroticism & 0.0594 & 0.0450 & \textbf{0.2746} & -0.1575 & -0.1575 & \textbf{0.0279} \\
+\hline
+\multicolumn{8}{l}{\textbf{M10: Word2Vec + HSV + Metadata}} \\
+& Openness & 0.2263 & \textbf{0.3202} & 0.3037 & 0.0076 & 0.1300 & \textbf{0.1593} \\
+& Conscientiousness & 0.2105 & 0.2982 & \textbf{0.3367} & 0.0212 & \textbf{0.2300} & 0.1527 \\
+& Extraversion & 0.0536 & 0.2321 & \textbf{0.2500} & \textbf{0.2281} & 0.1579 & 0.1579 \\
+& Agreeableness & 0.1278 & 0.1091 & \textbf{0.2145} & -0.1059 & \textbf{0.1979} & 0.1930 \\
+& Neuroticism & 0.0715 & \textbf{0.1466} & 0.0763 & 0.0112 & -0.0755 & \textbf{0.0650} \\
+\hline
+\multicolumn{8}{l}{\textbf{M11: Word2Vec + ResNet50 + Imagga + Metadata}} \\
+& Openness & 0.2139 & 0.1489 & \textbf{0.3109} & -0.0344 & -0.1843 & \textbf{0.1926} \\
+& Conscientiousness & 0.1233 & 0.1267 & \textbf{0.1778} & 0.0821 & 0.1003 & \textbf{0.1451} \\
+& Extraversion & 0.1071 & 0.2500 & \textbf{0.3214} & 0.0175 & 0.1053 & \textbf{0.2105} \\
+& Agreeableness & 0.0875 & 0.0881 & \textbf{0.1250} & -0.1059 & -0.0891 & \textbf{0.0175} \\
+& Neuroticism & 0.0156 & 0.0471 & \textbf{0.3144} & -0.1071 & -0.0788 & \textbf{0.0482} \\
+\hline
+\multicolumn{8}{l}{\textbf{M12: Word2Vec + ResNet50 + HSV + Metadata}} \\
+& Openness & 0.1615 & 0.2016 & \textbf{0.2306} & \textbf{0.1862} & 0.0545 & 0.0749 \\
+& Conscientiousness & 0.0385 & 0.1453 & \textbf{0.1980} & 0.0285 & 0.0090 & \textbf{0.0832} \\
+& Extraversion & 0.0357 & 0.2500 & \textbf{0.3036} & 0.1579 & 0.2105 & \textbf{0.2456} \\
+& Agreeableness & \textbf{0.0910} & 0.0741 & 0.0179 & -0.0592 & -0.0592 & \textbf{0.1419} \\
+& Neuroticism & 0.0643 & 0.2500 & \textbf{0.3281} & \textbf{0.0518} & -0.0204 & -0.1875 \\
+\hline
+\multicolumn{8}{l}{\textbf{M13: Word2Vec + Imagga + HSV + Metadata}} \\
+& Openness & 0.0902 & 0.1272 & \textbf{0.2642} & 0.0284 & -0.1547 & \textbf{0.1852} \\
+& Conscientiousness & 0.1623 & \textbf{0.1839} & 0.1746 & -0.0345 & 0.0225 & \textbf{0.0491} \\
+& Extraversion & 0.0714 & \textbf{0.2679} & \textbf{0.2679} & 0.0175 & 0.1053 & \textbf{0.1404} \\
+& Agreeableness & 0.1051 & 0.0875 & \textbf{0.1804} & -0.0201 & -0.0188 & \textbf{-0.0031} \\
+& Neuroticism & 0.0763 & 0.0594 & \textbf{0.3214} & -0.1239 & -0.1575 & \textbf{-0.0575} \\
+\hline
+\multicolumn{8}{l}{\textbf{M14: Word2Vec + ResNet50 + Imagga + HSV + Metadata}} \\
+& Openness & 0.1973 & 0.1489 & \textbf{0.3636} & -0.0076 & -0.1703 & \textbf{0.2267} \\
+& Conscientiousness & 0.1233 & 0.1437 & \textbf{0.1778} & 0.0468 & 0.1003 & \textbf{0.1451} \\
+& Extraversion & 0.1250 & 0.2500 & \textbf{0.3214} & 0.0175 & 0.1053 & \textbf{0.2105} \\
+& Agreeableness & 0.0694 & 0.0881 & \textbf{0.1250} & -0.0357 & -0.0891 & \textbf{0.0175} \\
+& Neuroticism & 0.0182 & 0.0838 & \textbf{0.3144} & -0.1071 & \textbf{-0.0788} & -0.1280 \\
+\hline
+\multicolumn{8}{l}{\textbf{M15: TF-IDF + Word2Vec + ResNet50 + Metadata}} \\
+& Openness & 0.0789 & 0.0997 & \textbf{0.2427} & 0.0686 & -0.0056 & \textbf{0.1471} \\
+& Conscientiousness & -0.0427 & 0.1354 & \textbf{0.2135} & \textbf{0.1729} & 0.1217 & 0.0297 \\
+& Extraversion & 0.2500 & 0.2500 & \textbf{0.3571} & 0.1754 & 0.1579 & \textbf{0.2807} \\
+& Agreeableness & -0.0035 & 0.0000 & \textbf{0.0542} & 0.0357 & 0.0000 & \textbf{0.1003} \\
+& Neuroticism & 0.1593 & 0.2292 & \textbf{0.3661} & -0.1094 & \textbf{-0.0867} & -0.1654 \\
+\hline
+\multicolumn{8}{l}{\textbf{M16: TF-IDF + Word2Vec + Imagga + Metadata}} \\
+& Openness & 0.0385 & 0.1404 & \textbf{0.3000} & 0.0692 & -0.2186 & \textbf{0.0745} \\
+& Conscientiousness & \textbf{0.1778} & 0.1607 & 0.1639 & \textbf{0.0707} & 0.0188 & 0.0404 \\
+& Extraversion & 0.1250 & 0.1071 & \textbf{0.2857} & 0.0526 & 0.1228 & \textbf{0.1579} \\
+& Agreeableness & 0.0166 & 0.0000 & \textbf{0.2488} & \textbf{0.1548} & 0.0000 & 0.0696 \\
+& Neuroticism & 0.0570 & 0.0570 & \textbf{0.2784} & -0.0842 & -0.1009 & \textbf{-0.0781} \\
+\hline
+\multicolumn{8}{l}{\textbf{M17: TF-IDF + Word2Vec + HSV + Metadata}} \\
+& Openness & 0.0691 & 0.2261 & \textbf{0.2467} & 0.0899 & 0.1003 & \textbf{0.1471} \\
+& Conscientiousness & -0.0048 & \textbf{0.3380} & 0.2767 & 0.1217 & \textbf{0.2442} & 0.1729 \\
+& Extraversion & 0.0893 & 0.1071 & \textbf{0.2679} & 0.1228 & 0.1228 & \textbf{0.1404} \\
+& Agreeableness & 0.1244 & 0.0512 & \textbf{0.1415} & 0.0018 & 0.0696 & \textbf{0.1430} \\
+& Neuroticism & 0.0065 & 0.1273 & \textbf{0.3197} & \textbf{0.0482} & -0.0223 & -0.0615 \\
+\hline
+\multicolumn{8}{l}{\textbf{M18: TF-IDF + Word2Vec + ResNet50 + Imagga + Metadata}} \\
+& Openness & -0.1676 & 0.0447 & \textbf{0.4509} & -0.0556 & -0.3799 & \textbf{0.0447} \\
+& Conscientiousness & -0.1547 & 0.2732 & \textbf{0.5778} & \textbf{0.1818} & 0.0000 & -0.2727 \\
+& Extraversion & 0.1515 & 0.1515 & \textbf{0.2615} & -0.2623 & 0.1270 & \textbf{0.8197} \\
+& Agreeableness & -0.1972 & 0.0000 & \textbf{0.1905} & -0.4286 & \textbf{0.0000} & \textbf{0.0000} \\
+& Neuroticism & 0.4286 & 0.2075 & \textbf{0.8372} & \textbf{0.1000} & 0.0000 & 0.0000 \\
+\hline
+\multicolumn{8}{l}{\textbf{M19: TF-IDF + Word2Vec + ResNet50 + HSV + Metadata}} \\
+& Openness & 0.1091 & 0.1319 & \textbf{0.4182} & \textbf{0.0172} & 0.0093 & -0.0712 \\
+& Conscientiousness & -0.0067 & 0.1029 & \textbf{0.2478} & \textbf{0.1196} & 0.0877 & -0.0409 \\
+& Extraversion & 0.2500 & 0.2500 & \textbf{0.3750} & 0.1754 & \textbf{0.2456} & 0.2105 \\
+& Agreeableness & -0.0380 & 0.0000 & \textbf{0.1244} & 0.0550 & 0.0000 & \textbf{0.1759} \\
+& Neuroticism & 0.1273 & \textbf{0.2650} & 0.2312 & -0.1094 & -0.0867 & \textbf{0.0112} \\
+\hline
+\multicolumn{8}{l}{\textbf{M20: TF-IDF + Word2Vec + Imagga + HSV + Metadata}} \\
+& Openness & -0.0795 & 0.0447 & \textbf{0.3294} & -0.1547 & -0.2667 & \textbf{0.1648} \\
+& Conscientiousness & -0.0440 & 0.1739 & \textbf{0.4809} & \textbf{0.0000} & \textbf{0.0000} & -0.1818 \\
+& Extraversion & 0.2615 & 0.3750 & \textbf{0.4921} & -0.0645 & 0.3125 & \textbf{0.4590} \\
+& Agreeableness & 0.0423 & 0.0423 & \textbf{0.1793} & -0.2857 & -0.2857 & \textbf{0.1429} \\
+& Neuroticism & 0.1860 & 0.3137 & \textbf{0.5532} & 0.0000 & \textbf{0.1000} & 0.0000 \\
+\hline
+\multicolumn{8}{l}{\textbf{M21: TF-IDF + Word2Vec + ResNet50 + Imagga + HSV + Metadata }} \\
+& Openness & -0.2955 & 0.0447 & \textbf{0.4311} & -0.0556 & -0.3799 & \textbf{0.1648} \\
+& Conscientiousness & -0.1547 & 0.2732 & \textbf{0.5824} & \textbf{0.1818} & 0.0000 & -0.4545 \\
+& Extraversion & 0.1515 & 0.1515 & \textbf{0.2615} & -0.2623 & -0.0645 & \textbf{0.6333} \\
+& Agreeableness & -0.0699 & 0.0000 & \textbf{0.0811} & -0.4286 & \textbf{0.0000} & -0.1429 \\
+& Neuroticism & 0.4286 & 0.2075 & \textbf{0.8372} & \textbf{0.1000} & 0.0000 & -0.2000 \\
+
+
+\end{longtable}
