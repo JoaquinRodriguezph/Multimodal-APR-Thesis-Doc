@@ -77,7 +77,7 @@ For the Imagga object tags, we tested two approaches: using all detected tags re
 	\end{tabular}
 \end{table}
 
-The confidence-filtered version produced zero predictive value across all traits, with all models achieving a Kappa score of 0---indicating no agreement beyond chance. This is evident in \ref{tab:imagga_30} where all three models per traits result to 0 Kappa score. Consequently, we proceeded with the unfiltered Imagga tags for all multimodal experiments.
+The confidence-filtered version produced zero predictive value across all traits, with all models achieving a Kappa score of 0---indicating no agreement beyond chance. Consequently, we proceeded with the unfiltered Imagga tags for all multimodal experiments.
 
 \begin{table}[]
     \centering
@@ -100,7 +100,7 @@ The confidence-filtered version produced zero predictive value across all traits
                                      & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
                                      & XGBoost                   & 0.0000 \\ \hline
     \end{tabular}
-    \caption{Performance of all models with Imagga features with 30\% Confidence Filtering
+    \caption{Performance of all models with Imagga features with 30\% Confidence Filtering}
     \label{tab:imagga_30}
 \end{table}
 
@@ -220,6 +220,16 @@ Across all personality traits, Word2Vec and metadata appear all times in Table \
 XGBoost is used three times in Table \ref{tab:mm_kappa}, whereas SVM appears twice in the same table. Openness, Extraversion and Neuroticism use XGBoost as the best performing model, while Conscientiousness and Agreeableness use SVM also as the best performing model.
 
 \section{Discussion}
+
+\subsubsection{Limitations of TF-IDF for Imagga Object Tags}
+
+Despite their high dimensionality (36,398 features), the Imagga object tags yielded negligible predictive value across all personality traits when processed with TF-IDF weighting. This poor performance likely stems from a fundamental mismatch between the TF-IDF formulation and the nature of tag-based image data.
+
+TF-IDF operates on the principle that terms appearing frequently in a document (high term frequency) but rarely across the corpus (high inverse document frequency) carry the most discriminative information. This assumption holds for natural language, where content words follow Zipfian distributions. However, Imagga tags differ in two critical ways:
+
+First, tags represent detected objects with confidence scores rather than discrete word occurrences. The ``frequency'' of a tag reflects how often an object appears across a user's images, which may be genuinely personality-relevant (e.g., frequent selfies for Extraversion) but gets downweighted by IDF precisely because it is common across users. Second, the vocabulary is constrained by Imagga's pre-trained categories, many of which are too generic (e.g., ``person,'' ``indoor'') to discriminate between users.
+
+The complete failure of the 30\% confidence filter provides further evidence. By removing tags with confidence below 30\%, we inadvertently eliminated most tags entirely, leaving feature vectors that were predominantly zero. When combined with TF-IDF's IDF weighting---which can also zero out terms appearing in every document---the filtered tags produced matrices with insufficient non-zero entries for models to learn any signal, resulting in the 0 kappa scores observed in both validation and test sets.
 
 \subsection{Multimodality}
 When combining modalities, the performance gains are generally limited and inconsistent relative to unimodal performance; however, certain multimodal configurations do show notable improvements over their individual components. Several bimodal models outperform their respective single-modality counterparts. For example, the Word2Vec + HSV combination for Conscientiousness achieves a kappa of 0.2233, exceeding the performance of Word2Vec alone ($\kappa$ = 0.1102) and HSV alone ($\kappa$ = 0.0115). This is one of several cases in which bimodal feature fusion leads to improved performance, suggesting that there exist features or traits for personality that complement one another, even across different modalities. This effect is most clearly illustrated by two models: (1) the TF-IDF + Word2Vec + metadata combination and (2) the Word2Vec + metadata combination. These models achieve the best performance for Conscientiousness ($\kappa$ = 0.2451) and Agreeableness ($\kappa$ = 0.2129), respectively.
