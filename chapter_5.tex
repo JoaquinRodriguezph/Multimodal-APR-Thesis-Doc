@@ -77,7 +77,32 @@ For the Imagga object tags, we tested two approaches: using all detected tags re
 	\end{tabular}
 \end{table}
 
-The confidence-filtered version produced zero predictive value across all traits, with all models achieving a Kappa score of 0---indicating no agreement beyond chance. Consequently, we proceeded with the unfiltered Imagga tags for all multimodal experiments.
+The confidence-filtered version produced zero predictive value across all traits, with all models achieving a Kappa score of 0---indicating no agreement beyond chance. This is evident in \ref{tab:imagga_30} where all three models per traits result to 0 Kappa score. Consequently, we proceeded with the unfiltered Imagga tags for all multimodal experiments.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{lll}
+        \hline
+        \textbf{Trait} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
+        \multirow{3}{*}{Openness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                  & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                  & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Conscientiousness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                           & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                           & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Extraversion} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                      & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                      & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Agreeableness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                       & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                       & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Neuroticism} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                     & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                     & XGBoost                   & 0.0000 \\ \hline
+    \end{tabular}
+    \caption{Performance of all models with Imagga features with 30\% Confidence Filtering
+    \label{tab:imagga_30}
+\end{table}
 
 These feature configurations, guided solely by validation performance, were used in the unimodal, bimodal, and multimodal models whose final test results are presented in the following sections.
 
@@ -215,30 +240,6 @@ Neuroticism is a trait that generally underperformed with these models. The best
 
 From these rankings, some general observations can be made. Metadata and HSV frequently appear in high-performing combinations despite their low dimensionality. This raises two possibilities: either they add minimal noise and simply “ride along” with stronger high-dimensional features, or they provide compact but meaningful complementary signals. The substantial $\kappa$ increase observed in earlier experiments when adding only the two metadata features (+0.1052) supports the latter interpretation in at least some cases. Conversely, Imagga—despite having the largest dimensionality (36,398 features)—rarely appears among top-performing models. This suggests that high dimensionality alone does not guarantee predictive value and may instead introduce noise that limits its contribution. It may also suggest that Imagga does not carry a valuable amount of personality data.
 
-\begin{table}[]
-    \centering
-    \begin{tabular}{lll}
-        \hline
-        \textbf{Trait} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-        \multirow{3}{*}{Openness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
-                                  & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
-                                  & XGBoost                   & 0.0000 \\ \hline
-        \multirow{3}{*}{Conscientiousness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
-                                           & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
-                                           & XGBoost                   & 0.0000 \\ \hline
-        \multirow{3}{*}{Extraversion} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
-                                      & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
-                                      & XGBoost                   & 0.0000 \\ \hline
-        \multirow{3}{*}{Agreeableness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
-                                       & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
-                                       & XGBoost                   & 0.0000 \\ \hline
-        \multirow{3}{*}{Neuroticism} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
-                                     & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
-                                     & XGBoost                   & 0.0000 \\ \hline
-    \end{tabular}
-    \caption{Best performing models per personality trait with its feature combination}
-    \label{tab:best_models}
-\end{table}
 
 \section{Model Performance Analysis}
 The performance of the classification models—Logistic Regression (LR), Support Vector Machine (SVM), and XGBoost — was evaluated to determine the best configurations for each of the Big Five personality traits. The primary metric for evaluation was Cohen’s Kappa ($\kappa$), which measures the agreement between predicted and actual labels while accounting for chance.
