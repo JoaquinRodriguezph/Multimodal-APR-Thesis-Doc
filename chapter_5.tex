@@ -77,10 +77,12 @@ For the Imagga object tags, we tested two approaches: using all detected tags re
 	\end{tabular}
 \end{table}
 
-The confidence-filtered version produced zero predictive value across all traits, with all models achieving a Kappa score of 0---indicating no agreement beyond chance. Consequently, we proceeded with the unfiltered Imagga tags for all multimodal experiments.
+The confidence-filtered version produced zero predictive value across all traits, with all models achieving a Kappa score of 0---indicating no agreement beyond chance. This is evident in~\ref{tab:imagga_30} where all three models per traits result to 0 Kappa score. Consequently, we proceeded with the unfiltered Imagga tags for all multimodal experiments.
 
-\begin{table}[]
+\begin{table}[H]
     \centering
+    \caption{Performance of all models with Imagga features with 30\% Confidence Filtering}
+    \label{tab:imagga_30}
     \begin{tabular}{lll}
         \hline
         \textbf{Trait} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
@@ -100,8 +102,6 @@ The confidence-filtered version produced zero predictive value across all traits
                                      & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
                                      & XGBoost                   & 0.0000 \\ \hline
     \end{tabular}
-    \caption{Performance of all models with Imagga features with 30\% Confidence Filtering}
-    \label{tab:imagga_30}
 \end{table}
 
 These feature configurations, guided solely by validation performance, were used in the unimodal, bimodal, and multimodal models whose final test results are presented in the following sections.

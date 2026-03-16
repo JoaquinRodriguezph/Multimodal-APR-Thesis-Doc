@@ -27,6 +27,8 @@ Word2Vec learns dense vector representations of words, capturing semantic and sy
 
 Instagram's visual content necessitates effective image processing techniques to extract personality-related features. Standard preprocessing steps include resizing and normalization to ensure uniformity across image inputs. Feature extraction leverages deep Convolutional Neural Networks (CNNs), specifically the ResNET50 architecture, which is recognized for its high accuracy on benchmark datasets and its ability to learn complex representations by training deeper networks without suffering from the vanishing gradient problem \citep{he2015}.
 
+According to \citet{Almodawar_Ahmad_Alqahtani_2025}, padding is important in the filter size requirement of CNNs. Without padding, the resulting output feature map would result an image with a different size from the input image. Zero-padding is one of the padding techniques that employ zero values on the extra pixels. \citet{Almodawar_Ahmad_Alqahtani_2025} stated that the advantages of zero-padding are simple implementation, neutral background for learning, and beneficial for edge detection and image segmentation.
+
 Extracted image features encompass both low-level characteristics (e.g., color, brightness) and high-level semantic content (e.g., objects, scenes) known to correlate with personality traits, as supported by prior research.
 
 \section{Statistical Evaluation Theory}
