@@ -143,6 +143,7 @@ The combination of the two text features did not improve on the individual resul
     \label{bestcohenmodel}
 \end{table}
 
+
 In Table ~\ref{tab:uni_kappa}, Openness has Logistic Regression as the best model that used ResNet50 and HSV with the test kappa of 0.2762. Then, Neuroticism has very near zero test kappa of 0.0037 for SVM that uses Resnet50 and HSV.
 
 All of the traits in Table \ref{tab:uni_kappa} except Consciousness have Resnet50 and HSV as the best feature combination, while Resnet50 and Imagga performed the best for Consciousness. Openness, Conscientiousness, and Extraversion have best performing models with test kappa scores that exceed 0.1 threshold, while Agreeableness and Neuroticism have their best models perform weak with their test kappa less than 0.1. Neuroticism has the best model with the least scores among the other personality traits.
@@ -213,6 +214,31 @@ For Agreeableness, the top-performing model is Word2Vec + metadata ($\kappa$ = 0
 Neuroticism is a trait that generally underperformed with these models. The best-performing model is unimodal TF-IDF ($\kappa$ = 0.1615), substantially outperforming the next highest model, Word2Vec + HSV ($\kappa$ = 0.0749). Besides the top model, most results cluster near zero. This trait has proven difficult to predict, no matter the combination of features or modalities.
 
 From these rankings, some general observations can be made. Metadata and HSV frequently appear in high-performing combinations despite their low dimensionality. This raises two possibilities: either they add minimal noise and simply “ride along” with stronger high-dimensional features, or they provide compact but meaningful complementary signals. The substantial $\kappa$ increase observed in earlier experiments when adding only the two metadata features (+0.1052) supports the latter interpretation in at least some cases. Conversely, Imagga—despite having the largest dimensionality (36,398 features)—rarely appears among top-performing models. This suggests that high dimensionality alone does not guarantee predictive value and may instead introduce noise that limits its contribution. It may also suggest that Imagga does not carry a valuable amount of personality data.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{lll}
+        \hline
+        \textbf{Trait} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
+        \multirow{3}{*}{Openness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                  & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                  & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Conscientiousness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                           & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                           & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Extraversion} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                      & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                      & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Agreeableness} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                       & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                       & XGBoost                   & 0.0000 \\ \hline
+        \multirow{3}{*}{Neuroticism} & Logistic Regression (GPU) & 0.0000 \\ \cline{2-3} 
+                                     & SVM (GPU)                 & 0.0000 \\ \cline{2-3} 
+                                     & XGBoost                   & 0.0000 \\ \hline
+    \end{tabular}
+    \caption{Best performing models per personality trait with its feature combination}
+    \label{tab:best_models}
+\end{table}
 
 \section{Model Performance Analysis}
 The performance of the classification models—Logistic Regression (LR), Support Vector Machine (SVM), and XGBoost — was evaluated to determine the best configurations for each of the Big Five personality traits. The primary metric for evaluation was Cohen’s Kappa ($\kappa$), which measures the agreement between predicted and actual labels while accounting for chance.
