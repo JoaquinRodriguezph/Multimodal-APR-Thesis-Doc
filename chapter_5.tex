@@ -280,48 +280,50 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 	\centering
 	\caption{Top Pearson Correlations by Trait (positive and negative)}
 	\label{tab:pearson}
+    \resizebox{\textwidth}{!}{%
 	\begin{tabular}{@{} l l c l c @{}}
 		\toprule
 		\textbf{Trait} & \multicolumn{2}{c}{\textbf{Positive}} & \multicolumn{2}{c}{\textbf{Negative}} \\
 		\cmidrule(lr){2-3} \cmidrule(lr){4-5}
 		& \textbf{Feature} & \textbf{$r$} & \textbf{Feature} & \textbf{$r$} \\
 		\midrule
-        \multirow[b]{5}{*}{Openness (U8)} 
+        \multirow[b]{5}{*}{Openness (Resnet50 + HSV)} 
 		& resnet\_1573 & 0.30 & resnet\_334 & -0.25 \\
 		& resnet\_1450 & 0.25 & resnet\_1322 & -0.22 \\
 		& resnet\_1737 & 0.24 & resnet\_1881 & -0.21 \\
 		& resnet\_947   & 0.24 & resnet\_1840 & -0.21 \\
 		& resnet\_626   & 0.23 & resnet\_832  & -0.20 \\
 		\cmidrule(lr){1-5}
-		\multirow[b]{5}{*}{Conscientiousness (B24)} 
+		\multirow[b]{5}{*}{Conscientiousness (TF-IDF + Word2Vec + Metadata)} 
 		& tfidf\_tb          & 0.29 & tfidf\_party   & -0.30 \\
 		& tfidf\_celebrating & 0.26 & tfidf\_current & -0.24 \\
 		& tfidf\_let s       & 0.25 & tfidf\_mo      & -0.21 \\
 		& tfidf\_garden      & 0.24 & tfidf\_lost    & -0.21 \\
 		& tfidf\_aking       & 0.23 & & \\
 		\cmidrule(lr){1-5}
-		\multirow[b]{5}{*}{Extraversion (U2 Posts Weighted Equally)} 
+		\multirow[b]{5}{*}{Extraversion (Word2Vec Posts Weighted Equally)} 
 		& w2v\_16  & 0.30 & w2v\_288 & -0.32 \\
 		& w2v\_41  & 0.29 & w2v\_258 & -0.30 \\
 		& w2v\_162 & 0.28 & w2v\_38  & -0.27 \\
 		& w2v\_184 & 0.28 & w2v\_271 & -0.27 \\
 		& w2v\_190 & 0.26 & w2v\_160 & -0.26 \\
 		\cmidrule(lr){1-5}
-		\multirow[b]{5}{*}{Agreeableness (M10)} 
+		\multirow[b]{5}{*}{Agreeableness (Word2Vec + HSV)} 
 		& w2v\_192            & 0.24 & w2v\_254 & -0.21 \\
 		& w2v\_111            & 0.23 & w2v\_56  & -0.21 \\
 		& w2v\_295            & 0.18 & w2v\_66  & -0.20 \\
 		& w2v\_256            & 0.18 & w2v\_204 & -0.20 \\
 		& w2v\_167            & 0.18 & w2v\_38  & -0.17 \\
 		\cmidrule(lr){1-5}
-		\multirow[b]{5}{*}{Neuroticism (TFIDF\_ALL)} 
+		\multirow[b]{5}{*}{Neuroticism (TF-IDF (All features))} 
 		& tfidf\_siya      & 0.28 & tfidf\_credits   & -0.24 \\
 		& tfidf\_ganito    & 0.28 & tfidf\_lights    & -0.24 \\
 		& tfidf\_join      & 0.28 & tfidf\_heat      & -0.24 \\
 		& tfidf\_anniversary & 0.28 & tfidf\_good food & -0.23 \\
 		& tfidf\_facebook  & 0.25 & & \\
 		\bottomrule
-	\end{tabular}
+	\end{tabular}%
+    }
 \end{table}
 
 % Table 2: Top 5 Features by Coefficient / Permutation Importance
@@ -371,7 +373,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 	\end{tabular}
 \end{table}
 
-
+\begin{comment}
 \begin{table}[htbp]
 	\centering
 	\caption{Comparative Performance and Algorithm Gaps across Personality Traits\\(Models are considered close if $|\text{Gap}| \le 0.05$; Neuroticism has only one model within this bound.)}
@@ -388,6 +390,44 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 			Neuroticism & tfidf\_all & SVM & 0.1615 & XGBoost (U11) & 0.1118 & 0.0497 & --- & --- & --- \\
 			\bottomrule
 		\end{tabular}%
+	}
+\end{table}
+\end{comment}
+
+\begin{table}[htbp]
+\centering
+\caption{Comparative Performance and Algorithm Gaps across Personality Traits\\(Models are considered close if $|\text{Gap}| \le 0.05$; Neuroticism has only one model within this bound.)}
+\label{tab:algorithm_gaps}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l l l l c}
+\hline
+\textbf{Trait} & \textbf{Placement} & \textbf{Combination} & \textbf{Algorithm} & \textbf{Best $\kappa$} \\
+\hline
+
+Openness & Best & ResNet50 + HSV & Logistic Regression & 0.2762 \\
+& 2nd Best & ResNet50 & Logistic Regression & 0.2602 \\
+& 3rd Best & ResNet50 + Metadata & Logistic Regression & 0.2443 \\
+
+\hline
+Conscientiousness & Best & TF-IDF + Word2Vec + Metadata & SVM & 0.2451 \\
+& 2nd Best & TF-IDF + Word2Vec + HSV & SVM & 0.2442 \\
+& 3rd Best & TF-IDF + Word2Vec + HSV + Metadata & SVM & 0.2442 \\
+
+\hline
+Extraversion & Best & Word2Vec (Posts Weighted Equally) & SVM & 0.3684 \\
+& 2nd Best & Word2Vec + HSV & Logistic Regression & 0.3684 \\
+
+\hline
+Agreeableness & Best & Word2Vec + Metadata & SVM & 0.2129 \\
+& 2nd Best & TF-IDF + Word2Vec + HSV & XGBoost & 0.2091 \\
+& 3rd Best & TF-IDF + Word2Vec & XGBoost & 0.2081 \\
+
+\hline
+Neuroticism & Best & TF-IDF (All Features) & SVM & 0.1615 \\
+& 2nd Best & Metadata & XGBoost & 0.1118 \\
+
+\hline
+\end{tabular}%
 	}
 \end{table}
 
@@ -431,7 +471,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 
 \subsubsection{Extraversion}
 
-Extraversion achieved its best result ($\kappa = 0.3684$) through the U2 combination (Word2Vec PWE) using the SVM model.
+Extraversion achieved its best result ($\kappa = 0.3684$) with Word2Vec PWE using the SVM model.
 
 There is a 0.0000 gap between the top SVM and Logistic Regression performance, with the top SVM model performance utilizing only Word2Vec PWE features and the top Logistic Regression model performance using both Word2Vec WWE features and HSV. The model performed similarly across both classes, with slightly better recall for low-Extraversion users (Low: precision 0.56, recall 0.60, F1 0.58; High: precision 0.57, recall 0.53, F1 0.55). Correctly classified users averaged more posts (213.45) than misclassified users (145.17). Correctly classified users had a higher average post count (213.45) compared to incorrectly classified users (145.17). It was also observed that misclassified users often utilized single-emoji captions or very short text, which might limit the model's performance due to lack of text. 
 
@@ -449,7 +489,7 @@ This finding aligns with prior research (e.g., Mairesse et al., 2007; Park et al
 
 \subsubsection{Openness}
 
-Openness achieved its best result ($\kappa = 0.2762$) through the U8 combination (ResNet50 + HSV) using the Logistic Regression model. The closest competitor was Logistic Regression on U4 (ResNet50‑only), achieving $\kappa = 0.2602$ (gap $0.0160$).
+Openness achieved its best result ($\kappa = 0.2762$) through the ResNet50 + HSV combination using the Logistic Regression model. The closest competitor was Logistic Regression on U4 (ResNet50‑only), achieving $\kappa = 0.2602$ (gap $0.0160$).
 
 
 The model performed better on low-Openness users (precision 0.69, recall 0.71, F1 0.70) than high-Openness users (precision 0.59, recall 0.56, F1 0.57). Analysis of descriptive statistics revealed that correctly classified users had a significantly 
@@ -464,7 +504,7 @@ These results strongly align with Ferwerda et al.'s (2016) finding that Openness
 
 \subsubsection{Conscientiousness}
 
-For Conscientiousness, the B24 (TF-IDF, Word2Vec, and Metadata) combination ($\kappa = 0.2451$) garnered the best kappa score, using the SVM model. The two closest competitors were SVM on B17 (TF‑IDF + Word2Vec + HSV) and SVM on M17 (TF‑IDF + Word2Vec + HSV + Metadata), both achieving $\kappa = 0.2442$ with a gap of only $0.0009$.
+For Conscientiousness, the TF-IDF, Word2Vec, and Metadata combination ($\kappa = 0.2451$) garnered the best kappa score, using the SVM model. The two closest competitors were SVM on TF‑IDF + Word2Vec + HSV and SVM on TF‑IDF + Word2Vec + HSV + Metadata, both achieving $\kappa = 0.2442$ with a gap of only $0.0009$.
 
 Permutation importance identified TF-IDF tokens as the most influential predictors, including \textit{tfidf\_17} (kappa drop: 0.054), \textit{amazing} (0.054), \textit{soon} (0.039), and \textit{love u} (0.036). Pearson correlation an	alysis reveals interpretable linguistic markers: positive correlations with tokens such as \textit{tb} ($r = 0.29$), \textit{celebrating} ($r = 0.26$), \textit{let s} ($r = 0.25$), and \textit{garden} ($r = 0.24$), while showing negative correlations with \textit{party} ($r = -0.30$), \textit{current} ($r = -0.24$), and \textit{mo} ($r = -0.21$).
 
@@ -481,7 +521,7 @@ These findings resonate with Pennebaker and King's (1999) early work linking Con
 
 \subsubsection{Agreeableness}
 
-Agreeableness achieved its best result ($\kappa = 0.2129$) through the B23 combination (Word2Vec + Metadata) using the SVM model. The closest competitors were XGBoost on B17 (TF‑IDF + Word2Vec + HSV) with $\kappa = 0.2091$ (gap $0.0038$) and XGBoost on U3 (TF‑IDF + Word2Vec) with $\kappa = 0.2081$ (gap $0.0048$).
+Agreeableness achieved its best result ($\kappa = 0.2129$) through the Word2Vec + Metadata combination using the SVM model. The closest competitors were XGBoost on TF‑IDF + Word2Vec + HSV with $\kappa = 0.2091$ (gap $0.0038$) and XGBoost on TF‑IDF + Word2Vec with $\kappa = 0.2081$ (gap $0.0048$).
 
 The model performed better on high-Agreeableness users, though with more false positives (Low: precision 0.61, recall 0.51, F1 0.56; High: precision 0.55, recall 0.65, F1 0.60). Misclassified users had more posts (\textit{PostCount\_normalized}: correct mean = 0.109, incorrect mean = 0.141) and higher following counts (\textit{FollowingCount\_normalized}: correct = 0.152, incorrect = 0.185). Descriptive statistics showed that misclassified users displayed significantly higher 
 caption length variance ($101.75$) compared to correctly classified users ($67.30$) 
