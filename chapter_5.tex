@@ -248,7 +248,7 @@ For Agreeableness, the top-performing model is Word2Vec + metadata ($\kappa$ = 0
 
 Neuroticism is a trait that generally underperformed with these models. The best-performing model is unimodal TF-IDF ($\kappa$ = 0.1615), substantially outperforming the next highest model, Word2Vec + HSV ($\kappa$ = 0.0749). Besides the top model, most results cluster near zero. This trait has proven difficult to predict, no matter the combination of features or modalities.
 
-From these rankings, some general observations can be made. Metadata and HSV frequently appear in high-performing combinations despite their low dimensionality. This raises two possibilities: either they add minimal noise and simply “ride along” with stronger high-dimensional features, or they provide compact but meaningful complementary signals. The substantial $\kappa$ increase observed in earlier experiments when adding only the two metadata features (+0.1052) supports the latter interpretation in at least some cases. Conversely, Imagga—despite having the largest dimensionality (36,398 features)—rarely appears among top-performing models. This suggests that high dimensionality alone does not guarantee predictive value and may instead introduce noise that limits its contribution. It may also suggest that Imagga does not carry a valuable amount of personality data.
+From these rankings, some general observations can be made. Metadata and HSV frequently appear in high-performing combinations despite their low dimensionality. This raises two possibilities: either they add minimal noise and simply “ride along” with stronger high-dimensional features, or they provide compact but meaningful complementary signals. The substantial $\kappa$ increase observed in earlier experiments when adding only the two metadata features (+0.1052) supports the latter interpretation in at least some cases. Conversely, Imagga—despite having the largest dimensionality (36,398 features)—rarely appears among top-performing models. This suggests that high dimensionality alone does not guarantee predictive value and may instead introduce noise that limits its contribution. 
 
 
 \section{Model Performance Analysis}
@@ -383,7 +383,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 			\midrule
 			Openness & U8 & LogReg & 0.2762 & LogReg (U4) & 0.2602 & 0.0160 & LogReg (B25) & 0.2443 & 0.0319 \\
 			Conscientiousness & B24 & SVM & 0.2451 & SVM (B17) & 0.2442 & 0.0009 & SVM (M17) & 0.2442 & 0.0009 \\
-			Extraversion & U2 & SVM & 0.3684 & LogReg (B10) & 0.3684 & 0.0000 & XGBoost (B0) & 0.3333 & 0.0351 \\
+			Extraversion & U2 & SVM & 0.3684 & LogReg (B10) & 0.3684 & 0.0000  & --- & --- & --- \\
 			Agreeableness & B23 & SVM & 0.2129 & XGBoost (B17) & 0.2091 & 0.0038 & XGBoost (U3) & 0.2081 & 0.0048 \\
 			Neuroticism & tfidf\_all & SVM & 0.1615 & XGBoost (U11) & 0.1118 & 0.0497 & --- & --- & --- \\
 			\bottomrule
