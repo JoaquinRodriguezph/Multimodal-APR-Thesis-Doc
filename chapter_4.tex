@@ -389,7 +389,7 @@ Specifically, the following variants were considered:
 
 \begin{itemize}
 	\item \textbf{TF‑IDF:} Two versions—one using all terms (vocabulary size 36,398) and one using only the top 1,500 most frequent terms. The latter reduces dimensionality and may improve generalization.
-	\item \textbf{Word2Vec:} Two aggregation strategies—\textit{words‑weighted‑equally} (averaging all word vectors across all captions) and \textit{posts‑weighted‑equally} (averaging per post then across posts), as described in Section~\ref{subsec:wordembeddingrepresentation}.
+    \item \textbf{Word2Vec:} Two aggregation strategies—\textit{words‑weighted‑equally} (or coded as \textbf{WWE}, averaging all word vectors across all captions) and \textit{posts‑weighted‑equally} (or coded as \textbf{PWE}, averaging per post then across posts), as described in Section~\ref{subsec:wordembeddingrepresentation}.
 	\item \textbf{Imagga tags:} Two versions—unfiltered (all tags) and confidence‑filtered (retaining only tags with confidence \(\geq 30\%\)). The confidence‑filtered version gave negligible validation performance and was therefore discarded.
 \end{itemize}
 
