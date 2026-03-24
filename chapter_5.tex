@@ -108,16 +108,16 @@ These feature configurations, guided solely by validation performance, were used
 
 \begin{table}[H]
     \centering
-    \caption{Best performing models per personality trait with its feature combination}
+    \caption{Best performing models per personality trait with its feature combination (LR - Logistic Regression)}
     \label{tab:best_models}
-    \begin{tabularx}{\textwidth}{l|X|X|l}
+    \begin{tabularx}{\textwidth}{l|X|X|X|l}
         \hline
-        \textbf{Trait} & \textbf{Feature Type} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-        Openness & Resnet50 + HSV & Logistic Regression (GPU) & 0.2762 \\ \hline
-        Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.2451 \\ \hline
-        Extraversion & Word2Vec & Logistic Regression (GPU) & 0.3684 \\ \hline
-        Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.2129 \\ \hline
-        Neuroticism & TF-IDF (All) & SVM & 0.1615 \\ \hline
+        \textbf{Trait} & \textbf{Feature Type} & \textbf{Model} & \textbf{Val. Kappa} & \textbf{Test Kappa} \\ \hline
+        Openness & Resnet50 + HSV & LR (GPU) & 0.1658 & 0.2762 \\ \hline
+        Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.3036 & 0.2451 \\ \hline
+        Extraversion & Word2Vec (PWE) & SVM & 0.1250 & 0.3684 \\ \hline
+        Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.1794 & 0.2129 \\ \hline
+        Neuroticism & TF-IDF (All) & SVM & 0.0370 & 0.1615 \\ \hline
     \end{tabularx}
 \end{table}
 
