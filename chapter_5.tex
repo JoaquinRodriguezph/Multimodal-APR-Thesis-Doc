@@ -107,23 +107,25 @@ The confidence-filtered version produced zero predictive value across all traits
 These feature configurations, guided solely by validation performance, were used in the unimodal, bimodal, and multimodal models whose final test results are presented in the following sections.
 
 \begin{table}[H]
-    \centering
-    \caption{Best performing models per personality trait with its feature combination (LR - Logistic Regression)}
-    \label{tab:best_models}
-    \begin{tabularx}{\textwidth}{l|X|X|X|l}
-        \hline
-        \textbf{Trait} & \textbf{Feature Type} & \textbf{Model} & \textbf{Val. Kappa} & \textbf{Test Kappa} \\ \hline
-        Openness & Resnet50 + HSV & LR (GPU) & 0.1658 & 0.2762 \\ \hline
-        Conscientiousness & TFIDF (1.5k) + Word2Vec, Metadata & SVM (GPU) & 0.3036 & 0.2451 \\ \hline
-        Extraversion & Word2Vec (PWE) & SVM & 0.1250 & 0.3684 \\ \hline
-        Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.1794 & 0.2129 \\ \hline
-        Neuroticism & TF-IDF (All) & SVM & 0.0370 & 0.1615 \\ \hline
-    \end{tabularx}
+	\centering
+	\caption{Best performing models per personality trait with its feature combination (LR - Logistic Regression)}
+	\label{tab:best_models}
+	\begin{tabularx}{\textwidth}{l|X|X|X|l}
+		\hline
+		\textbf{Trait} & \textbf{Feature Type} & \textbf{Model} & \textbf{Val. Kappa} & \textbf{Test Kappa} \\ \hline
+		Openness & Resnet50 + HSV & LR (GPU) & 0.1658 & 0.2762 \\ \hline
+		Conscientiousness & TFIDF (1.5k) + Word2Vec, Metadata & SVM (GPU) & 0.3036 & 0.2451 \\ \hline
+		Extraversion$^{\dagger}$ & Word2Vec (PWE) & SVM & 0.1250 & 0.3684 \\ \hline
+		Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.1794 & 0.2129 \\ \hline
+		Neuroticism & TF-IDF (All) & SVM & 0.0370 & 0.1615 \\ \hline
+	\end{tabularx}
+	\vspace{0.5\baselineskip}
+	\footnotesize{$^{\dagger}$Word2Vec+HSV with Logistic Regression achieved identical test Kappa (0.3684); the simpler feature set is reported here.}
 \end{table}
 
 In the Table \ref{tab:best_models}, among the personality traits, Extraversion has Logistic Regression, run in GPU, as the best performing model with the highest kappa score, boasting 0.3684, with the feature combination Word2Vec. On the other hand, Neuroticism has XGBoost as the worst performing model compared to the models of each trait, with the kappa score of 0.0749, with the feature combination Word2Vec.
 
-Openness, Extraversion and Neuroticism are consistent with their feature type combination, being Word2Vec. However, Conscientiousness only has TF-IDF, Word2Vec, and Metadata as the feature type combination used by the best model, which is SVM, under Conscientiousnes with the kappa score of 0.2451. Agreeableness has Word2Vec and Metadata combination, which are the text feature and a metadata feature.
+Openness and Neuroticism are consistent with their feature type combination, being Word2Vec. However, Conscientiousness only has TF-IDF, Word2Vec, and Metadata as the feature type combination used by the best model, which is SVM, under Conscientiousnes with the kappa score of 0.2451. Agreeableness has Word2Vec and Metadata combination, which are the text feature and a metadata feature.
 
 \begin{table}[h]
 	\centering
@@ -176,19 +178,20 @@ All of the traits in Table \ref{tab:uni_kappa} except Consciousness have Resnet5
 Aside from Logistic Regression, two models occur twice among the personality traits. Conscientiousness and Extraversion have XGBoost as the best performing model, while Agreeable and Neuroticism have SVM.
 
 \begin{table}[H]
-    \centering
-    \caption{Best performing model after learning bimodal features in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trai}
-    \label{tab:bi_kappa}
-    \begin{tabularx}{\textwidth}{l|X|X|l}
-    \hline
-        \textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-        Openness & Resnet50 + HSV, Metadata & Logistic Regression (GPU) & 0.2602 \\ \hline
-        Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.2451 \\ \hline
-        Extraversion & Word2Vec, HSV & Logistic Regression (GPU) & 0.3684 \\ \hline
-        Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.2129 \\ \hline
-        Neuroticism & Word2Vec, HSV & XGBoost & 0.0749 \\ \hline
-    \end{tabularx}
-    \label{bestcohenmodel}
+	\centering
+	\caption{Best performing model after learning bimodal features in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trait}
+	\label{tab:bi_kappa}
+	\begin{tabularx}{\textwidth}{l|X|X|l}
+		\hline
+		\textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
+		Openness & Resnet50 + HSV, Metadata & Logistic Regression (GPU) & 0.2602 \\ \hline
+		Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.2451 \\ \hline
+		Extraversion$^{\dagger}$ & Word2Vec, HSV & Logistic Regression (GPU) & 0.3684 \\ \hline
+		Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.2129 \\ \hline
+		Neuroticism & Word2Vec, HSV & XGBoost & 0.0749 \\ \hline
+	\end{tabularx}
+	\vspace{0.5\baselineskip}
+	\footnotesize{$^{\dagger}$Word2Vec alone with SVM achieved identical test Kappa (0.3684).}
 \end{table}
 
 In Table \ref{tab:bi_kappa}, Extraversion has Logistic Regression as the best performing model with the test kappa of 0.3684 among the traits, which uses Word2Vec and HSV. Neuroticism has XGBoost as the worst performing model with the test kappa of 0.0749 among the traits, which uses Word2Vec and HSV. Openness, Conscientiousness and Agreeable have test kappas close to each other with 0.2602, 0.2451 and 0.2129, respectively. Openness was Logistic  Regression as the best performing model.
@@ -242,7 +245,8 @@ An examination of the top models for each trait reveals interesting feature pres
 
 For Conscientiousness, the highest score comes from the bimodal TF-IDF + Word2Vec + metadata model ($\kappa$ = 0.2451). Most top configurations involve combinations of TF-IDF, Word2Vec, metadata, and HSV, with at least one textual representation always present.  Although metadata and HSV have relatively low dimensionality, their frequent appearance among high-performing configurations instead of the counterpart configurations that lack them suggests that they contribute useful complementary information rather than merely adding noise. Additionally, given the notably higher dimensionality of textual features, it can be concluded that Conscientiousness is primarily text-driven, with metadata and HSV acting as supporting data. Compared to Openness, image features are largely absent from the top models.
 
-Extraversion is the overall best-performing trait, with unimodal Word2Vec (“Posts Weighted Equally”) achieving the highest kappa score of 0.3684. Word2Vec performs best independently and, similar to the Openness–ResNet pattern, is followed by combinations with HSV and metadata. ResNet also appears in several high-ranking combinations after the strongest Word2Vec-based models, indicating that visual features can provide additional gains. TF-IDF appears occasionally among top models but generally trails behind Word2Vec. 
+Extraversion is the overall best-performing trait, with both unimodal Word2Vec ("Posts Weighted Equally") and the bimodal Word2Vec+HSV combination achieving the highest kappa score of 0.3684. The unimodal text model using SVM and the bimodal model using Logistic Regression perform identically. ResNet also appears in several high-ranking combinations after the strongest Word2Vec-based models, reinforcing that visual features can provide additional gains. TF-IDF appears occasionally among top models but generally trails behind Word2Vec.
+
 
 For Agreeableness, the top-performing model is Word2Vec + metadata ($\kappa$ = 0.2129). Word2Vec appears in nearly all top configurations, typically combined with metadata, TF-IDF, or HSV. This pattern closely resembles Conscientiousness, where text is the main driver of performance, and the lower-dimensional features of metadata and HSV frequently accompany it. Similar to Conscientiousness, these features appear to provide complementary information despite their limited dimensionality.
 
@@ -562,7 +566,7 @@ and Aviles et al. (2023), who reported $\kappa = 0.1403$ using the same Pagkatao
 dataset and median-split methodology. 
 
 \subsection{Summary of Observations}
-The analysis confirms that textual modalities (TF-IDF and Word2Vec) are the primary drivers for Conscientiousness, Agreeableness, and Neuroticism, while visual modalities (ResNet and HSV) dominate Openness and Extraversion. Furthermore, the inclusion of Metadata acted as a crucial “refinement” feature for Agreeableness and Conscientiousness, providing a boost in Kappa by capturing behavioral regularity that content alone could not model.
+The analysis confirms that textual modalities (TF-IDF and Word2Vec) are the primary drivers for Conscientiousness, Agreeableness, and Neuroticism, while visual modalities (ResNet and HSV) dominate Openness. For Extraversion, the strongest performance is achieved through unimodal text features (Word2Vec) using SVM, with a Word2Vec + HSV combination using LR achieving the same kappa score. Furthermore, the inclusion of Metadata acted as a crucial “refinement” feature for Agreeableness and Conscientiousness, providing a boost in Kappa by capturing behavioral regularity that content alone could not model.
 \begin{comment}
 \subsection{Stability of Multimodal Fusion}
 In this analysis, stability is defined as the consistency of the model's predictive power across different trait-feature combinations, characterized by a narrower range of test kappa fluctuations and a higher frequency of positive results. 
