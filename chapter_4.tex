@@ -176,29 +176,33 @@ The two raw numerical features, PostCount and FollowingCount, are normalized usi
 
 Before feature extraction, exploratory data analysis (EDA) was conducted to understand the key characteristics of the dataset. This analysis aimed to identify demographic trends and content patterns that could guide feature engineering and model interpretation.
 
-The demographic distribution of the final 1,300-user subset, as reported in the PagkataoKo dataset paper, was summarized in Table 4.1. The data showed a user base that was predominantly young (49.3\% aged 18–20) and female (78.0%).
+The demographic distribution of the final filtered 752-user subset was summarized in Table~\ref{tab:demo}. The data showed a user base that was predominantly young (51.9\% aged 18–20) and female (74.6\%).
 
-As detailed by \citet{tighe_acorda_2022}, the language of each post was determined using a majority vote between two language identifiers (Polyglot and FastText). Posts where the identifiers agreed were labeled as either English (75.6\%) or Tagalog (4.3\%). Posts where the identifiers did not agree were assigned a Conflict label (19.4\%), a category understood to primarily represent posts containing code-switching or other forms of mixed-language use.
+Referencing the original work of \citet{tighe_acorda_2022} on this dataset, the language of each post was determined using a majority vote between two language identifiers (Polyglot and FastText). For this analysis, posts whose identifiers agreed were labeled as either English (51.3\%) or Tagalog (2.6\%) if those were the determined languages. Posts where the identifiers did not agree, but at least one identifier classified the language as either English or Tagalog, were assigned a ‘Conflict’ label (29.3\%), a category understood to primarily represent posts containing code-switching or other forms of mixed-language use. Posts where neither identifier classified the language as either English or Tagalog were assigned an ‘Other’ label (16.8\%).
 
 \begin{table}[h]
 	\centering
-	\caption{Demographic distribution of Instagram subset (n=1,300)}
+	\caption{Demographic distribution of filtered Instagram subset (n=752)}
 	\label{tab:demo}
 	\begin{tabular}{lcc}
 		\hline
 		\textbf{Characteristic} & \textbf{Category} & \textbf{Percentage} \\ \hline
-		\textbf{Age} & 18-20 & 49.3\% \\
-		& 21-23 & 31.3\% \\
-		& 24-26 & 10.7\% \\
-		& $\geq$27 & 8.8\% \\ \hline
-		\textbf{Sex} & Female & 78.0\% \\
-		& Male & 20.0\% \\
-		& Intersex/ Declined & 2.0\% \\ \hline
-		\textbf{Language} & English & 75.6\% \\
-		& Tagalog & 4.3\% \\
-		& Code-switched & 19.4\% \\ \hline
+		\textbf{Age} & 18-20 & 51.9\% \\
+		& 21-23 & 29.7\% \\
+		& 24-26 & 10.3\% \\
+		& $\geq$27 & 6.4\% \\ 
+& Not specified & 1.7\% \\ \hline
+		\textbf{Sex} & Female & 74.6\% \\
+		& Male & 19.7\% \\
+		& Intersex/Declined & 5.7\% \\ \hline
+		\textbf{Language} & English & 51.3\% \\
+		& Tagalog & 2.6\% \\
+		& Conflict (English/Tagalog) & 29.3\% \\ 
+& Other & 16.8\% \\ \hline
 	\end{tabular}
 \end{table}
+
+
 % --- REVISION G START: Added new section for PCA Rationale ---
 \section{Feature Engineering}
 \label{subsec:features}
