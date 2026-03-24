@@ -326,10 +326,13 @@ This pipeline involved two key steps:
 \end{enumerate}
 This preprocessing step is for ensuring that the metadata features contribute fairly to the final model alongside the features from the image and text modalities. The final output of this pipeline is a 2-dimensional, normalized metadata feature vector for each user.
 
-\subsection{Dimensionality Reduction as an Optional Step}
-The methodological approach of this study prioritized maintaining the highest possible level of interpretability by utilizing the full feature vectors generated from ResNet50 (2,048 dimensions) and the linguistic models. Consequently, no dimensionality reduction techniques, such as Principal Component Analysis (PCA), were applied to any of the extracted features.
+\subsection{Managing Feature Dimensionality}
+Dimensionality reduction was explored in both TF-IDF and Imagga although it was only used for TF-IDF features. 
 
-By avoiding PCA, the study ensures that every feature remains in its original high dimensional space, allowing model predictions to be traced back to specific visual cues or textual tokens such as a particular object identified by ResNet50 or a specific word in a caption. To manage the complexity of the textual modality while preserving this interpretability, the TF-IDF feature set was limited to a fixed vocabulary of the top 1,500 most significant features based on term frequency across the corpus. This approach allows the models to operate on a robust and manageable subset of the linguistic data without the loss of semantic clarity that would result from transforming the features into abstract principal components.
+The TF-IDF vectorizer, implemented using the scikit-learn library, was configured with the max\_features parameter set to 1,500. This parameter instructs the vectorizer to build a vocabulary that only includes the 1,500 most frequent terms across the entire corpus.
+
+For the Imagga tags, a similar reduction was explored by applying a confidence threshold to filter out low-confidence detections. This approach aimed to retain only the most reliably detected objects and scenes in each image. However, the validation performance of the confidence-filtered features proved negligible across all personality traits, leading to their exclusion from the final feature sets. Consequently, the full set of Imagga tags was retained for subsequent experiments.
+
 
 \subsection{Feature Pipelines}
 Figures \ref{fig:image_pipeline_diagram}, \ref{fig:text_pipeline_diagram}, and \ref{fig:fusion_diagram} illustrate the flow of data from its raw form through the parallel feature engineering pipelines to the final aggregated user vector.
