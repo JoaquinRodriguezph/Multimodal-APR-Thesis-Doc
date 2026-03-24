@@ -52,11 +52,11 @@ We evaluated two approaches for aggregating Word2Vec embeddings at the user leve
 	\end{tabular}
 \end{table}
 
-The optimal aggregation method varied across traits. Posts Weighted Equally performed better for Openness and Agreeableness, while Words Weighted Equally performed better for Conscientiousness, Extraversion, and Neuroticism.
+The optimal aggregation method varied across traits. Posts Weighted Equally performed better for Openness and Agreeableness, while Words Weighted Equally performed better for Conscientiousness, Extraversion, and Neuroticism. Table \ref{tab:validation_word2vec} shows each strategy with the best performing model and the kappa scores per trait.
 
 \subsubsection{Imagga Tag Confidence Filtering}
 
-For the Imagga object tags, we tested two approaches: using all detected tags regardless of confidence, and applying a 30\% confidence threshold.
+For the Imagga object tags, we tested two approaches: using all detected tags regardless of confidence, and applying a 30\% confidence threshold. Then we compared the results between the approaches, which are in Table \ref{tab:validation_imagga}.
 
 \begin{table}[H]
 	\centering
@@ -279,7 +279,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 \begin{table}[htbp]
 	\centering
 	\caption{Top Pearson Correlations by Trait (positive and negative)}
-	\label{tab:pearson}
+	\label{tab:top_pearson_correlation_by_trait}
     \resizebox{\textwidth}{!}{%
 	\begin{tabular}{@{} l l c l c @{}}
 		\toprule
@@ -471,7 +471,7 @@ Neuroticism & Best & TF-IDF (All Features) & SVM & 0.1615 \\
 
 \subsubsection{Extraversion}
 
-Extraversion achieved its best result ($\kappa = 0.3684$) with Word2Vec PWE using the SVM model.
+In Table \ref{tab:algorithm_gaps}, Extraversion achieved its best result ($\kappa = 0.3684$) with Word2Vec PWE using the SVM model.
 
 There is a 0.0000 gap between the top SVM and Logistic Regression performance, with the top SVM model performance utilizing only Word2Vec PWE features and the top Logistic Regression model performance using both Word2Vec WWE features and HSV. The model performed similarly across both classes, with slightly better recall for low-Extraversion users (Low: precision 0.56, recall 0.60, F1 0.58; High: precision 0.57, recall 0.53, F1 0.55). Correctly classified users averaged more posts (213.45) than misclassified users (145.17). Correctly classified users had a higher average post count (213.45) compared to incorrectly classified users (145.17). It was also observed that misclassified users often utilized single-emoji captions or very short text, which might limit the model's performance due to lack of text. 
 
@@ -489,10 +489,10 @@ This finding aligns with prior research (e.g., Mairesse et al., 2007; Park et al
 
 \subsubsection{Openness}
 
-Openness achieved its best result ($\kappa = 0.2762$) through the ResNet50 + HSV combination using the Logistic Regression model. The closest competitor was Logistic Regression on U4 (ResNet50‑only), achieving $\kappa = 0.2602$ (gap $0.0160$).
+In Table \ref{tab:algorithm_gaps}, Openness achieved its best result ($\kappa = 0.2762$) through the ResNet50 + HSV combination using the Logistic Regression model. The closest competitor was Logistic Regression on U4 (ResNet50‑only), achieving $\kappa = 0.2602$ (gap $0.0160$).
 
 
-The model performed better on low-Openness users (precision 0.69, recall 0.71, F1 0.70) than high-Openness users (precision 0.59, recall 0.56, F1 0.57). Analysis of descriptive statistics revealed that correctly classified users had a significantly 
+The model performed better on low-Openness users (precision 0.69, recall 0.71, F1 0.70) than high-Openness users (precision 0.59, recall 0.56, F1 0.57). Analysis of descriptive statistics in Table \ref{tab:descriptive_stats} revealed that correctly classified users had a significantly 
 higher share of blue hues ($0.3103$) compared to misclassified users ($0.2685$), with a 
 $p$-value of $0.0077$. Conversely, incorrectly classified users showed a higher share of red 
 and warm colors. 
@@ -504,11 +504,11 @@ These results strongly align with Ferwerda et al.'s (2016) finding that Openness
 
 \subsubsection{Conscientiousness}
 
-For Conscientiousness, the TF-IDF, Word2Vec, and Metadata combination ($\kappa = 0.2451$) garnered the best kappa score, using the SVM model. The two closest competitors were SVM on TF‑IDF + Word2Vec + HSV and SVM on TF‑IDF + Word2Vec + HSV + Metadata, both achieving $\kappa = 0.2442$ with a gap of only $0.0009$.
+In Table \ref{tab:algorithm_gaps}, for Conscientiousness, the TF-IDF, Word2Vec, and Metadata combination ($\kappa = 0.2451$) garnered the best kappa score, using the SVM model. The two closest competitors were SVM on TF‑IDF + Word2Vec + HSV and SVM on TF‑IDF + Word2Vec + HSV + Metadata, both achieving $\kappa = 0.2442$ with a gap of only $0.0009$.
 
-Permutation importance identified TF-IDF tokens as the most influential predictors, including \textit{tfidf\_17} (kappa drop: 0.054), \textit{amazing} (0.054), \textit{soon} (0.039), and \textit{love u} (0.036). Pearson correlation an	alysis reveals interpretable linguistic markers: positive correlations with tokens such as \textit{tb} ($r = 0.29$), \textit{celebrating} ($r = 0.26$), \textit{let s} ($r = 0.25$), and \textit{garden} ($r = 0.24$), while showing negative correlations with \textit{party} ($r = -0.30$), \textit{current} ($r = -0.24$), and \textit{mo} ($r = -0.21$).
+Permutation importance in Table \ref{tab:importance} identified TF-IDF tokens as the most influential predictors, including \textit{tfidf\_17} (kappa drop: 0.054), \textit{amazing} (0.054), \textit{soon} (0.039), and \textit{love u} (0.036). Pearson correlation analysis in Table \ref{tab:top_pearson_correlation_by_trait} reveals interpretable linguistic markers: positive correlations with tokens such as \textit{tb} ($r = 0.29$), \textit{celebrating} ($r = 0.26$), \textit{let s} ($r = 0.25$), and \textit{garden} ($r = 0.24$), while showing negative correlations with \textit{party} ($r = -0.30$), \textit{current} ($r = -0.24$), and \textit{mo} ($r = -0.21$).
 
-Both classes performed similarly (Low: precision 0.64, recall 0.64, F1 0.64; High: precision 0.62, recall 0.62, F1 0.62). Misclassified users had fewer posts on average (\textit{PostCount\_normalized}: correct mean = 0.129, incorrect mean = 0.111) and slightly higher following counts (\textit{FollowingCount\_normalized}: correct = 0.158, incorrect = 0.179). Descriptive statistics showed that correctly classified users averaged more total posts 
+Both classes performed similarly (Low: precision 0.64, recall 0.64, F1 0.64; High: precision 0.62, recall 0.62, F1 0.62). Misclassified users had fewer posts on average (\textit{PostCount\_normalized}: correct mean = 0.129, incorrect mean = 0.111) and slightly higher following counts (\textit{FollowingCount\_normalized}: correct = 0.158, incorrect = 0.179). Descriptive statistics in Table \ref{tab:descriptive_stats} showed that correctly classified users averaged more total posts 
 ($198.39$) than misclassified ones ($180.74$). Interpretable TF-IDF markers revealed 
 that high Conscientiousness is strongly linked to organization-related tokens like 
 ``tb'' (throwback) ($r = 0.29$) and ``celebrating'' ($r = 0.26$), while impulsive 
@@ -521,9 +521,9 @@ These findings resonate with Pennebaker and King's (1999) early work linking Con
 
 \subsubsection{Agreeableness}
 
-Agreeableness achieved its best result ($\kappa = 0.2129$) through the Word2Vec + Metadata combination using the SVM model. The closest competitors were XGBoost on TF‑IDF + Word2Vec + HSV with $\kappa = 0.2091$ (gap $0.0038$) and XGBoost on TF‑IDF + Word2Vec with $\kappa = 0.2081$ (gap $0.0048$).
+In Table \ref{tab:algorithm_gaps}, Agreeableness achieved its best result ($\kappa = 0.2129$) through the Word2Vec + Metadata combination using the SVM model. The closest competitors were XGBoost on TF‑IDF + Word2Vec + HSV with $\kappa = 0.2091$ (gap $0.0038$) and XGBoost on TF‑IDF + Word2Vec with $\kappa = 0.2081$ (gap $0.0048$).
 
-The model performed better on high-Agreeableness users, though with more false positives (Low: precision 0.61, recall 0.51, F1 0.56; High: precision 0.55, recall 0.65, F1 0.60). Misclassified users had more posts (\textit{PostCount\_normalized}: correct mean = 0.109, incorrect mean = 0.141) and higher following counts (\textit{FollowingCount\_normalized}: correct = 0.152, incorrect = 0.185). Descriptive statistics showed that misclassified users displayed significantly higher 
+The model performed better on high-Agreeableness users, though with more false positives (Low: precision 0.61, recall 0.51, F1 0.56; High: precision 0.55, recall 0.65, F1 0.60). Misclassified users had more posts (\textit{PostCount\_normalized}: correct mean = 0.109, incorrect mean = 0.141) and higher following counts (\textit{FollowingCount\_normalized}: correct = 0.152, incorrect = 0.185). Descriptive statistics in Table \ref{tab:descriptive_stats} showed that misclassified users displayed significantly higher 
 caption length variance ($101.75$) compared to correctly classified users ($67.30$) 
 with a $p$-value of $0.0136$. This connotates that users who alternate between long and short captions are more harder to predict. 
 \begin{comment}
@@ -538,9 +538,9 @@ The metadata contribution mirrors Secuya's (2021) observation that account-level
 
 \subsubsection{Neuroticism}
 
-Neuroticism was best predicted using all TF-IDF  features ($\kappa = 0.1615$) with SVM.
+In Table \ref{tab:algorithm_gaps}, Neuroticism was best predicted using all TF-IDF  features ($\kappa = 0.1615$) with SVM.
 
-Permutation importance identifies tokens such as \textit{like s} (kappa drop: 0.033), \textit{said} (0.029), \textit{mountains} (0.029), \textit{house} (0.026), and \textit{class} (0.023) as most influential. Pearson correlations reveal Filipino-specific tokens as strong positive markers: \textit{siya} (third person pronoun, $r = 0.28$), \textit{ganito} (like this, $r = 0.28$), \textit{join} ($r = 0.28$), and \textit{anniversary} ($r = 0.28$). Negative correlations include \textit{credits} ($r = -0.24$), \textit{lights} ($r = -0.24$), \textit{heat} ($r = -0.24$), and \textit{good food} ($r = -0.23$).
+Permutation importance in Table \ref{tab:importance} identifies tokens such as \textit{like s} (kappa drop: 0.033), \textit{said} (0.029), \textit{mountains} (0.029), \textit{house} (0.026), and \textit{class} (0.023) as most influential. Pearson correlations reveal Filipino-specific tokens as strong positive markers: \textit{siya} (third person pronoun, $r = 0.28$), \textit{ganito} (like this, $r = 0.28$), \textit{join} ($r = 0.28$), and \textit{anniversary} ($r = 0.28$). Negative correlations include \textit{credits} ($r = -0.24$), \textit{lights} ($r = -0.24$), \textit{heat} ($r = -0.24$), and \textit{good food} ($r = -0.23$).
 
 \begin{comment}
 	co\textbf{Interpretation:} The prominence of Filipino-specific pronouns (\textit{siya}) and demonstratives (\textit{ganito}) suggests that Neuroticism manifests in the structural and referential aspects of language rather than explicit emotional content. The positive correlation with \textit{anniversary} alongside negative correlation with \textit{good food} implies that high-Neuroticism users may post about personally significant events (potentially with anxious reflection) while avoiding content expressing simple pleasures or satisfaction—consistent with the trait's association with negative affect and rumination.
