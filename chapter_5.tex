@@ -129,22 +129,30 @@ Openness and Neuroticism are consistent with their feature type combination, bei
 
 \begin{table}[h]
 	\centering
+    \addtolength{\leftskip} {-4cm}
+    \addtolength{\rightskip}{-4cm}
 	\caption{Unimodal Text Results (Cohen's $\kappa$)}
 	\label{tab:unimodal_text_performance}
-	\begin{tabular}{llccccc}
-		\hline
-		\textbf{Feature} & \textbf{Variant} & \textbf{O} & \textbf{C} & \textbf{E} & \textbf{A} & \textbf{N} \\
-		\hline
-		\multirow{2}{*}{TF-IDF} % Added {2} and {*}
-		& 1.5k & 0.1005 & 0.0969 & 0.1754 & 0.1217 & -0.0242 \\
-		& All  & 0.1531 & 0.2271 & 0.2456 & 0.0200 & 0.1615 \\
-		\hline
-		\multirow{2}{*}{Word2Vec} % Added {2} and {*}
-		& Words Weighted Equally & 0.1381 & 0.0297 & 0.1754 & 0.1174 & 0.0000 \\
-		& Posts Weighted Equally & 0.2267 & 0.1102 & 0.3684 & 0.1620 & -0.0447 \\
-		\hline
-		Combined & -- & 0.1706 & 0.1960 & 0.1404 & 0.1206 & 0.0188 \\
-		\hline
+	\begin{tabular}{lllccccc}
+        \hline
+        \textbf{Feature} & \multicolumn{2}{l}{\textbf{Variant}} & \textbf{O} & \textbf{C} & \textbf{E} & \textbf{A} & \textbf{N} \\
+        \hline
+        \multirow{4}{*}{TF-IDF} % Added {2} and {*}
+        & \multirow{2}{*}{1.5k} & Val. $\kappa$ & 0.2467 & 0.1634 & 0.1429 & -0.0010 & -0.0242 \\  
+        &                       & Test $\kappa$ & 0.1005 & 0.0969 & 0.1754 & 0.1217 & -0.0242 \\ \cline{2-8} 
+        & \multirow{2}{*}{All}  & Val. $\kappa$ & 0.2139 & 0.2679 & 0.2321 & 0.0166 & 0.0370 \\   
+        &                       & Test $\kappa$ & 0.1531 & 0.2271 & 0.2456 & 0.0200 & 0.1615 \\   
+        \hline
+        \multirow{4}{*}{Word2Vec} % Added {2} and {*}
+        & \multirow{2}{*}{Words Weighted Equally} & Val. $\kappa$ & 0.2347 & 0.2982 & 0.0893 & 0.2160 & 0.0862 \\
+        &                                         & Test $\kappa$ & 0.1381 & 0.0297 & 0.1754 & 0.1174 & 0.0000 \\ \cline{2-8}
+        & \multirow{2}{*}{Posts Weighted Equally} & Val. $\kappa$ & 0.3536 & 0.2905 & 0.1250 & 0.1623 & 0.1204 \\
+        &                                         & Test $\kappa$ & 0.2267 & 0.1102 & 0.3684 & 0.1620 & -0.0447 \\ 
+        \hline
+        \multirow{2}{*}{Combined} 
+        & \multirow{2}{*}{--} & Val. $\kappa$ & 0.2006 & 0.1165 & 0.1250 & 0.1409 & 0.0741 \\
+        &                     & Test $\kappa$ & 0.1706 & 0.1960 & 0.1404 & 0.1206 & 0.0188 \\
+        \hline
 	\end{tabular}
 \end{table}
 
@@ -158,14 +166,14 @@ The combination of the two text features did not improve on the individual resul
     \centering
     \caption{Best performing model after learning unimodal features in terms of Cohen's Kappa running on a testing data, set in a specific combination of features per personality trait}
     \label{tab:uni_kappa}
-    \begin{tabularx}{\textwidth}{l|X|X|l}
+    \begin{tabularx}{\textwidth}{l|X|X|X|l}
     \hline
-        \textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-        Openness & Resnet50 + HSV & Logistic Regression (GPU) & 0.2762 \\ \hline
-        Conscientiousness & Resnet50 + Imagga & XGBoost & 0.1174 \\ \hline
-        Extraversion & Resnet50 + HSV & XGBoost & 0.2632 \\ \hline
-        Agreeableness & Resnet50 + HSV & SVM (GPU) & 0.0444 \\ \hline
-        Neuroticism & Resnet50 + HSV & SVM (GPU) & 0.0037 \\ \hline
+        \textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Val. Kappa} & \textbf{Test Kappa} \\ \hline
+        Openness & Resnet50 + HSV & Logistic Regression (GPU) & 0.1658 & 0.2762 \\ \hline
+        Conscientiousness & Resnet50 + Imagga & XGBoost & 0.2336 &  0.1174 \\ \hline
+        Extraversion & Resnet50 + HSV & XGBoost & 0.2500 & 0.2632 \\ \hline
+        Agreeableness & Resnet50 + HSV & SVM (GPU) & 0.0499 & 0.0444 \\ \hline
+        Neuroticism & Resnet50 + HSV & SVM (GPU) & 0.2613 & 0.0037 \\ \hline
     \end{tabularx}
     \label{bestcohenmodel}
 \end{table}
@@ -181,14 +189,14 @@ Aside from Logistic Regression, two models occur twice among the personality tra
 	\centering
 	\caption{Best performing model after learning bimodal features in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trait}
 	\label{tab:bi_kappa}
-	\begin{tabularx}{\textwidth}{l|X|X|l}
+	\begin{tabularx}{\textwidth}{lX|X|X|l}
 		\hline
-		\textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-		Openness & Resnet50 + HSV, Metadata & Logistic Regression (GPU) & 0.2602 \\ \hline
-		Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.2451 \\ \hline
-		Extraversion$^{\dagger}$ & Word2Vec, HSV & Logistic Regression (GPU) & 0.3684 \\ \hline
-		Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.2129 \\ \hline
-		Neuroticism & Word2Vec, HSV & XGBoost & 0.0749 \\ \hline
+		\textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Val Kappa} & \textbf{Test Kappa} \\ \hline
+        Openness & Resnet50 + HSV, Metadata & Logistic Regression (GPU) & 0.1818 & 0.2602 \\ \hline
+        Conscientiousness & TFIDF + Word2Vec, Metadata & SVM (GPU) & 0.3036 & 0.2451 \\ \hline
+        Extraversion$^{\dagger}$ & Word2Vec, HSV & Logistic Regression (GPU) & 0.0714 & 0.3684 \\ \hline
+        Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.1794 & 0.2129 \\ \hline
+        Neuroticism & Word2Vec, HSV & XGBoost & 0.1443 & 0.0749 \\ \hline
 	\end{tabularx}
 	\vspace{0.5\baselineskip}
 	\footnotesize{$^{\dagger}$Word2Vec alone with SVM achieved identical test Kappa (0.3684).}
@@ -204,14 +212,14 @@ The models except XGBoost appear at least two times in Table \ref{tab:bi_kappa},
     \centering
     \caption{Best performing model after learning multimodal features in terms of Cohen's Kappa run on a testing data set in a specific combination of features per personality trait for each modality}
     \label{tab:mm_kappa}
-    \begin{tabularx}{\textwidth}{l|X|l|l}
+    \begin{tabularx}{\textwidth}{l|X|l|l|l}
     \hline
-        \textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Test Kappa} \\ \hline
-        Openness & Word2Vec, Resnet50 + Imagga + HSV, Metadata & XGBoost & 0.2267 \\ \hline
-        Conscientiousness & TFIDF + Word2Vec, HSV, Metadata & SVM (GPU) & 0.2442 \\ \hline
-        Extraversion & TFIDF + Word2Vec, Resnet50, Metadata & XGBoost & 0.2807 \\ \hline
-        Agreeableness & Word2Vec, HSV, Metadata & SVM (GPU) & 0.1979 \\ \hline
-        Neuroticism & Word2Vec, HSV, Metadata & XGBoost & 0.065 \\ \hline
+        \textbf{Trait} & \textbf{Combination} & \textbf{Model} & \textbf{Val. Kappa} & \textbf{Test Kappa} \\ \hline
+        Openness & Word2Vec, Resnet50 + Imagga + HSV, Metadata & XGBoost & 0.3636 & 0.2267 \\ \hline
+        Conscientiousness & TFIDF + Word2Vec, HSV, Metadata & SVM (GPU) & 0.3380 & 0.2442 \\ \hline
+        Extraversion & TFIDF + Word2Vec, Resnet50, Metadata & XGBoost & 0.3571 & 0.2807 \\ \hline
+        Agreeableness & Word2Vec, HSV, Metadata & SVM (GPU) & 0.1091 & 0.1979 \\ \hline
+        Neuroticism & Word2Vec, HSV, Metadata & XGBoost & 0.0763 & 0.065 \\ \hline
     \end{tabularx}
     \label{bestcohenmodel}
 \end{table}
@@ -265,15 +273,16 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 	\centering
 	\caption{Best Performing Models and Hyperparameters per Personality Trait}
 	\label{tab:best_overall}
-	\begin{tabularx}{\textwidth}{@{} l X X c @{}}
+	\begin{tabularx}{\textwidth}{@{} l X X c c @{}}
 		\toprule
-		\textbf{Trait} & \textbf{Combination} & \textbf{Model (Params)} & \textbf{Kappa} \\
+        \multicolumn{3}{l}{}      & \multicolumn{2}{c}{\textbf{Kappa}} \\
+		\textbf{Trait} & \textbf{Combination} & \textbf{Model (Params)} & \textbf{Val.} & \textbf{Test} \\
 		\midrule
-		O & ResNet50 + HSV  & LR ($C=0.1$) & 0.2762 \\
-		C & TF-IDF + W2V + Metadata & SVM ($C=1.0$, $\gamma=0.0001$, RBF) & 0.2451 \\
-		E & Word2Vec PWE & SVM ($C=1.0$, kernel=linear) & 0.3684 \\
-		A & Word2Vec + Metadata & SVM ($C=0.001$, kernel=linear) & 0.2129 \\
-		N & TF-IDF (All Features) & SVM ($C=1.0$, $\gamma=0.0001$, RBF) & 0.1615 \\
+        O & ResNet50 + HSV  & LR ($C=0.1$) & 0.1658 & 0.2762 \\
+        C & TF-IDF + W2V + Metadata & SVM ($C=1.0$, $\gamma=0.0001$, RBF) & 0.3036 & 0.2451 \\
+        E & Word2Vec PWE & SVM ($C=1.0$, kernel=linear) & 0.1250 & 0.3684 \\
+        A & Word2Vec + Metadata & SVM ($C=0.001$, kernel=linear) & 0.1794 & 0.2129 \\
+        N & TF-IDF (All Features) & SVM ($C=1.0$, $\gamma=0.0001$, RBF) & 0.0370 & 0.1615 \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -402,43 +411,43 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 	\caption{Top 5 Best Performing Models per Personality Trait}
 	\label{tab:algorithm_gaps}
 	\resizebox{\textwidth}{!}{%
-		\begin{tabular}{l l l c}
+		\begin{tabular}{l l l c c}
 			\hline
-			\textbf{Trait} & \textbf{Feature Combination} & \textbf{Model} & \textbf{Cohen's Kappa ($\kappa$)} \\
+            \multicolumn{3}{l}{}                                           & \textbf{Cohen's Kappa ($\kappa$)} \\
+			\textbf{Trait} & \textbf{Feature Combination} & \textbf{Model} & \textbf{Val.} & \textbf{Test}\\
 			\hline
 			
-			Openness & ResNet50 + HSV & Logistic Regression & 0.2762 \\
-			& ResNet50 & Logistic Regression & 0.2726 \\
-			& ResNet50 + HSV + Metadata & Logistic Regression & 0.2602 \\
-			& ResNet50 + Metadata & Logistic Regression & 0.2443 \\
-			& ResNet50 & SVM & 0.2285 \\
+            Openness & ResNet50 + HSV & Logistic Regression & 0.1658 & 0.2762 \\
+            & ResNet50 & Logistic Regression & 0.1979 & 0.2726 \\
+            & ResNet50 + HSV + Metadata & Logistic Regression & 0.1818 & 0.2602 \\
+            & ResNet50 + Metadata & Logistic Regression & 0.1340 & 0.2443 \\
+            & ResNet50 & SVM & 0.1765 & 0.2285 \\
 			
 			\hline
-			Conscientiousness & TF-IDF + Word2Vec + Metadata & SVM & 0.2451 \\
-			& TF-IDF + Word2Vec & SVM & 0.2451 \\
-			& TF-IDF + Word2Vec + HSV & SVM & 0.2442 \\
-			& TF-IDF + Word2Vec + HSV + Metadata & SVM & 0.2442 \\
-			& Word2Vec + HSV + Metadata & SVM & 0.2300 \\
+            Conscientiousness & TF-IDF + Word2Vec + Metadata & SVM & 0.3036 & 0.2451 \\
+            & TF-IDF + Word2Vec + HSV & SVM & 0.3380 & 0.2442 \\
+            & TF-IDF + Word2Vec + HSV + Metadata & SVM & 0.3380 & 0.2442 \\
+            & Word2Vec + HSV + Metadata & SVM & 0.2982 & 0.2300 \\
 			
 			\hline
-			Extraversion & Word2Vec (Posts Weighted Equally) & SVM & 0.3684 \\
-			& Word2Vec + HSV & Logistic Regression & 0.3684 \\
-			& Word2Vec + Metadata & Logistic Regression & 0.2982 \\
-			& Word2Vec (Posts Weighted Equally) & Logistic Regression & 0.2982 \\
-			& ResNet50 + Metadata & XGBoost & 0.2807 \\
+            Extraversion & Word2Vec (Posts Weighted Equally) & SVM & 0.1250 & 0.3684 \\
+            & Word2Vec + HSV & Logistic Regression & 0.0714 & 0.3684 \\
+            & Word2Vec + Metadata & Logistic Regression & 0.0357 & 0.2982 \\
+            & Word2Vec (Posts Weighted Equally) & Logistic Regression & 0.0893 & 0.2982 \\
+            & ResNet50 + Metadata & XGBoost & 0.2857 & 0.2807 \\
 			
 			\hline
-			Agreeableness & Word2Vec + Metadata & SVM & 0.2129 \\
-			& TF-IDF + Word2Vec + HSV + Metadata & XGBoost & 0.2091 \\
-			& Word2Vec + HSV + Metadata & SVM & 0.1979 \\
-			& Word2Vec + HSV + Metadata & SVM & 0.1979 \\
-			& TF-IDF + Word2Vec + Metadata & XGBoost & 0.1930 \\
+            Agreeableness & Word2Vec + Metadata & SVM & 0.1975 & 0.2129 \\
+            & TF-IDF + Word2Vec + HSV + Metadata & XGBoost & & 0.2091 \\
+            & Word2Vec + HSV + Metadata & SVM & 0.1091 & 0.1979 \\
+            & Word2Vec + HSV + Metadata & SVM & 0.1091 & 0.1979 \\
+            & TF-IDF + Word2Vec + Metadata & XGBoost & 0.1415 & 0.1930 \\
 			
 			\hline
-			Neuroticism & TF-IDF (All Features) & SVM & 0.1615 \\
-			& Word2Vec + HSV + Metadata & XGBoost & 0.0749 \\
-			& Word2Vec + HSV + Metadata & XGBoost & 0.0650 \\
-			& Word2Vec + ResNet50 + HSV & Logistic Regression & 0.0518 \\
+            Neuroticism & TF-IDF (All Features) & SVM & 0.0370 & 0.1615 \\
+            & Word2Vec + HSV + Metadata & XGBoost & & 0.0749 \\
+            & Word2Vec + HSV + Metadata & XGBoost & & 0.0650 \\
+            & Word2Vec + ResNet50 + HSV & Logistic Regression & & 0.0518 \\
 			
 			\hline
 		\end{tabular}%
