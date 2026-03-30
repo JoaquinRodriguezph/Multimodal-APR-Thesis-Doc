@@ -242,6 +242,14 @@ First, tags represent detected objects with confidence scores rather than discre
 
 The complete failure of the 30\% confidence filter provides further evidence. By removing tags with confidence below 30\%, we inadvertently eliminated most tags entirely, leaving feature vectors that were predominantly zero. This is evident in the Table \ref{tab:imagga_30}. When combined with TF-IDF's IDF weighting---which can also zero out terms appearing in every document---the filtered tags produced matrices with insufficient non-zero entries for models to learn any signal, resulting in the 0 kappa scores observed in both validation and test sets.
 
+\subsection{Validation-Test Performance Consistency}
+In observing the validation and test kappa score for each trait's top model/combination, it is noticed that the difference between the validation and test kappa score varies per trait.
+
+For \textbf{Openness}, the best model (ResNet50 + HSV, Logistic Regression) shows a test performance ($\kappa=0.2762$)  higher than its validation score ($\kappa=0.1658$). For \textbf{Conscientiousness} (TF-IDF + Word2Vec + Metadata, SVM), the validation $\kappa$ is $0.3036$ while the test $\kappa$ is $0.2451$. \textbf{Extraversion's} top model (Word2Vec PWE, SVM) exhibits the largest difference with its validation $\kappa=0.1250$ versus test $\kappa=0.3684$. \textbf{Agreeableness} (Word2Vec + Metadata, SVM) yields the most similar validation ($0.1794$) and test ($0.2129$) values. \textbf{Neuroticism} (TF-IDF All, SVM) shows a low validation $\kappa$ ($0.0370$) that rises to $0.1615$ on the test set.
+
+These inconsistencies---particularly for Extraversion and Neuroticism—highlight the limitation of relying on a single hold‑out validation set, where the validation kappa can be highly sensitive to the particular split of data. 
+
+
 \subsection{Multimodality}
 When combining modalities, the performance gains are generally limited and inconsistent relative to unimodal performance; however, certain multimodal configurations do show notable improvements over their individual components. Several bimodal models outperform their respective single-modality counterparts. For example, the Word2Vec + HSV combination for Conscientiousness achieves a kappa of 0.2233, exceeding the performance of Word2Vec alone ($\kappa$ = 0.1102) and HSV alone ($\kappa$ = 0.0115). This is one of several cases in which bimodal feature fusion leads to improved performance, suggesting that there exist features or traits for personality that complement one another, even across different modalities. This effect is most clearly illustrated by two models: (1) the TF-IDF + Word2Vec + metadata combination and (2) the Word2Vec + metadata combination. These models achieve the best performance for Conscientiousness ($\kappa$ = 0.2451) and Agreeableness ($\kappa$ = 0.2129), respectively.
 
@@ -500,7 +508,6 @@ In Table \ref{tab:algorithm_gaps}, Extraversion achieved its best result ($\kapp
 
 There is no gap between the top SVM and Logistic Regression performance, with the top SVM model performance utilizing only Word2Vec PWE features and the top Logistic Regression model performance using both Word2Vec WWE features and HSV. The model performed similarly across both classes, with slightly better recall for low-Extraversion users (Low: precision 0.56, recall 0.60, F1 0.58; High: precision 0.57, recall 0.53, F1 0.55). Correctly classified users averaged more posts (213.45) than misclassified users (145.17). Correctly classified users had a higher average post count (213.45) compared to incorrectly classified users (145.17). It was also observed that misclassified users often utilized single-emoji captions or very short text, which might limit the model's performance due to lack of text. 
 
-This finding aligns with prior research (e.g., Mairesse et al., 2007; Park et al., 2015; Youyou et al., 2017), which consistently identifies Extraversion as one of the most accurately inferable personality traits from social media data, particularly through text.
 
 \begin{comment}
 	conte\textbf{Interpretation:} These patterns suggest that the way social interaction and ``outgoing'' behavior are phrased in social media provides a more robust signal than visual data alone for this trait. The positive correlations likely capture language around social activities and engagement, while negative correlations may reflect introspective or solitary content.nt...
@@ -525,7 +532,8 @@ and warm colors.
 	cont\textbf{Interpretation:} Higher Openness scores correlate with more complex visual information and specific color distributions, confirming that users high in Openness tend to post diverse and aesthetically varied content rather than conforming to a single ``visual brand.'' The aesthetic features, though lower-dimensional, provide interpretability: the pattern suggests openness manifests through visual exploration and novelty-seeking in image selection.ent...
 \end{comment}
 
-These results strongly align with Ferwerda et al.'s (2016) finding that Openness is reliably predicted from Instagram image features, particularly color diversity and compositional complexity.The dominance of visual over textual features for Openness confirms Azucar et al.'s (2018) meta-analytic finding that Openness is primarily expressed through ``demographic and aesthetic statistics'' rather than linguistic content, distinguishing it from traits like Conscientiousness that rely more heavily on text.
+These results align with Skowron et al. (2016), who found that Openness was best predicted using a combination of Twitter linguistic features, Twitter meta features, and Instagram image features %(RMSE = 0.51).
+
 
 \subsubsection{Conscientiousness}
 
@@ -542,7 +550,7 @@ leisure activities like ``party'' ($r = -0.30$) showed a strong negative correla
 	content\textbf{Interpretation:} The positive correlations suggest a pattern of posts centered on milestone reporting, gratitude, and organized activities—consistent with the trait's association with discipline and planfulness. The strong negative correlation with \textit{party} implies that users high in Conscientiousness may refrain from posting content associated with high-arousal, impulsive social activities, preferring more ``orderly'' or reflective content. The inclusion of metadata (post and following counts) further captures behavioral regularity—consistent posting patterns that content analysis alone cannot model....
 \end{comment}
 
-These findings resonate with Pennebaker and King's (1999) early work linking Conscientiousness to linguistic markers of achievement and organization. More specifically, our results align with Tighe and Cheng's (2018) pioneering Filipino APR study, which found that TF-IDF unigrams were the strongest predictors of Conscientiousness among Filipino Twitter users—a pattern our Instagram-based results replicate. The negative correlation with \textit{party} echoes Majumder et al.'s (2017) finding that Conscientious individuals use fewer words related to impulsive activities and leisure. The metadata contribution extends Azucar et al.'s (2018) observation that ``activity statistics'' (post frequency, following patterns) predict Conscientiousness, as organized behavior manifests not just in what users post, but in how regularly they engage with the platform.
+Our results align with Tighe and Cheng's (2018) pioneering Filipino APR study, which found that TF-IDF unigrams were the strongest predictors of Conscientiousness among Filipino Twitter users—a pattern our Instagram-based results replicate. 
 
 \subsubsection{Agreeableness}
 
@@ -577,7 +585,7 @@ and the XGBoost runner-up. The model performed weakly on both classes, with slig
 Correctly classified users had a higher average caption length ($70.13$) than 
 misclassified users ($55.36$), indicating that the model predicts better among users with longer captions. 
 
-Our results align with Han et al. (2020), who demonstrated that interpretable word-level features often outperform dense embeddings for Neuroticism precisely because the trait manifests in specific lexical choices rather than broad semantic patterns. \begin{comment}
+Our results align with Han et al. (2020), who showed that interpretable word‑category features derived from a purpose‑built personality lexicon outperform traditional feature sets (e.g., LIWC, BOW, LSA+SOA) in personality recognition. For Neuroticism in particular, they found that specific lexical categories—such as negative comments, emotional appellations, and degree adverbs—exhibit strong correlations with trait scores. \begin{comment}
 	The presence of Filipino-specific markers echoes Tighe and Cheng's (2018) observation that code-switching and local language use carry personality-relevant signals that generic embeddings may miss.
 \end{comment} 
 The overall low performance for Neuroticism ($\kappa = 0.1615$) is consistent with 
