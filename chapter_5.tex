@@ -123,9 +123,9 @@ These feature configurations, guided solely by validation performance, were used
 	\footnotesize{LR: Logistic Regression; SVM: Support Vector Machine. \\ $^{\dagger}$Word2Vec+HSV with Logistic Regression achieved identical test Kappa (0.3684); the simpler feature set is reported here.}
 \end{table}
 
-In the Table \ref{tab:best_models}, Extraversion achieved the highest Kappa score of 0.3684, with a tie between two models: Word2Vec + HSV using Logistic Regression and Word2Vec (Posts Weighted Equally) using SVM. On the other hand, Neuroticism has XGBoost as the worst performing model compared to the models of each trait, with the kappa score of 0.0749, with the feature combination Word2Vec.
+In the Table \ref{tab:best_models}, Extraversion achieved the highest Kappa score of 0.3684, with a tie between two models: Word2Vec + HSV using Logistic Regression and Word2Vec (Posts Weighted Equally) using SVM. On the other hand, Neuroticism has SVM as the worst performing model compared to the models of each trait, with the kappa score of 0.1615, using the TF-IDF (All) feature.
 
-Openness and Neuroticism are consistent with their feature type combination, being Word2Vec. However, Conscientiousness only has TF-IDF, Word2Vec, and Metadata as the feature type combination used by the best model, which is SVM, under Conscientiousnes with the kappa score of 0.2451. Agreeableness has Word2Vec and Metadata combination, which are the text feature and a metadata feature.
+Conscientiousness, Extraversion, and Agreeableness are consistent with their feature type combination including Word2Vec. The same could be said with TF-IDF appearing in both Conscientiousness and Neuroticism albeit different versions: TF-IDF 1.5k for Conscientiousness, and TF-IDF All for Neuroticism.
 
 \begin{table}[h]
 	\centering
