@@ -265,8 +265,6 @@ The study specifically utilized the \texttt{/tags} endpoint of the Imagga API. F
 	\label{fig:imagga_json}
 \end{figure}
 
-The Imagga tags were utilized for feasibility since they were pre-included in the provided PagkataoKo Dataset, eliminating the need for independent processing.
-
 For each user, the tag lists from all their images were aggregated to compute the frequency of each tag across the user's posts. Two versions of these tag features were generated: one using all tags (no confidence filter) and one applying a 30\% confidence threshold (i.e., keeping only tags with a confidence score of at least 30\%). Preliminary experiments on the validation set showed that the confidence‑filtered version resulted in near‑zero predictive performance (\(\kappa \approx 0\)) for all traits, while the unfiltered version retained meaningful variance. Therefore, only the unfiltered Imagga features (i.e., all tags) were used in the final feature sets. This choice is also practical because the raw Imagga JSON tags are already part of the PagkataoKo dataset \citep{tighe_acorda_2022}.
 
 \subsubsection{Low-Level Photo Characteristics Analysis}
