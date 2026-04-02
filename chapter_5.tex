@@ -183,7 +183,7 @@ In Table ~\ref{tab:uni_kappa}, Openness has Logistic Regression as the best mode
 
 All of the traits in Table \ref{tab:uni_kappa} except Consciousness have Resnet50 and HSV as the best feature combination, while Resnet50 and Imagga performed the best for Consciousness. Openness, Conscientiousness, and Extraversion have best performing models with test kappa scores that exceed 0.1 threshold, while Agreeableness and Neuroticism have their best models perform weak with their test kappa less than 0.1. Neuroticism has the best model with the least scores among the other personality traits.
 
-Aside from Logistic Regression, two models occur twice among the personality traits. Conscientiousness and Extraversion have XGBoost as the best performing model, while Agreeable and Neuroticism have SVM.
+Aside from Logistic Regression, two models occur twice among the personality traits. Conscientiousness and Extraversion have XGBoost as the best performing model, while Agreeableness and Neuroticism have SVM.
 
 \begin{table}[H]
 	\centering
@@ -202,11 +202,11 @@ Aside from Logistic Regression, two models occur twice among the personality tra
 	\footnotesize{$^{\dagger}$Word2Vec alone with SVM achieved identical test Kappa (0.3684).}
 \end{table}
 
-In Table \ref{tab:bi_kappa}, Extraversion has Logistic Regression as the best performing model with the test kappa of 0.3684 among the traits, which uses Word2Vec and HSV. The Word2Vec + HSV model for Neuroticism, while not the overall best for that trait, performed notably worse (K = 0.0749) compared to the best models for other traits. Openness, Conscientiousness and Agreeable have test kappas close to each other with 0.2602, 0.2451 and 0.2129, respectively. Openness was Logistic  Regression as the best performing model.
+In Table \ref{tab:bi_kappa}, Extraversion has Logistic Regression as the best performing model with the test kappa of 0.3684 among the traits, which uses Word2Vec and HSV. The Word2Vec + HSV model for Neuroticism, while not the overall best for that trait, performed notably worse (K = 0.0749) compared to the best models for other traits. Openness, Conscientiousness and Agreeableness have test kappas close to each other with 0.2602, 0.2451 and 0.2129, respectively. Openness was Logistic  Regression as the best performing model.
 
-For feature type combination, Extraversion and Neuroticism have the same combination with Word2Vec and HSV in Table \ref{tab:bi_kappa}, except Extraversion has Logistic Regression and Neuroticism has XGBoost. The rest of the traits have unique feature combination: Openness has Resnet50, HSV and metadata; Conscientiousness has TF-IDF, Word2Vec, and metadata; and Agreeable has Word2Vec and Metadata. 
+For feature type combination, Extraversion and Neuroticism have the same combination with Word2Vec and HSV in Table \ref{tab:bi_kappa}, except Extraversion has Logistic Regression and Neuroticism has XGBoost. The rest of the traits have unique feature combination: Openness has Resnet50, HSV and metadata; Conscientiousness has TF-IDF, Word2Vec, and metadata; and Agreeableness has Word2Vec and Metadata. 
 
-The models except XGBoost appear at least two times in Table \ref{tab:bi_kappa}, which are Logistic Regression and SVM. Openness and Extraversion have Logistic Regression as the best model, while Conscientiousness and Agreeable have SVM as the best model.
+The models except XGBoost appear at least two times in Table \ref{tab:bi_kappa}, which are Logistic Regression and SVM. Openness and Extraversion have Logistic Regression as the best model, while Conscientiousness and Agreeableness have SVM as the best model.
 
 \begin{table}[H]
     \centering
@@ -488,7 +488,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 		& Avg Cap Len & 60.40 & 38.84 & 62.91 & 42.69 & 0.7649 \\
 		& Std Cap Len & 82.29 & 75.10 & 80.76 & 56.19 & 0.9039 \\
 		\cmidrule(lr){1-7}
-		\multirow{3}{*}{Agreeable.} 
+		\multirow{3}{*}{Agreeableness.} 
 		& Total Posts & 172.30 & 211.66 & 218.81 & 262.30 & 0.3143 \\
 		& Avg Cap Len & 54.42 & 32.52 & 70.50 & 47.07 & 0.0448 \\
 		& Std Cap Len & 67.30 & 54.60 & 101.75 & 82.26 & 0.0136 \\
