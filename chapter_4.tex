@@ -31,7 +31,13 @@ This study was only concerned with the Instagram portion of the dataset, which c
 \subsection{Dataset Characteristics After Filtering}
 \label{subsec:final_data_characteristics}
 
-The Instagram subset underwent additional filtering to ensure data quality and coherence. The filtered out subset were left in the original dataset, while the subset that satisfies the filtering condition were saved in a new dataset. Only users with a minimum of 30 posts containing both images and captions were retained. Additionally, a maximum of 300 of each user's most recent posts were included in the final analysis.
+The Instagram subset underwent additional filtering to ensure data quality and coherence. Only posts containing both an image and a caption were retained; posts lacking either modality were discarded immediately. Furthermore, due to download errors in the original dataset, some image links were invalid or corrupted; such posts were also excluded from further processing.
+
+After applying these content‑based filters, the number of users dropped from an initial 1,309 (the actual number of users in the CSV file of the PagkataoKo Instagram subset) to 752, and the total number of posts decreased from 195,757 to 139,713. This reduction reflects the removal of posts without captions, posts without accessible images, and any corrupted or unreadable image files.
+
+To ensure a sufficient amount of data for reliable user‑level aggregation, only users with a minimum of 30 valid posts (each containing both an image and a caption) were retained. Conversely, to prevent users with extremely large posting histories from disproportionately influencing feature representations, a maximum of 300 of each user’s most recent posts was used for feature extraction. Users with more than 300 posts still contributed to the dataset, but only their 300 most recent posts were processed. The reported range of 30 to 1,740 posts refers to the total number of valid posts available per user in the filtered dataset; however, for any user exceeding 300 posts, only the most recent 300 were actually used for feature extraction
+
+Additionally, due to constraints in the original PagkataoKo data collection process (API limitations and download errors), each post in the final dataset contains exactly one image. Posts that originally contained multiple images were reduced to the first image only at the time of collection, and video posts were discarded entirely (Tighe et al., 2022).
 
 The characteristics of the final filtered dataset are presented below:
 

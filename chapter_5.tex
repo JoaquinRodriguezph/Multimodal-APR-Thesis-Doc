@@ -116,7 +116,7 @@ These feature configurations, guided solely by validation performance, were used
 		Openness & Resnet50 + HSV & LR (GPU) & 0.1658 & 0.2762 \\ \hline
 		Conscientiousness & TFIDF (1.5k) + Word2Vec, Metadata & SVM (GPU) & 0.3036 & 0.2451 \\ \hline
 		Extraversion$^{\dagger}$ & Word2Vec (PWE) & SVM & 0.1250 & 0.3684 \\ \hline
-		Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.1794 & 0.2129 \\ \hline
+		Agreeableness & Word2Vec, Metadata & SVM (GPU) & 0.1794 &  \\ \hline
 		Neuroticism & TF-IDF (All) & SVM & 0.0370 & 0.1615 \\ \hline
 	\end{tabularx}
 	\vspace{0.5\baselineskip}
@@ -476,7 +476,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 			\hline
 			
 			Openness & ResNet50 + HSV & Logistic Regression & 0.1658 & 0.2762 \\
-			& ResNet50 & Logistic Regression & 0.1979 & 0.2726 \\
+			& ResNet50 & Logistic Regression & 0.2129 & 0.2726 \\
 			& ResNet50 + HSV + Metadata & Logistic Regression & 0.1818 & 0.2602 \\
 			& ResNet50 + Metadata & Logistic Regression & 0.1340 & 0.2443 \\
 			& Word2Vec (Posts Weighted Equally) & XGBoost & 0.3536 & 0.2267 \\
@@ -498,7 +498,7 @@ Table~\ref{tab:best_overall} summarizes the winning configurations for each trai
 			\hline
 			Agreeableness & Word2Vec + Metadata & SVM & 0.1794 & 0.2129 \\
 			& TF-IDF + Word2Vec + HSV & XGBoost & 0.1228 & 0.2091 \\
-			& Word2Vec + HSV + Metadata & SVM & 0.1091 & 0.1979 \\
+			& Word2Vec + HSV + Metadata & SVM & 0.1091 & 0.2129 \\
 			& TF-IDF + Word2Vec + Metadata & XGBoost & 0.1415 & 0.1930 \\
 			& HSV & XGBoost & 0.0172 & 0.1600 \\
 			
@@ -617,7 +617,7 @@ with a $p$-value of $0.0136$. This connotates that users who alternate between l
 \begin{comment}
 	Our Word2Vec results extend Mairesse et al.'s (2007) finding that Agreeableness is linguistically marked by words with "positive emotion" and "social processes".
 \end{comment} 
-The metadata contribution mirrors Secuya's (2021) observation that account-level features (following counts, posting frequency) provide complementary signals for Agreeableness, as the trait manifests in social connectedness and engagement patterns. However, our modest performance ($\kappa = 0.1979$) suggests that Agreeableness remains challenging to predict from social media alone—a limitation noted across multiple Filipino APR studies (Tighe et al., 2022; Gomez et al., 2024).
+The metadata contribution mirrors Secuya's (2021) observation that account-level features (following counts, posting frequency) provide complementary signals for Agreeableness, as the trait manifests in social connectedness and engagement patterns. However, our performance ($\kappa = 0.2129$) suggests that Agreeableness remains challenging to predict from social media alone—a limitation noted across multiple Filipino APR studies (Tighe et al., 2022; Gomez et al., 2024).
 
 \subsubsection{Neuroticism}
 
