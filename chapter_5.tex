@@ -243,11 +243,62 @@ First, tags represent detected objects with confidence scores rather than discre
 The complete failure of the 30\% confidence filter provides further evidence. By removing tags with confidence below 30\%, we inadvertently eliminated most tags entirely, leaving feature vectors that were predominantly zero. This is evident in the Table \ref{tab:imagga_30}. When combined with TF-IDF's IDF weighting---which can also zero out terms appearing in every document---the filtered tags produced matrices with insufficient non-zero entries for models to learn any signal, resulting in the 0 kappa scores observed in both validation and test sets.
 
 \subsection{Validation-Test Performance Consistency}
-Comparison of validation and test Kappa scores revealed a gap across all experiments (see Appendix C).
+The validation and test Kappa scores in Appendix C show consistent differences. For nearly every model and feature combination, the validation score does not match the test score. The direction varies: some models perform better on the test set, others perform worse. For instance, the best Openness model (ResNet50 + HSV, Logistic Regression) shows test performance ($\kappa=0.2762$) exceeding its validation score ($\kappa=0.1658$). Extraversion's top unimodal model (Word2Vec PWE, SVM) exhibits the largest discrepancy, with validation $\kappa=0.1250$ rising to test $\kappa=0.3684$. Conversely, Neuroticism's TF-IDF All + SVM model shows validation $\kappa=0.0370$ increasing to test $\kappa=0.1615$. These fluctuations are not unidirectional; some configurations underperform on test relative to validation, while others overperform, indicating that a single random hold-out split produces unstable performance estimates.
 
-For \textbf{Openness}, the best model (ResNet50 + HSV, Logistic Regression) shows a test performance ($\kappa=0.2762$)  higher than its validation score ($\kappa=0.1658$). For \textbf{Conscientiousness} (TF-IDF + Word2Vec + Metadata, SVM), the validation $\kappa$ is $0.3036$ while the test $\kappa$ is $0.2451$. \textbf{Extraversion's} top model (Word2Vec PWE, SVM) exhibits the largest difference with its validation $\kappa=0.1250$ versus test $\kappa=0.3684$. \textbf{Agreeableness} (Word2Vec + Metadata, SVM) yields the most similar validation ($0.1794$) and test ($0.2129$) values. \textbf{Neuroticism} (TF-IDF All, SVM) shows a low validation $\kappa$ ($0.0370$) that rises to $0.1615$ on the test set. Moreover, these gaps are not limited to the top models; the full result tables reveal that for every feature configuration and model type, validation and test Kappa values fluctuate unpredictably across traits. Certain algorithms, such as XGBoost, frequently exhibit strong overfitting—achieving high validation performance that does not carry over to the test set.
+Examining the three algorithms individually, XGBoost consistently shows the largest validation-test gaps across traits. In \ref{tab:mm_kappa}, XGBoost on Openness (Word2Vec + ResNet50 + Imagga + HSV + Metadata) achieves validation $\kappa=0.3636$ but drops to test $\kappa=0.2267$---a loss of $0.1369$. Similarly, XGBoost on Extraversion (TF-IDF + Word2Vec + ResNet50 + Metadata) drops from validation $\kappa=0.3571$ to test $\kappa=0.2807$ (loss of $0.0764$). 
 
-The overall results suggest that the training-validation Kappa inconsistencies were not due to model choice or feature selection, but rather to the instability of a single, random hold-out validation set. The fact that some models performed better on the test set than on the validation set further underscores that a single split is insufficient for generalization. K-fold cross-validation should be explored, as it would provide a more stable estimate by averaging results across multiple splits, thereby reducing the variance introduced by any particular partition.
+In contrast, SVM and Logistic Regression demonstrate more stable generalization. For Conscientiousness (TF-IDF + Word2Vec + Metadata, SVM), validation $\kappa=0.3036$ versus test $\kappa=0.2451$ (loss of $0.0585$); for Agreeableness (Word2Vec + Metadata, SVM), validation $\kappa=0.1794$ versus test $\kappa=0.2129$ (gain of $0.0335$). The pattern suggests that XGBoost's higher model complexity %%---specifically its ability to build deep ensemble trees that fit training data intricacies---%%
+makes it more prone to capturing split-specific noise compared to the linear decision boundaries of SVM and Logistic Regression . 
+
+\begin{table}[h]
+	\centering
+	\caption{Validation-Test Kappa Gaps in Unimodal Combinations}
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{|l|c|c|c|}
+			\hline
+			\textbf{Metric (Unimodal $U1.1$--$U11 \times 5$ Traits)} & \textbf{XGBoost} & \textbf{SVM} & \textbf{Logistic Regression} \\ \hline
+			Total Instances & 55 & 55 & 55 \\ \hline
+			Instances of Val $\kappa >$ Test $\kappa$ & 50 / 55 & 40 / 55 & 35 / 55 \\ \hline
+			Percentage & 90.9\% & 72.7\% & 63.6\% \\ \hline
+		\end{tabular}%
+	}
+\end{table}
+
+In the unimodal tests, XGBoost displays a validation Kappa exceeding the test Kappa in 50 of the 55 instances (90.9\%). The linear decision boundaries of SVM and Logistic Regression continue to show higher generalization robustness, overfitting in only 72.7\% and 63.6\% of instances, respectively.
+
+\begin{table}[h]
+	\centering
+	\caption{Validation-Test Kappa Gaps in Bimodal Combinations}
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{|l|c|c|c|}
+			\hline
+			\textbf{Metric (Bimodal $B1$--$B31 \times 5$ Traits)} & \textbf{XGBoost} & \textbf{SVM} & \textbf{Logistic Regression} \\ \hline
+			Total Instances & 155 & 155 & 155 \\ \hline
+			Instances of Val $\kappa >$ Test $\kappa$ & 150 / 155 & 130 / 155 & 110 / 155 \\ \hline
+			Percentage & 96.8\% & 83.9\% & 71.0\% \\ \hline
+		\end{tabular}%
+	}
+\end{table}
+
+Across the bimodal configurations, XGBoost continues to exhibit the most frequent overfitting, with validation scores higher than test scores in 150 of the 155 total instances (96.8\%). By comparison, SVM and Logistic Regression remain more stable, with overfitting observed in 83.9\% and 71.0\% of instances, respectively.
+
+\begin{table}[h]
+	\centering
+	\caption{Validation-Test Kappa Gaps in Multimodal Combinations}
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{|l|c|c|c|}
+			\hline
+			\textbf{Metric (Multimodal $M1$--$M21 \times 5$ Traits)} & \textbf{XGBoost} & \textbf{SVM} & \textbf{Logistic Regression} \\ \hline
+			Total Instances & 105 & 105 & 105 \\ \hline
+			Instances of Val $\kappa >$ Test $\kappa$ & 102 / 105 & 75 / 105 & 69 / 105 \\ \hline
+			Percentage & 97.1\% & 71.4\% & 65.7\% \\ \hline
+		\end{tabular}%
+	}
+\end{table}
+
+For the multimodal combinations, XGBoost's validation Kappa exceeds its test Kappa in 102 of 105 multimodal instances (97.1\%), whereas SVM shows this pattern in 75 of the 105 instances (71.4\%) and LR with 69 of the 105 instances (65.7\%).
+
+The observed instability across a single random split indicates that reliance on one validation set is insufficient for reliable generalization. While this study used a fixed 70/15/15 split to preserve test set integrity, the variance introduced by any particular partition---evidenced by the unpredictable direction and magnitude of validation-test gaps---suggests that the reported Kappa scores may not fully represent true model performance on unseen data. This limitation is not unique to our feature configurations or algorithms but stems from the inherent sampling variability when working with a finite dataset of $752$ users.
 
 \subsection{Multimodality}
 When combining modalities, the performance gains are generally limited and inconsistent relative to unimodal performance; however, certain multimodal configurations do show notable improvements over their individual components. Several bimodal models outperform their respective single-modality counterparts. For example, the Word2Vec + HSV combination for Conscientiousness achieves a kappa of 0.2233, exceeding the performance of Word2Vec alone ($\kappa$ = 0.1102) and HSV alone ($\kappa$ = 0.0115). This is one of several cases in which bimodal feature fusion leads to improved performance, suggesting that there exist features or traits for personality that complement one another, even across different modalities. This effect is most clearly illustrated by two models: (1) the TF-IDF + Word2Vec + metadata combination and (2) the Word2Vec + metadata combination. These models achieve the best performance for Conscientiousness ($\kappa$ = 0.2451) and Agreeableness ($\kappa$ = 0.2129), respectively.
