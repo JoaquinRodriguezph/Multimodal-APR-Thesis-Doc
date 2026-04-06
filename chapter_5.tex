@@ -243,12 +243,12 @@ First, tags represent detected objects with confidence scores rather than discre
 The complete failure of the 30\% confidence filter provides further evidence. By removing tags with confidence below 30\%, we inadvertently eliminated most tags entirely, leaving feature vectors that were predominantly zero. This is evident in the Table \ref{tab:imagga_30}. When combined with TF-IDF's IDF weighting---which can also zero out terms appearing in every document---the filtered tags produced matrices with insufficient non-zero entries for models to learn any signal, resulting in the 0 kappa scores observed in both validation and test sets.
 
 \subsection{Validation-Test Performance Consistency}
-The validation and test Kappa scores in Appendix C show consistent differences. For nearly every model and feature combination, the validation score does not match the test score. The direction varies: some models perform better on the test set, others perform worse. For instance, the best Openness model (ResNet50 + HSV, Logistic Regression) shows test performance ($\kappa=0.2762$) exceeding its validation score ($\kappa=0.1658$). Extraversion's top unimodal model (Word2Vec PWE, SVM) exhibits the largest discrepancy, with validation $\kappa=0.1250$ rising to test $\kappa=0.3684$. Conversely, Neuroticism's TF-IDF All + SVM model shows validation $\kappa=0.0370$ increasing to test $\kappa=0.1615$. These fluctuations are not unidirectional; some configurations underperform on test relative to validation, while others overperform, indicating that a single random hold-out split produces unstable performance estimates.
+The validation and test Kappa scores in Appendix C show consistent differences. For nearly every model and feature combination, the validation score does not match the test score. The direction varies: some models perform better on the test set, others perform worse. For instance, the best Openness model (ResNet50 + HSV, Logistic Regression) shows test performance ($\kappa=0.2762$) exceeding its validation score ($\kappa=0.1658$). Extraversion's top unimodal model (Word2Vec PWE, SVM) exhibits the largest discrepancy, with validation $\kappa=0.1250$ rising to test $\kappa=0.3684$. Conversely, Neuroticism's TF-IDF All + SVM model shows validation $\kappa=0.0370$ increasing to test $\kappa=0.1615$. These fluctuations are not unidirectional; some configurations underperform on test relative to validation, while others overperform.
 
 Examining the three algorithms individually, XGBoost consistently shows the largest validation-test gaps across traits. In \ref{tab:mm_kappa}, XGBoost on Openness (Word2Vec + ResNet50 + Imagga + HSV + Metadata) achieves validation $\kappa=0.3636$ but drops to test $\kappa=0.2267$---a loss of $0.1369$. Similarly, XGBoost on Extraversion (TF-IDF + Word2Vec + ResNet50 + Metadata) drops from validation $\kappa=0.3571$ to test $\kappa=0.2807$ (loss of $0.0764$). 
 
 In contrast, SVM and Logistic Regression demonstrate more stable generalization. For Conscientiousness (TF-IDF + Word2Vec + Metadata, SVM), validation $\kappa=0.3036$ versus test $\kappa=0.2451$ (loss of $0.0585$); for Agreeableness (Word2Vec + Metadata, SVM), validation $\kappa=0.1794$ versus test $\kappa=0.2129$ (gain of $0.0335$). The pattern suggests that XGBoost's higher model complexity %%---specifically its ability to build deep ensemble trees that fit training data intricacies---%%
-makes it more prone to capturing split-specific noise compared to the linear decision boundaries of SVM and Logistic Regression . 
+makes it more prone to capturing split-specific noise compared to the linear decision boundaries of SVM and Logistic Regression. 
 
 \begin{table}[h]
 	\centering
@@ -264,7 +264,7 @@ makes it more prone to capturing split-specific noise compared to the linear dec
 	}
 \end{table}
 
-In the unimodal tests, XGBoost displays a validation Kappa exceeding the test Kappa in 50 of the 55 instances (90.9\%). The linear decision boundaries of SVM and Logistic Regression continue to show higher generalization robustness, overfitting in only 72.7\% and 63.6\% of instances, respectively.
+In the unimodal tests, XGBoost displays a validation Kappa exceeding the test Kappa in 50 of the 55 instances (90.9\%). The linear decision boundaries of SVM and Logistic Regression display higher generalizability across splits, with a lower proportion of instances where validation exceeds test (72.7\% and 63.6\%, respectively). These differences reflect the higher split‑sensitivity of XGBoost rather than any inherent flaw.
 
 \begin{table}[h]
 	\centering
@@ -280,7 +280,7 @@ In the unimodal tests, XGBoost displays a validation Kappa exceeding the test Ka
 	}
 \end{table}
 
-Across the bimodal configurations, XGBoost continues to exhibit the most frequent overfitting, with validation scores higher than test scores in 150 of the 155 total instances (96.8\%). By comparison, SVM and Logistic Regression remain more stable, with overfitting observed in 83.9\% and 71.0\% of instances, respectively.
+Across the bimodal configurations, XGBoost continues to exhibit the most frequent overfitting, with validation scores higher than test scores in 150 of the 155 total instances (96.8\%). By comparison, SVM and Logistic Regression remain more stable, with such discrepancies observed in 83.9\% and 71.0\% of instances, respectively. These results underscore the challenge of obtaining stable performance scores from a single split when using complex models.
 
 \begin{table}[h]
 	\centering
@@ -296,7 +296,7 @@ Across the bimodal configurations, XGBoost continues to exhibit the most frequen
 	}
 \end{table}
 
-For the multimodal combinations, XGBoost's validation Kappa exceeds its test Kappa in 102 of 105 multimodal instances (97.1\%), whereas SVM shows this pattern in 75 of the 105 instances (71.4\%) and LR with 69 of the 105 instances (65.7\%).
+For the multimodal combinations, XGBoost's validation Kappa exceeds its test Kappa in 102 of 105 multimodal instances (97.1\%), whereas SVM shows this pattern in 75 of the 105 instances (71.4\%) and LR in 69 of the 105 instances (65.7\%). The consistently high percentages for XGBoost indicate that its performance estimates are particularly sensitive to the choice of split.
 
 The observed instability across a single random split indicates that reliance on one validation set is insufficient for reliable generalization. While this study used a fixed 70/15/15 split to preserve test set integrity, the variance introduced by any particular partition---evidenced by the unpredictable direction and magnitude of validation-test gaps---suggests that the reported Kappa scores may not fully represent true model performance on unseen data. This limitation is not unique to our feature configurations or algorithms but stems from the inherent sampling variability when working with a finite dataset of $752$ users.
 
