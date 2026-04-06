@@ -35,7 +35,7 @@ The Instagram subset underwent additional filtering to ensure data quality and c
 
 After applying these content‑based filters, the number of users dropped from an initial 1,309 (the actual number of users in the CSV file of the PagkataoKo Instagram subset) to 752, and the total number of posts decreased from 195,757 to 139,713. This reduction reflects the removal of posts without captions, posts without accessible images, and any corrupted or unreadable image files.
 
-To ensure a sufficient amount of data for reliable user‑level aggregation, only users with a minimum of 30 valid posts (each containing both an image and a caption) were retained. Conversely, to prevent users with extremely large posting histories from disproportionately influencing feature representations, a maximum of 300 of each user’s most recent posts was used for feature extraction. Users with more than 300 posts still contributed to the dataset, but only their 300 most recent posts were processed. The reported range of 30 to 1,740 posts refers to the total number of valid posts available per user in the filtered dataset; however, for any user exceeding 300 posts, only the most recent 300 were actually used for feature extraction
+To ensure a sufficient amount of data for reliable user‑level aggregation, only users with a minimum of 30 valid posts (each containing both an image and a caption) were retained. Conversely, to prevent users with extremely large posting histories from disproportionately influencing feature representations, a maximum of 300 of each user’s most recent posts was used for feature extraction. Users with more than 300 posts still contributed to the dataset, but only their 300 most recent posts were processed. 
 
 Additionally, due to constraints in the original PagkataoKo data collection process (API limitations and download errors), each post in the final dataset contains exactly one image. Posts that originally contained multiple images were reduced to the first image only at the time of collection, and video posts were discarded entirely (Tighe et al., 2022).
 
@@ -45,7 +45,7 @@ The characteristics of the final filtered dataset are presented below:
 	\item \textbf{Total Users:} 752 unique Filipino Instagram users
 	\item \textbf{Total Posts:} 139,713 posts (all containing both images and captions)
 	\item \textbf{Average Posts per User:} 185.79 posts (SD = 217.34)
-	\item \textbf{Posts per User Range:} 30 to 1,740 posts
+	\item \textbf{Posts per User Range:} 30 to 300 posts
 	\item \textbf{Data Split Distribution:} Training set: 526 users (70\%), Validation set: 112 users (15\%), Test set: 114 users (15\%)
 \end{itemize}
 
