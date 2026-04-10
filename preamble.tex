@@ -14,6 +14,12 @@
 \documentclass[12pt,titlepage,onepage,letterpaper]{report}
 
 %-- specify related packages
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+    colorlinks=false, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    %linkcolor=blue,  %choose some color if you want links to stand out
+}
 \usepackage{mdframed}
 \usepackage{xcolor}
 \usepackage{tabularx}
@@ -62,3 +68,4 @@
 \newcommand{\figref}[1]{Figure \ref{#1}}
 \newcommand{\appref}[1]{Appendix \ref{#1}}
 \newcommand{\thestitle}[1]{{\Large \textsc{#1}}}
+
